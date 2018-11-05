@@ -33,5 +33,13 @@ namespace Royale_Platformer.Model
         {
 
         }
+
+        public string Serialize() {
+          return "";
+        }
+
+        public Game Deserialize() {
+          return new Game();
+        }
     }
 }

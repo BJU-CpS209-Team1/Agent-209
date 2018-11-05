@@ -8,5 +8,13 @@
         {
             Damage = damage;
         }
+
+        public string Serialize() {
+          return "";
+        }
+
+        public Bullet Serialize() {
+          return new Bullet();
+        }
     }
 }
