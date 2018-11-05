@@ -6,5 +6,10 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public override Character Deserialize(string serialized)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

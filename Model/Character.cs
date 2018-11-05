@@ -9,7 +9,7 @@
     public int Score { get; protected set; }
 
     public abstract void Hit(Bullet bullet);
-    public abstract Character Deserialize();
+    public abstract Character Deserialize(string serialized);
 
     public string Serialize() {
       return "";

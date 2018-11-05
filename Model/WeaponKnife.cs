@@ -13,5 +13,10 @@ namespace Royale_Platformer.Model
         {
             throw new System.NotImplementedException();
         }
+
+        public override Weapon Deserialize(string serialized)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
