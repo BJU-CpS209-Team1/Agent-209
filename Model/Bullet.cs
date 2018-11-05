@@ -9,12 +9,14 @@
             Damage = damage;
         }
 
-        public string Serialize() {
-          return "";
+        public string Serialize()
+        {
+            return "";
         }
 
-        public Bullet Deserialize(string serialized) {
-          return new Bullet();
+        public Bullet Deserialize(string serialized)
+        {
+            return new Bullet(0);
         }
     }
 }
