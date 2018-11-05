@@ -13,7 +13,7 @@
           return "";
         }
 
-        public Bullet Serialize() {
+        public Bullet Deserialize(string serialized) {
           return new Bullet();
         }
     }
