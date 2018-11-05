@@ -59,6 +59,8 @@
     <Compile Include="Model\CharacterPlayer.cs" />
     <Compile Include="Model\CharacterClass.cs" />
     <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\HighScores\HighScoresManager.cs" />
+    <Compile Include="Model\HighScores\HighScoresUnitTests.cs" />
     <Compile Include="Model\Pickup.cs" />
     <Compile Include="Model\PickupArmor.cs" />
     <Compile Include="Model\PickupWeaponUpgrade.cs" />
