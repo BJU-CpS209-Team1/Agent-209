@@ -6,5 +6,10 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public override Pickup Deserialize(string serialized)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
