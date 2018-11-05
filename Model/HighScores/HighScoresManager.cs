@@ -9,19 +9,16 @@ namespace Royale_Platformer.Model.HighScores
 {
     class HighScoresManager
     {
-        private List<string> playerNames;
-        private List<int> playerScores;
+        private List<HighScore> highScores;
         public HighScoresManager()
         {
-            playerNames = new List<string>();
-            playerScores = new List<int>();
+            highScores = new List<HighScore>();
         }
 
         // Adds a player's name <name> and score <score> to the dictionary
-        public void AddScore(string playerName, int playerScore)
+        public void AddHighScore(string playerName, int playerScore)
         {
-            playerNames.Add(playerName);
-            playerScores.Add(playerScore);
+            highScores.Add(new HighScore(playerName, playerScore));
         }
         
         // Writes the highScores Dictionary to a file
@@ -37,15 +34,9 @@ namespace Royale_Platformer.Model.HighScores
         }
         
         // Returns names of players held in the list instance variable
-        public List<string> GetNames()
+        public List<HighScore> GetHighScores()
         {
-            return playerNames;
-        }
-        
-        // Returns scores of players held in the list instance variable
-        public List<int> GetScores()
-        {
-            return playerScores;
+            return highScores;
         }
     }
 }

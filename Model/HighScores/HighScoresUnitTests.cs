@@ -11,31 +11,21 @@ namespace Royale_Platformer.Model.HighScores
     class HighScoresUnitTests
     {
         [Test]
-        public void AddScore_PlayerAndScore_AddsToLists()
+        public void AddHighScore_PlayerAndScore_AddsToLists()
         {
-            List<string> myNames = new List<string>();
-            List<int> myScores = new List<int>();
-            myNames.Add("David");
-            myNames.Add("Matthew");
-            myNames.Add("Stephen");
-            myScores.Add(100);
-            myScores.Add(200);
-            myScores.Add(300);
+            List<HighScore> myScores = new List<HighScore>();
+            myScores.Add(new HighScore("David", 100));
+            myScores.Add(new HighScore("Stephen", 200));
+            myScores.Add(new HighScore("Matthew", 300));
 
             HighScoresManager h = new HighScoresManager();
-            h.AddScore("David", 100);
-            h.AddScore("Matthew", 200);
-            h.AddScore("Stephen", 300);
-            List<string> names = h.GetNames();
-            List<int> scores = h.GetScores();
-            for (int i = 0; i < myNames.Count; i++)
-            {
-                Assert.IsTrue(myNames[i] == names[i]);
-            }
-
+            h.AddHighScore("David", 100);
+            h.AddHighScore("Matthew", 200);
+            h.AddHighScore("Stephen", 300);
+            List<HighScore> scores = h.GetHighScores();
             for (int i = 0; i < myScores.Count; i++)
             {
-                Assert.IsTrue(myScores[i] == scores[i]);
+                Assert.IsTrue(myScores[i].Equals(scores[i]));
             }
         }
     }
