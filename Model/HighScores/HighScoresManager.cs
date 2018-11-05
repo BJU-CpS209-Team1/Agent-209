@@ -35,12 +35,14 @@ namespace Royale_Platformer.Model.HighScores
         {
 
         }
-
+        
+        // Returns names of players held in the list instance variable
         public List<string> GetNames()
         {
             return playerNames;
         }
-
+        
+        // Returns scores of players held in the list instance variable
         public List<int> GetScores()
         {
             return playerScores;
