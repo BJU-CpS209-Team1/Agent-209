@@ -2,7 +2,7 @@
 {
     abstract class Character
     {
-        public CharacterClass CharacterClass { get; protected set; }
+        public CharacterClass Class { get; protected set; }
         public Weapon HeldWeapon { get; protected set; }
         public bool Armor { get; protected set; }
         public int MaxHealth { get; protected set; }
