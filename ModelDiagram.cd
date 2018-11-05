@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Royale_Platformer.Model.Bullet" Collapsed="true">
+    <Position X="44.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Bullet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.Character">
+    <Position X="21.5" Y="5.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAgAAACAgAAAIAAAAAAAAEAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Model\Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.CharacterEnemy">
+    <Position X="20.5" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\CharacterEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.CharacterPlayer">
+    <Position X="23.25" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\CharacterPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.Game" Collapsed="true">
+    <Position X="46.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAEAAAAAAIBAAAAAAAAAAAAAAEAAAQAAAAAAAAA=</HashCode>
+      <FileName>Model\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.Pickup">
+    <Position X="15.25" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Pickup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.PickupArmor">
+    <Position X="13.5" Y="7.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\PickupArmor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.PickupWeaponUpgrade">
+    <Position X="16.75" Y="7.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\PickupWeaponUpgrade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.Weapon">
+    <Position X="27.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAACAAAIAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Weapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponAdvancedAR">
+    <Position X="14.75" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponAdvancedAR.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponAdvancedShotgun">
+    <Position X="23.25" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponAdvancedShotgun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponAR">
+    <Position X="31.75" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponAR.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponKnife">
+    <Position X="36" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponKnife.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponPistol">
+    <Position X="40.25" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponPistol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponPistolShield">
+    <Position X="19" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponPistolShield.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Royale_Platformer.Model.WeaponShotgun">
+    <Position X="27.5" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WeaponShotgun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Royale_Platformer.Model.CharacterClass" Collapsed="true">
+    <Position X="44.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAgAAEAAAAAAAAA=</HashCode>
+      <FileName>Model\CharacterClass.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
