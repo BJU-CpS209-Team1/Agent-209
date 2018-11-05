@@ -1,6 +1,17 @@
-﻿namespace Royale_Platformer.Model
+﻿using System.Collections.Generic;
+
+namespace Royale_Platformer.Model
 {
-    class WeaponAdvancedAR: Weapon
+    class WeaponAdvancedAR : Weapon
     {
+        public override List<Bullet> Fire()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Weapon Upgrade(CharacterClass characterClass)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

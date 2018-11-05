@@ -4,6 +4,6 @@
     {
         // Returns false if the item isn't picked up
         // Ex: Pickup is armor and character already has armor
-        public abstract bool PickedUp(Character character);
+        public abstract bool PickUp(Character character);
     }
 }

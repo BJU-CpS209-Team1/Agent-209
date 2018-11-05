@@ -57,6 +57,8 @@
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\CharacterEnemy.cs" />
     <Compile Include="Model\CharacterPlayer.cs" />
+    <Compile Include="Model\CharacterClass.cs" />
+    <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Pickup.cs" />
     <Compile Include="Model\PickupArmor.cs" />
     <Compile Include="Model\PickupWeaponUpgrade.cs" />

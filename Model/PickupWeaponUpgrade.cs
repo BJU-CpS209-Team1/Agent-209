@@ -2,7 +2,7 @@
 {
     class PickupWeaponUpgrade : Pickup
     {
-        public override bool PickedUp(Character character)
+        public override bool PickUp(Character character)
         {
             throw new System.NotImplementedException();
         }
