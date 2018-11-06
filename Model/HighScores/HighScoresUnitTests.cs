@@ -13,19 +13,34 @@ namespace Royale_Platformer.Model.HighScores
         [Test]
         public void AddHighScore_PlayerAndScore_AddsToLists()
         {
-            List<HighScore> myScores = new List<HighScore>();
-            myScores.Add(new HighScore("David", 100));
-            myScores.Add(new HighScore("Stephen", 200));
-            myScores.Add(new HighScore("Matthew", 300));
+            List<HighScore> myHighScores = new List<HighScore>();
+            myHighScores.Add(new HighScore("David", 100));
+            myHighScores.Add(new HighScore("Matthew", 200));
+            myHighScores.Add(new HighScore("Stephen", 300));
+            List<string> myNames = new List<string>();
+            List<int> myScores = new List<int>();
+            foreach (HighScore item in myHighScores)
+            {
+                myNames.Add(item.GetName());
+                myScores.Add(item.GetScore());
+            }
 
             HighScoresManager h = new HighScoresManager();
             h.AddHighScore("David", 100);
             h.AddHighScore("Matthew", 200);
             h.AddHighScore("Stephen", 300);
-            List<HighScore> scores = h.GetHighScores();
+            List<HighScore> highScores = h.GetHighScores();
+            List<string> names = new List<string>();
+            List<int> scores = new List<int>();
+            foreach (HighScore item in highScores)
+            {
+                names.Add(item.GetName());
+                scores.Add(item.GetScore());
+            }
+
             for (int i = 0; i < myScores.Count; i++)
             {
-                Assert.IsTrue(myScores[i].Equals(scores[i]));
+                Assert.IsTrue(myNames[i].Equals(names[i]) && myScores[i].Equals(scores[i]));
             }
         }
     }

@@ -16,21 +16,25 @@ namespace Royale_Platformer.Model.HighScores
             this.score = score;
         }
 
+        // Returns name of player
         public string GetName()
         {
             return this.name;
         }
 
+        // Sets name of player <n>
         public void SetName(string n)
         {
             this.name = n;
         }
 
+        // Returns score of player
         public int GetScore()
         {
             return this.score;
         }
 
+        // Sets name of player <s>
         public void GetScore(int s)
         {
             this.score = s;
