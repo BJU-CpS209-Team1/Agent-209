@@ -65,9 +65,15 @@
     <Compile Include="Model\Pickup.cs" />
     <Compile Include="Model\PickupArmor.cs" />
     <Compile Include="Model\PickupWeaponUpgrade.cs" />
+    <Compile Include="Model\SerializeTests\TestBullet.cs" />
+    <Compile Include="Model\SerializeTests\TestCharacter.cs" />
+    <Compile Include="Model\SerializeTests\TestGame.cs" />
+    <Compile Include="Model\SerializeTests\TestWeapon.cs" />
     <Compile Include="Model\Tests\BulletTests.cs" />
     <Compile Include="Model\Tests\CharacterTests.cs" />
+    <Compile Include="Model\Tests\GameTests.cs" />
     <Compile Include="Model\Tests\PickupTests.cs" />
+    <Compile Include="Model\Tests\WeaponTests.cs" />
     <Compile Include="Model\Weapon.cs" />
     <Compile Include="Model\WeaponAdvancedAR.cs" />
     <Compile Include="Model\WeaponAdvancedShotgun.cs" />
