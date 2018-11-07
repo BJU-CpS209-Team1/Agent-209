@@ -2,7 +2,7 @@
 
 namespace Royale_Platformer.Model
 {
-    class WeaponShotgun : Weapon : Serializer
+    class WeaponShotgun : Weapon
     {
         public override List<Bullet> Fire()
         {
@@ -15,7 +15,7 @@ namespace Royale_Platformer.Model
             throw new System.NotImplementedException();
         }
 
-        public override Weapon Deserialize(string serialized)
+        public override Serializer Deserialize(string serialized)
         {
             throw new System.NotImplementedException();
         }

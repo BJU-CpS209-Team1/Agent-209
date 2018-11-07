@@ -1,8 +1,8 @@
 ﻿namespace Royale_Platformer.Model
 {
-    interface Serializer : Serializer
+    interface Serializer
     {
-        public string Serialize();
-        public object Deserialize(string serialized);
+        string Serialize();
+        Serializer Deserialize(string serialized);
     }
 }

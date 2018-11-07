@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Royale_Platformer.Model
 {
@@ -38,8 +39,23 @@ namespace Royale_Platformer.Model
           return "";
         }
 
-        public Game Deserialize(string serialized) {
+        public Serializer Deserialize(string serialized) {
           return new Game();
+        }
+
+        public Game Load()
+        {
+            return new Game();
+        }
+        
+        public void Save()
+        {
+            const string PATH = "./.data/state.txt";
+
+            // string serialized = Serialize();
+            string serialized = "PlayerCharacter;Characters;Pickups;Bullets";
+
+            File.WriteAllText(PATH, serialized);
         }
     }
 }

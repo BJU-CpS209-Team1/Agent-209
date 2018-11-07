@@ -65,6 +65,7 @@
     <Compile Include="Model\Pickup.cs" />
     <Compile Include="Model\PickupArmor.cs" />
     <Compile Include="Model\PickupWeaponUpgrade.cs" />
+    <Compile Include="Model\Serializer.cs" />
     <Compile Include="Model\SerializeTests\TestBullet.cs" />
     <Compile Include="Model\SerializeTests\TestCharacter.cs" />
     <Compile Include="Model\SerializeTests\TestGame.cs" />

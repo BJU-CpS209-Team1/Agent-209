@@ -14,7 +14,7 @@
             return "";
         }
 
-        public Bullet Deserialize(string serialized)
+        public Serializer Deserialize(string serialized)
         {
             return new Bullet(0);
         }
