@@ -14,6 +14,7 @@ namespace Royale_Platformer.Model.SerializeTests
             Assert.IsTrue(serialized == "Damage=10");
         }
 
+        [Test]
         public void Game_Deserialize_CreatesObject()
         {
             string serialized = "Damage=10";

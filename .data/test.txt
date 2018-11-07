@@ -1,0 +1,1 @@
+PlayerCharacter=CharacterPlayer.Scout;Characters=Character1,Character2,Character3;Pickups=Pickup1,Pickup2;Bullets=Bullet1,Bullet2
