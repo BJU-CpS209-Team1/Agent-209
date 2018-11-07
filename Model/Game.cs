@@ -35,27 +35,45 @@ namespace Royale_Platformer.Model
 
         }
 
-        public string Serialize() {
-          return "";
+        public string Serialize()
+        {
+            // dummy data to test
+            return "PlayerCharacter=CharacterPlayer.Scout;Characters=Character1,Character2,Character3;Pickups=Pickup1,Pickup2;Bullets=Bullet1,Bullet2";
         }
 
-        public ISerializer Deserialize(string serialized) {
-          return new Game();
-        }
-
-        public Game Load()
+        public ISerializer Deserialize(string serialized)
         {
             return new Game();
         }
-        
-        public void Save()
+
+        public Game Load(string fileName)
         {
-            const string PATH = "./.data/state.txt";
+            string path = $"./.data/{fileName}";
 
-            // string serialized = Serialize();
-            string serialized = "PlayerCharacter;Characters;Pickups;Bullets";
+            if (File.Exists(path))
+            {
+                string data = File.ReadLines(path).First();
+                return (Game) Deserialize(data);
+            }
+            else
+            {
+                throw new Exception("The call could not be completed as dialed. Please check check the number, and try your call again.");
+            }
+        }
 
-            File.WriteAllText(PATH, serialized);
+        public void Save(string fileName)
+        {
+            // create .data folder and make it private
+            const string PATH = "./.data/";
+            if (!Directory.Exists(PATH))
+            {
+                DirectoryInfo pathInfo = Directory.CreateDirectory(PATH);
+                pathInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            }
+
+            // Write data to file
+            string serialized = Serialize();
+            File.WriteAllText(PATH + fileName, serialized);
         }
     }
 }
