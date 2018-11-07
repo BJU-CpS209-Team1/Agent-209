@@ -2,7 +2,7 @@
 
 namespace Royale_Platformer.Model
 {
-    abstract class Weapon : Serializer
+    abstract class Weapon : ISerializer
     {
         public bool Upgradeable { get; protected set; }
         public float MaxCooldown { get; protected set; }
@@ -10,7 +10,7 @@ namespace Royale_Platformer.Model
 
         public abstract List<Bullet> Fire();
         public abstract Weapon Upgrade(CharacterClass characterClass);
-        public abstract Serializer Deserialize(string serialized);
+        public abstract ISerializer Deserialize(string serialized);
 
         public string Serialize() {
           return "";

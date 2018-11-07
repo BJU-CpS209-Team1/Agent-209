@@ -11,7 +11,7 @@
             throw new System.NotImplementedException();
         }
 
-        public override Serializer Deserialize(string serialized)
+        public override ISerializer Deserialize(string serialized)
         {
             throw new System.NotImplementedException();
         }

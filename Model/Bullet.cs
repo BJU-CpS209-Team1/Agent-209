@@ -1,6 +1,6 @@
 ﻿namespace Royale_Platformer.Model
 {
-    class Bullet : Serializer
+    class Bullet : ISerializer
     {
         public int Damage { get; private set; }
 
@@ -14,7 +14,7 @@
             return "";
         }
 
-        public Serializer Deserialize(string serialized)
+        public ISerializer Deserialize(string serialized)
         {
             return new Bullet(0);
         }

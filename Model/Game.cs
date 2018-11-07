@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Royale_Platformer.Model
 {
-    class Game : Serializer
+    class Game : ISerializer
     {
         public CharacterPlayer PlayerCharacter { get; private set; }
         public List<Character> Characters { get; private set; }
@@ -39,7 +39,7 @@ namespace Royale_Platformer.Model
           return "";
         }
 
-        public Serializer Deserialize(string serialized) {
+        public ISerializer Deserialize(string serialized) {
           return new Game();
         }
 

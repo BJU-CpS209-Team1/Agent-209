@@ -1,6 +1,6 @@
 ﻿namespace Royale_Platformer.Model
 {
-    abstract class Character : Serializer
+    abstract class Character : ISerializer
     {
         public CharacterClass Class { get; protected set; }
         public Weapon HeldWeapon { get; protected set; }
@@ -20,7 +20,7 @@
         }
 
         public abstract void Hit(Bullet bullet);
-        public abstract Serializer Deserialize(string serialized);
+        public abstract ISerializer Deserialize(string serialized);
 
         public string Serialize()
         {
