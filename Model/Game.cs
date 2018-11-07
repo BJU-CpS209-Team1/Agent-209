@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Royale_Platformer.Model
 {
-    class Game
+    class Game : Serializer
     {
         public CharacterPlayer PlayerCharacter { get; private set; }
         public List<Character> Characters { get; private set; }

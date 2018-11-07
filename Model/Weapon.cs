@@ -2,7 +2,7 @@
 
 namespace Royale_Platformer.Model
 {
-    abstract class Weapon
+    abstract class Weapon : Serializer
     {
         public bool Upgradeable { get; protected set; }
         public float MaxCooldown { get; protected set; }

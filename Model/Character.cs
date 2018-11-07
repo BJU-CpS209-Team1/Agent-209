@@ -1,6 +1,6 @@
 ﻿namespace Royale_Platformer.Model
 {
-    abstract class Character
+    abstract class Character : Serializer
     {
         public CharacterClass Class { get; protected set; }
         public Weapon HeldWeapon { get; protected set; }
