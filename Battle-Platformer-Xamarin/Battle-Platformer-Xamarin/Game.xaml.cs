@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battle_Platformer_Xamarin.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,12 @@ namespace Battle_Platformer_Xamarin
         public Game()
         {
             InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await surfaceGame.Show<GameApplication>(new Urho.ApplicationOptions(assetsFolder: null));
         }
     }
 }

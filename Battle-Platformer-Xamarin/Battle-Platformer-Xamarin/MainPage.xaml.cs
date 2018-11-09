@@ -13,5 +13,10 @@ namespace Battle_Platformer_Xamarin
         {
             InitializeComponent();
         }
+
+        private void btnGame_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new Game();
+        }
     }
 }
