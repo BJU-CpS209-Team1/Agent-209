@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Battle-Platformer-Xamarin
+namespace Battle_Platformer_Xamarin
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Game : ContentPage
-	{
-		public Game ()
-		{
-			InitializeComponent ();
-		}
-	}
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class Game : ContentPage
+    {
+        public Game()
+        {
+            InitializeComponent();
+        }
+    }
 }
