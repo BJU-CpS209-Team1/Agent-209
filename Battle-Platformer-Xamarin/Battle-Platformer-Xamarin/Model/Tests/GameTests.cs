@@ -14,8 +14,8 @@ namespace Royale_Platformer.Model.Tests
         [Test]
         public void CreatePlayer_Valid()
         {
-            Game game = new Game();
-            game.CreatePlayer(new CharacterPlayer(CharacterClass.Gunner, 10));
+            GameApp game = new GameApp(null);
+            game.AddPlayer(new CharacterPlayer(CharacterClass.Gunner, 10));
 
             Assert.IsTrue(game.PlayerCharacter != null);
             Assert.IsTrue(game.Characters.Count == 1);
@@ -24,7 +24,7 @@ namespace Royale_Platformer.Model.Tests
         [Test]
         public void AddCharacter_Valid()
         {
-            Game game = new Game();
+            GameApp game = new GameApp(null);
             game.AddCharacter(new CharacterEnemy(CharacterClass.Support, 20));
 
             Assert.IsTrue(game.PlayerCharacter == null);

@@ -11,6 +11,11 @@
             throw new System.NotImplementedException();
         }
 
+        public override void Update(float deltatime)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override ISerializer Deserialize(string serialized)
         {
             throw new System.NotImplementedException();

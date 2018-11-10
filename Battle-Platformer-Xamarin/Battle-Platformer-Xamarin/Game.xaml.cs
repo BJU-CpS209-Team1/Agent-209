@@ -1,4 +1,4 @@
-﻿using Battle_Platformer_Xamarin.View;
+﻿using Royale_Platformer.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Battle_Platformer_Xamarin
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await surfaceGame.Show<GameApplication>(new Urho.ApplicationOptions(assetsFolder: "GameData"));
+            await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData"));
         }
     }
 }

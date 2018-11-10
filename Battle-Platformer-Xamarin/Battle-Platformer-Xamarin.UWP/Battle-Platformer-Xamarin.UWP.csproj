@@ -1790,15 +1790,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="GameData\map\assets\Back.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Delux Candy.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe Background.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe base.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe Buildings.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe Ice.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe Industrial.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe Mushroom.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Deluxe request.tsx" />
+    <Content Include="GameData\map\assets\Back.tsx" />
+    <Content Include="GameData\map\assets\Delux Candy.tsx" />
+    <Content Include="GameData\map\assets\Deluxe Background.tsx" />
+    <Content Include="GameData\map\assets\Deluxe base.tsx" />
+    <Content Include="GameData\map\assets\Deluxe Buildings.tsx" />
+    <Content Include="GameData\map\assets\Deluxe Ice.tsx" />
+    <Content Include="GameData\map\assets\Deluxe Industrial.tsx" />
+    <Content Include="GameData\map\assets\Deluxe Mushroom.tsx" />
+    <Content Include="GameData\map\assets\Deluxe request.tsx" />
     <Content Include="GameData\map\assets\Sprites.tsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

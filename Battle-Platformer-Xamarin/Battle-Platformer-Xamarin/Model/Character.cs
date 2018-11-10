@@ -1,4 +1,6 @@
-﻿namespace Royale_Platformer.Model
+﻿using Urho;
+
+namespace Royale_Platformer.Model
 {
     abstract class Character : ISerializer
     {
@@ -9,6 +11,11 @@
         public int Health { get; protected set; }
         public int Score { get; protected set; }
 
+        public Node CharacterNode { get; set; }
+        public float MoveSpeed { get; set; }
+        public Vector3 Velocity;
+
+
         public Character(CharacterClass characterClass, int maxHealth)
         {
             Class = characterClass;
@@ -17,7 +24,11 @@
             MaxHealth = maxHealth;
             Health = maxHealth;
             Score = 0;
+
+            Velocity = new Vector3();
         }
+
+        public abstract void Update(float deltatime);
 
         public abstract void Hit(Bullet bullet);
         public abstract ISerializer Deserialize(string serialized);
