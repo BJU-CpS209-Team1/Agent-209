@@ -214,7 +214,9 @@
     <Content Include="GameData\characters\special forces\png2\hurt\2_Special_forces_Hurt_006.png" />
     <Content Include="GameData\characters\special forces\png2\hurt\2_Special_forces_Hurt_007.png" />
     <Content Include="GameData\characters\special forces\png2\hurt\2_Special_forces_Hurt_008.png" />
-    <Content Include="GameData\characters\special forces\png2\idle\2_Special_forces_Idle_000.png" />
+    <Content Include="GameData\characters\special forces\png2\idle\2_Special_forces_Idle_000.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GameData\characters\special forces\png2\idle\2_Special_forces_Idle_001.png" />
     <Content Include="GameData\characters\special forces\png2\idle\2_Special_forces_Idle_002.png" />
     <Content Include="GameData\characters\special forces\png2\idle\2_Special_forces_Idle_003.png" />
@@ -1797,7 +1799,9 @@
     <TypeScriptCompile Include="GameData\map\assets\Deluxe Industrial.tsx" />
     <TypeScriptCompile Include="GameData\map\assets\Deluxe Mushroom.tsx" />
     <TypeScriptCompile Include="GameData\map\assets\Deluxe request.tsx" />
-    <TypeScriptCompile Include="GameData\map\assets\Sprites.tsx" />
+    <Content Include="GameData\map\assets\Sprites.tsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameData\map\assets\kenney_platformerpack_industrial\PNG\Default size\Thumbs.db" />
