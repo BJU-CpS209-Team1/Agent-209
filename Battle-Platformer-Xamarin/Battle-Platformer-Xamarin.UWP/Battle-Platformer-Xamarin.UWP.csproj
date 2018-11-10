@@ -1009,7 +1009,9 @@
     <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\grassLedgeLeft.png" />
     <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\grassLedgeRight.png" />
     <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\grassLeft.png" />
-    <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\grassMid.png" />
+    <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\grassMid.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\grassRight.png" />
     <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\hill_large.png" />
     <Content Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\hill_largeAlt.png" />

@@ -49,6 +49,23 @@ namespace Royale_Platformer.Model
 
             CreatePlayer();
 
+            // TEMP: Create Ground
+            Sprite2D groundSprite = ResourceCache.GetSprite2D("map/assets/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
+            if (groundSprite == null)
+                throw new Exception("Texture not found");
+
+            Node groundNode = scene.CreateChild("Ground");
+            groundNode.Position = new Vector3(0, -10, 0);
+            groundNode.CreateComponent<RigidBody2D>();
+            groundNode.Scale = new Vector3(100f, 10f, 1f);
+
+            StaticSprite2D groundStaticSprite = groundNode.CreateComponent<StaticSprite2D>();
+            groundStaticSprite.Sprite = groundSprite;
+
+            CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
+            groundShape.Size = new Vector2(1f, 1f);
+            groundShape.Friction = 0.5f;
+
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
         }
