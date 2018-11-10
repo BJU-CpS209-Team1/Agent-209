@@ -63,11 +63,17 @@ namespace Royale_Platformer.Model
             groundStaticSprite.Sprite = groundSprite;
 
             CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
-            groundShape.Size = new Vector2(1f, 1f);
+            groundShape.Size = new Vector2(0.75f, 1f);
             groundShape.Friction = 0.5f;
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+
+            Renderer.DrawDebugGeometry(false);
+            var debugRender = scene.GetOrCreateComponent<DebugRenderer>();
+            var physicsComp = scene.GetComponent<PhysicsWorld2D>();
+            physicsComp.DrawDebugGeometry(debugRender, false);
+            groundShape.DrawDebugGeometry(debugRender, false);
         }
 
         private void CreatePlayer()
@@ -84,8 +90,10 @@ namespace Royale_Platformer.Model
             RigidBody2D playerBody = playerNode.CreateComponent<RigidBody2D>();
             playerBody.BodyType = BodyType2D.Dynamic;
             playerBody.GravityScale = 5f;
+            playerBody.FixedRotation = true;
 
             CollisionBox2D playerShape = playerNode.CreateComponent<CollisionBox2D>();
+            playerShape.Size = new Vector2(1f, 5f);
             playerShape.Friction = 0.5f;
             playerShape.Density = 1.0f;
 
