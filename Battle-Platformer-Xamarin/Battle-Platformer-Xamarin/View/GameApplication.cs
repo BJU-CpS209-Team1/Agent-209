@@ -33,7 +33,13 @@ namespace Battle_Platformer_Xamarin.View
 
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
+            camera.OrthoSize = 2 * halfHeight;
 
+            TmxFile2D mapTmx = ResourceCache.GetTmxFile2D("map/levels/starter.tmx");
+            if (mapTmx == null)
+                throw new Exception("Unable to load map");
+
+            /*
             Sprite2D coinSprite = ResourceCache.GetSprite2D("map/assets/platformer-art-complete-pack-0/Base pack/Items/coinSilver.png");
             if (coinSprite == null)
                 throw new Exception("Unable to load resource");
@@ -48,6 +54,7 @@ namespace Battle_Platformer_Xamarin.View
                 staticSprite.BlendMode = BlendMode.Alpha;
                 staticSprite.Sprite = coinSprite;
             }
+            */
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));

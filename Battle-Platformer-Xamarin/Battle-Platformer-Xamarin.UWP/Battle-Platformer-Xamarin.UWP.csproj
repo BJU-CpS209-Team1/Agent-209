@@ -1816,7 +1816,9 @@
     <None Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Player\Thumbs.db" />
     <None Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\Thumbs.db" />
     <None Include="GameData\map\assets\platformer-art-complete-pack-0\Mushroom expansion\PNG\Thumbs.db" />
-    <None Include="GameData\map\levels\starter.tmx" />
+    <Content Include="GameData\map\levels\starter.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
