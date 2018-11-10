@@ -37,6 +37,7 @@ namespace Royale_Platformer.Model
             // Create Scene
             scene = new Scene();
             scene.CreateComponent<Octree>();
+            scene.CreateComponent<PhysicsWorld2D>();
 
             cameraNode = scene.CreateChild("Camera");
             cameraNode.Position = new Vector3(0, 0, -10);
@@ -62,6 +63,14 @@ namespace Royale_Platformer.Model
             StaticSprite2D playerStaticSprite = playerNode.CreateComponent<StaticSprite2D>();
             playerStaticSprite.BlendMode = BlendMode.Alpha;
             playerStaticSprite.Sprite = playerSprite;
+
+            RigidBody2D playerBody = playerNode.CreateComponent<RigidBody2D>();
+            playerBody.BodyType = BodyType2D.Dynamic;
+            playerBody.GravityScale = 5f;
+
+            CollisionBox2D playerShape = playerNode.CreateComponent<CollisionBox2D>();
+            playerShape.Friction = 0.5f;
+            playerShape.Density = 1.0f;
 
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
             player.CharacterNode = playerNode;

@@ -13,8 +13,7 @@ namespace Royale_Platformer.Model
 
         public Node CharacterNode { get; set; }
         public float MoveSpeed { get; set; }
-        public Vector3 Velocity;
-
+        public Vector2 Velocity;
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -25,7 +24,7 @@ namespace Royale_Platformer.Model
             Health = maxHealth;
             Score = 0;
 
-            Velocity = new Vector3();
+            Velocity = new Vector2();
         }
 
         public abstract void Update(float deltatime);
