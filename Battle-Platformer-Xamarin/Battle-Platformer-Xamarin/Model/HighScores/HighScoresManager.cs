@@ -13,6 +13,7 @@ namespace Royale_Platformer.Model.HighScores
         public HighScoresManager()
         {
             highScores = new List<HighScore>();
+            WriteScores();
         }
 
         // Adds a player's name <name> and score <score> to the dictionary
@@ -20,23 +21,55 @@ namespace Royale_Platformer.Model.HighScores
         {
             highScores.Add(new HighScore(playerName, playerScore));
         }
-        
-        // Writes the highScores Dictionary to a file
+
+        // Writes the highScores List to a file
         public void WriteScores()
         {
-
+            using (StreamWriter writer = new StreamWriter(File.Create("HighScores.txt")))
+            {
+                foreach (HighScore score in highScores)
+                {
+                    writer.WriteLine(score.GetName() + "," + score.GetScore());
+                }
+            }
         }
 
-        // Reads names and scores from a file and assigns them to the highScores Dictionary
+        // Reads names and scores from a file and puts them in the highScore list
         public void ReadScores()
         {
-
+            int count = 0;
+            if (File.Exists("HighScores.txt"))
+            {
+                using (StreamReader reader = new StreamReader(File.Open("HighScores.txt", FileMode.Open)))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string score = reader.ReadLine();
+                        string[] items = score.Split(',');
+                        highScores[count] = new HighScore(items[0], Convert.ToInt32(items[1]));
+                        count++;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("HighScores.txt file does not exist.");
+            }
         }
-        
+
         // Returns names of players held in the list instance variable
         public List<HighScore> GetHighScores()
         {
             return highScores;
         }
+
+        // Sorts the highScores list and updates it
+        public void SortHighScores()
+        {
+            // OrderBy function found at "https://stackoverflow.com/questions/16620135/sort-a-list-of-objects-by-the-value-of-a-property/16620159"
+            highScores = highScores.OrderByDescending(x => x.GetScore()).ToList();
+        }
     }
 }
+
+

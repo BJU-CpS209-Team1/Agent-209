@@ -35,7 +35,7 @@ namespace Royale_Platformer.Model.HighScores
         }
 
         // Sets name of player <s>
-        public void GetScore(int s)
+        public void SetScore(int s)
         {
             this.score = s;
         }
