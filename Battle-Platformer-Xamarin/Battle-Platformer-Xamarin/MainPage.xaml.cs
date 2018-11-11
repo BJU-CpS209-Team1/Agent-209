@@ -14,9 +14,17 @@ namespace Battle_Platformer_Xamarin
             InitializeComponent();
         }
 
-        private void btnGame_Clicked(object sender, EventArgs e)
+        private void LoadGame(object sender, EventArgs e)
         {
-            App.Current.MainPage = new Game();
+            btnGame.Source = "buttonLong_brown_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
+                btnGame.Source = "buttonLong_brown.png";
+                return false;
+            });
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
+                App.Current.MainPage = new Game();
+                return false;
+            });
         }
     }
 }

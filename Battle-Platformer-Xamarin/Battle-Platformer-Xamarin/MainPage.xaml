@@ -2,7 +2,31 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Battle_Platformer_Xamarin"
-             x:Class="Battle_Platformer_Xamarin.MainPage">
+             x:Class="Battle_Platformer_Xamarin.MainPage"
+             NavigationPage.HasNavigationBar="False">
 
-    <Button x:Name="btnGame" Text="Start Game" Clicked="btnGame_Clicked" />
+    <StackLayout>       
+
+        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="btnGame" Source="buttonLong_brown.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadGame"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Start Game" TextColor="White" FontSize="30" Grid.Row="0" Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadGame"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+    </StackLayout>
 </ContentPage>

@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:urho="clr-namespace:Urho.Forms;assembly=Urho.Forms"
-             x:Class="Battle_Platformer_Xamarin.Game">
+             x:Class="Battle_Platformer_Xamarin.Game"
+             NavigationPage.HasNavigationBar="False">
 
     <urho:UrhoSurface x:Name="surfaceGame" VerticalOptions="FillAndExpand" />
 </ContentPage>
