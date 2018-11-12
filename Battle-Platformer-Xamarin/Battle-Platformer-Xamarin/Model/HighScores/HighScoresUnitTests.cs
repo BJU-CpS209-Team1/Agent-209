@@ -72,7 +72,7 @@ namespace Royale_Platformer.Model.HighScores
         }
 
         [Test]
-        public void ReadScores_ScoresWritten_ScoresRead()
+        public void ReadScoresToUpdate_ScoresWritten_ScoresRead()
         {
             HighScoresManager h = new HighScoresManager();
 
@@ -85,7 +85,7 @@ namespace Royale_Platformer.Model.HighScores
             h.SortHighScores();
             h.WriteScores();
             h.ClearHighScores();
-            h.ReadScores();
+            h.ReadScoresToUpdate();
             Assert.IsTrue(h.GetHighScores()[0].GetScore() == 3000);
             Assert.IsTrue(h.GetHighScores()[1].GetScore() == 2500);
             Assert.IsTrue(h.GetHighScores()[2].GetScore() == 2000);

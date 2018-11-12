@@ -49,7 +49,7 @@ namespace Royale_Platformer.Model.HighScores
         }
 
         // Reads names and scores from a file and puts them in the highScore list
-        public void ReadScores()
+        public void ReadScoresToUpdate()
         {
             int count = 0;
             if (File.Exists("HighScores.txt"))
@@ -68,6 +68,31 @@ namespace Royale_Platformer.Model.HighScores
             else
             {
                 throw new Exception("HighScores.txt file does not exist.");
+            }
+        }
+
+        // Reads names and scores from a file and returns a list
+        public List<HighScore> ReadScoresToList()
+        {
+            int count = 0;
+            List<HighScore> scores = new List<HighScore>();
+            if (File.Exists("HighScores.txt"))
+            {
+                using (StreamReader reader = new StreamReader(File.Open("HighScores.txt", FileMode.Open)))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string score = reader.ReadLine();
+                        string[] items = score.Split(',');
+                        scores[count] = new HighScore(items[0], Convert.ToInt32(items[1]));
+                        count++;
+                    }
+                }
+                return scores;
+            }
+            else
+            {
+                return scores;
             }
         }
 

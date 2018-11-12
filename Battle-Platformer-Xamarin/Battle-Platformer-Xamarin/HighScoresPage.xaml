@@ -5,7 +5,8 @@
              BackgroundImage="bg_castle.png">
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center">
-            <Label Text="High Scores" FontSize="50" />
+            <Label Text="Leaderboard" FontSize="50" TextColor="WhiteSmoke"/>
+            <Label x:Name="message"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
