@@ -84,7 +84,13 @@ namespace Royale_Platformer.Model.HighScores
 
             h.SortHighScores();
             h.WriteScores();
+            h.ClearHighScores();
             h.ReadScores();
+            Assert.IsTrue(h.GetHighScores()[0].GetScore() == 3000);
+            Assert.IsTrue(h.GetHighScores()[1].GetScore() == 2500);
+            Assert.IsTrue(h.GetHighScores()[2].GetScore() == 2000);
+            Assert.IsTrue(h.GetHighScores()[3].GetScore() == 1500);
+            Assert.IsTrue(h.GetHighScores()[4].GetScore() == 1000);
         }
     }
 }

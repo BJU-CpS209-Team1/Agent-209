@@ -16,6 +16,20 @@ namespace Royale_Platformer.Model.HighScores
             WriteScores();
         }
 
+        // Checks to see if score is a high score <score>
+        // Returns true if score is a highscore (2500 or higher) and false if not a highscore
+        public bool CheckScore(int score)
+        {
+            if (score >= 2500)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         // Adds a player's name <name> and score <score> to the dictionary
         public void AddHighScore(string playerName, int playerScore)
         {
@@ -61,6 +75,12 @@ namespace Royale_Platformer.Model.HighScores
         public List<HighScore> GetHighScores()
         {
             return highScores;
+        }
+
+        // Provides the ability to clear highScores list for testing purposes
+        public void ClearHighScores()
+        {
+            highScores.Clear();
         }
 
         // Sorts the highScores list and updates it
