@@ -167,10 +167,10 @@
   <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/lollipopRed.png"/>
  </tile>
  <tile id="55">
-  <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/lollipopWhiteGreen.png"/>
+  <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/lollipopBlackGreen.png"/>
  </tile>
  <tile id="56">
-  <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/lollipopWhiteRed.png"/>
+  <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/lollipopBlackRed.png"/>
  </tile>
  <tile id="57">
   <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/waffleChoco.png"/>
@@ -179,7 +179,7 @@
   <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/wafflePink.png"/>
  </tile>
  <tile id="59">
-  <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/waffleWhite.png"/>
+  <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/waffleBlack.png"/>
  </tile>
  <tile id="60">
   <image width="70" height="70" source="platformer-art-complete-pack-0/Candy expansion/Tiles/cake.png"/>

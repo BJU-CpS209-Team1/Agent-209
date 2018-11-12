@@ -14,41 +14,78 @@ namespace Battle_Platformer_Xamarin
             InitializeComponent();
         }
 
-        private void LoadEasy(object sender, EventArgs e)
+        private void LoadPlay(object sender, EventArgs e)
         {
-            btnEasy.Source = "buttonLong_blue_pressed.png";
-            Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
-                btnEasy.Source = "buttonLong_blue.png";
+            btnPlay.Source = "buttonLong_blue_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
+            {
+                btnPlay.Source = "buttonLong_blue.png";
                 return false;
             });
-            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
+            {
                 App.Current.MainPage = new Game();
                 return false;
             });
         }
 
-        private void LoadMedium(object sender, EventArgs e)
+        private void LoadContinue(object sender, EventArgs e)
         {
-            btnMedium.Source = "buttonLong_blue_pressed.png";
-            Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
-                btnMedium.Source = "buttonLong_blue.png";
+            btnContinue.Source = "buttonLong_blue_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
+            {
+                btnContinue.Source = "buttonLong_blue.png";
                 return false;
             });
-            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
+            {
+                // Load game here
                 App.Current.MainPage = new Game();
                 return false;
             });
         }
 
-        private void LoadHard(object sender, EventArgs e)
+        private void LoadHelp(object sender, EventArgs e)
         {
-            btnHard.Source = "buttonLong_blue_pressed.png";
-            Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
-                btnHard.Source = "buttonLong_blue.png";
+            btnHelp.Source = "help_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
+            {
+                btnHelp.Source = "help.png";
                 return false;
             });
-            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
-                App.Current.MainPage = new Game();
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
+            {
+                App.Current.MainPage = new HelpPage();
+                return false;
+            });
+        }
+
+        private void LoadAbout(object sender, EventArgs e)
+        {
+            btnAbout.Source = "about_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
+            {
+                btnAbout.Source = "about.png";
+                return false;
+            });
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
+            {
+                App.Current.MainPage = new AboutPage();
+                return false;
+            });
+        }
+
+        private void LoadLeaderboard(object sender, EventArgs e)
+        {
+            btnLeaderboard.Source = "leaderboard_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
+            {
+                btnLeaderboard.Source = "leaderboard_blue.png";
+                return false;
+            });
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
+            {
+                App.Current.MainPage = new HighScoresPage();
                 return false;
             });
         }
