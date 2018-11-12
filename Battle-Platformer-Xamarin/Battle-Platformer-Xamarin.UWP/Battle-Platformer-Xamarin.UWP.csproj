@@ -103,6 +103,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="about.png" />
+    <Content Include="about_pressed.png" />
     <Content Include="arrowBeige_left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -191,6 +193,10 @@
     <Content Include="buttonSquare_brown_pressed.png" />
     <Content Include="buttonSquare_grey.png" />
     <Content Include="buttonSquare_grey_pressed.png" />
+    <Content Include="help.png" />
+    <Content Include="help_pressed.png" />
+    <Content Include="leaderboard.png" />
+    <Content Include="leaderboard_pressed.png" />
     <Content Include="logo.png" />
     <Content Include="cursorGauntlet_blue.png" />
     <Content Include="cursorGauntlet_bronze.png" />
