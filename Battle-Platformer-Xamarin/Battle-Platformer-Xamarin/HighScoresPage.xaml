@@ -4,8 +4,8 @@
              x:Class="Battle_Platformer_Xamarin.HighScoresPage"
              BackgroundImage="bg_castle.png">
     <ContentPage.Content>
-        <StackLayout>
-            
+        <StackLayout HorizontalOptions="Center">
+            <Label Text="High Scores" FontSize="50" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
