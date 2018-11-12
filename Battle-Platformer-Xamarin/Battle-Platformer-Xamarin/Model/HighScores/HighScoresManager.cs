@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Royale_Platformer.Model.HighScores
 {
-    class HighScoresManager
+    public class HighScoresManager
     {
         private List<HighScore> highScores;
         public HighScoresManager()
