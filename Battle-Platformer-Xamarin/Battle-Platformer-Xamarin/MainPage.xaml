@@ -3,11 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Battle_Platformer_Xamarin"
              x:Class="Battle_Platformer_Xamarin.MainPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundImage="bg_castle.png">
 
-    <StackLayout>       
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
 
-        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+        <Image x:Name="logo" Source="logo.png" />
+        <Image x:Name="mission" Source="mission.png" Margin="0,10,0,20" />
+
+        <!--#region EASY -->
+        <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -16,17 +21,64 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="btnGame" Source="buttonLong_brown.png">
+            <Image x:Name="btnEasy" Source="buttonLong_blue.png">
                 <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="LoadGame"/>
+                    <TapGestureRecognizer Tapped="LoadEasy"/>
                 </Image.GestureRecognizers>
             </Image>
-            <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Start Game" TextColor="White" FontSize="30" Grid.Row="0" Grid.Column="0">
+            <Label HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-4" Text="Play Easy" TextColor="White" FontSize="25" Grid.Row="0" Grid.Column="0">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="LoadGame"/>
+                    <TapGestureRecognizer Tapped="LoadEasy"/>
                 </Label.GestureRecognizers>
             </Label>
         </Grid>
+        <!--#endregion-->
+
+        <!--#region MEDIUM -->
+        <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="btnMedium" Source="buttonLong_blue.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadMedium"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-4" Text="Play medium" TextColor="White" FontSize="25" Grid.Row="0" Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadMedium"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region HARD -->
+        <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="btnHard" Source="buttonLong_blue.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadHard"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-4" Text="Play Hard" TextColor="White" FontSize="25" Grid.Row="0" Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadHard"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        <!--#endregion-->
 
     </StackLayout>
 </ContentPage>

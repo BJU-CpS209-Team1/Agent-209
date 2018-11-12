@@ -170,6 +170,7 @@
     <Content Include="barYellow_verticalBottom.png" />
     <Content Include="barYellow_verticalMid.png" />
     <Content Include="barYellow_verticalTop.png" />
+    <Content Include="bg_castle.png" />
     <Content Include="buttonLong_beige.png" />
     <Content Include="buttonLong_beige_pressed.png" />
     <Content Include="buttonLong_blue.png" />
@@ -190,6 +191,7 @@
     <Content Include="buttonSquare_brown_pressed.png" />
     <Content Include="buttonSquare_grey.png" />
     <Content Include="buttonSquare_grey_pressed.png" />
+    <Content Include="logo.png" />
     <Content Include="cursorGauntlet_blue.png" />
     <Content Include="cursorGauntlet_bronze.png" />
     <Content Include="cursorGauntlet_grey.png" />
@@ -1847,6 +1849,7 @@
     <Content Include="iconCross_blue.png" />
     <Content Include="iconCross_brown.png" />
     <Content Include="iconCross_grey.png" />
+    <Content Include="mission.png" />
     <Content Include="panelInset_beige.png" />
     <Content Include="panelInset_beigeLight.png" />
     <Content Include="panelInset_blue.png" />

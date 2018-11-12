@@ -14,11 +14,37 @@ namespace Battle_Platformer_Xamarin
             InitializeComponent();
         }
 
-        private void LoadGame(object sender, EventArgs e)
+        private void LoadEasy(object sender, EventArgs e)
         {
-            btnGame.Source = "buttonLong_brown_pressed.png";
+            btnEasy.Source = "buttonLong_blue_pressed.png";
             Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
-                btnGame.Source = "buttonLong_brown.png";
+                btnEasy.Source = "buttonLong_blue.png";
+                return false;
+            });
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
+                App.Current.MainPage = new Game();
+                return false;
+            });
+        }
+
+        private void LoadMedium(object sender, EventArgs e)
+        {
+            btnMedium.Source = "buttonLong_blue_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
+                btnMedium.Source = "buttonLong_blue.png";
+                return false;
+            });
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
+                App.Current.MainPage = new Game();
+                return false;
+            });
+        }
+
+        private void LoadHard(object sender, EventArgs e)
+        {
+            btnHard.Source = "buttonLong_blue_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () => {
+                btnHard.Source = "buttonLong_blue.png";
                 return false;
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () => {
