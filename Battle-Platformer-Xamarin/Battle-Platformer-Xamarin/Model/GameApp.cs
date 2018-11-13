@@ -164,7 +164,7 @@ namespace Royale_Platformer.Model
             float y = float.Parse(charactersSplit[1], CultureInfo.InvariantCulture.NumberFormat);
             float z = float.Parse(charactersSplit[2], CultureInfo.InvariantCulture.NumberFormat);
 
-            CreatePlayer(x,y,z);
+            PlayerCharacter.CharacterNode.Position = new Vector3(x, y, z);
         }
 
         public void Load(string fileName)
