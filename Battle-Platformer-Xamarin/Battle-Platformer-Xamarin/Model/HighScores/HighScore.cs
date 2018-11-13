@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Royale_Platformer.Model.HighScores
 {
-    class HighScore
+    public class HighScore
     {
         private string name;
         private int score;

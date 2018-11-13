@@ -4,8 +4,9 @@
              x:Class="Battle_Platformer_Xamarin.HighScoresPage"
              BackgroundImage="bg_castle.png">
     <ContentPage.Content>
-        <StackLayout>
-            
+        <StackLayout HorizontalOptions="Center">
+            <Label Text="Leaderboard" FontSize="50" TextColor="WhiteSmoke"/>
+            <Label x:Name="message"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
