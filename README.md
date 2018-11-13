@@ -8,9 +8,10 @@ Battle Royale 2D Platformer
 
 # Work Completed
 * Simple Gameplay Mechanics
-* Game Load/Save
+* Simple Game Load/Save
 * High Scores
 * Menu Pages
+* Menu Design
 * Level Design
 
 # Known Issues
@@ -20,6 +21,7 @@ Battle Royale 2D Platformer
 * Loading a saved game creates two players
 * Player can jump in mid-air
 * Player can go outside of map
+* No correct way to save game. Currently, position of player is saved every 10 seconds
 
 # [Recording](https://www.useloom.com/share/bc20666c46ff47e3b93bbc9f1cbbdf56)
 
