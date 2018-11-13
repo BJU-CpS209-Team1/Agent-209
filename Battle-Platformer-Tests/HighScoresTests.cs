@@ -92,5 +92,58 @@ namespace Royale_Platformer.Model.HighScores
             Assert.IsTrue(h.GetHighScores()[3].GetScore() == 1500);
             Assert.IsTrue(h.GetHighScores()[4].GetScore() == 1000);
         }
+
+        [Test]
+        public void ReadScoresToUpdate_ScoresNotWritten_ThrowsException()
+        {
+            try
+            {
+                HighScoresManager h = new HighScoresManager();
+
+                h.AddHighScore("David", 2000);
+                h.AddHighScore("Matthew", 1500);
+                h.AddHighScore("Stephen", 3000);
+                h.AddHighScore("Isaac", 1000);
+                h.AddHighScore("Elias", 2500);
+
+                h.ReadScoresToUpdate();
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message == "HighScores.txt file does not exist.");
+            }
+        }
+
+        [Test]
+        public void CheckScore_HighScore_True()
+        {
+            HighScoresManager h = new HighScoresManager();
+            bool check = h.CheckScore(3000);
+            Assert.IsTrue(check == true);
+        }
+
+        [Test]
+        public void CheckScore_LowScore_False()
+        {
+            HighScoresManager h = new HighScoresManager();
+            bool check = h.CheckScore(2000);
+            Assert.IsTrue(check == false);
+        }
+
+        [Test]
+        public void ClearHighScores_ClearedScores_Passes()
+        {
+            HighScoresManager h = new HighScoresManager();
+
+            h.AddHighScore("David", 2000);
+            h.AddHighScore("Matthew", 1500);
+            h.AddHighScore("Stephen", 3000);
+            h.AddHighScore("Isaac", 1000);
+            h.AddHighScore("Elias", 2500);
+
+            h.ClearHighScores();
+
+            Assert.IsTrue(h.GetHighScores().Count == 0);
+        }
     }
 }
