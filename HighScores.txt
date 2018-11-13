@@ -1,5 +1,0 @@
-Stephen,3000
-Elias,2500
-David,2000
-Matthew,1500
-Isaac,1000
