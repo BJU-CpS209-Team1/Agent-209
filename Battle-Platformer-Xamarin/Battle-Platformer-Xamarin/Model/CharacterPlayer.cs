@@ -32,17 +32,6 @@ namespace Royale_Platformer.Model
             Input.LastSpace = Input.Space;
         }
 
-        public override void Hit(Bullet bullet)
-        {
-            if(Armor)
-            {
-                Armor = false;
-                return;
-            }
-
-            Health -= bullet.Damage;
-        }
-
         public override ISerializer Deserialize(string serialized)
         {
             throw new System.NotImplementedException();

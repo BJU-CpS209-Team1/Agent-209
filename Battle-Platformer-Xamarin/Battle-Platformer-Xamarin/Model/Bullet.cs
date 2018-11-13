@@ -1,4 +1,6 @@
-﻿namespace Royale_Platformer.Model
+﻿using System;
+
+namespace Royale_Platformer.Model
 {
     public class Bullet : ISerializer
     {
@@ -6,6 +8,8 @@
 
         public Bullet(int damage)
         {
+            if (damage < 0)
+                throw new Exception("Invalid bullet damage!");
             Damage = damage;
         }
 

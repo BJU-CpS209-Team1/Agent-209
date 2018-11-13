@@ -67,21 +67,16 @@ namespace Royale_Platformer.Model.HighScores
         // Reads names and scores from a file and puts them in the highScore list
         public void ReadScoresToUpdate()
         {
-            if (File.Exists("HighScores.txt"))
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
+
+            using (StreamReader reader = new StreamReader(File.Open(PATH, FileMode.Open)))
             {
-                using (StreamReader reader = new StreamReader(File.Open("HighScores.txt", FileMode.Open)))
+                while (!reader.EndOfStream)
                 {
-                    while (!reader.EndOfStream)
-                    {
-                        string score = reader.ReadLine();
-                        string[] items = score.Split(',');
-                        highScores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
-                    }
+                    string score = reader.ReadLine();
+                    string[] items = score.Split(',');
+                    highScores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
                 }
-            }
-            else
-            {
-                throw new Exception("HighScores.txt file does not exist.");
             }
         }
 
@@ -90,24 +85,17 @@ namespace Royale_Platformer.Model.HighScores
         {
             int count = 0;
             List<HighScore> scores = new List<HighScore>();
-            if (File.Exists("HighScores.txt"))
+
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
+
+            foreach (var score in File.ReadLines(PATH))
             {
-                using (StreamReader reader = new StreamReader(File.Open("HighScores.txt", FileMode.Open)))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        string score = reader.ReadLine();
-                        string[] items = score.Split(',');
-                        scores[count] = new HighScore(items[0], Convert.ToInt32(items[1]));
-                        count++;
-                    }
-                }
-                return scores;
-            }
-            else
-            {
-                return scores;
-            }
+                string[] items = score.Split(',');
+                scores[count] = new HighScore(items[0], Convert.ToInt32(items[1]));
+                count++;
+            }                   
+                
+            return scores;
         }
 
         // Returns names of players held in the list instance variable
