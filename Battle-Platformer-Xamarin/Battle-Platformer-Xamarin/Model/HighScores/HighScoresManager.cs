@@ -53,18 +53,12 @@ namespace Royale_Platformer.Model.HighScores
             //    }
             //}
 
-            // create .highscores folder and make it private
-            //string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
-            //if (!Directory.Exists(PATH))
-            //{
-            //    DirectoryInfo pathInfo = Directory.CreateDirectory(PATH);
-            //    pathInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-            //}
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
 
-            //foreach (HighScore score in highScores)
-            //{
-            //    File.WriteAllText(PATH, score.GetName() + "," + score.GetScore());
-            //}
+            foreach (HighScore score in highScores)
+            {
+                File.WriteAllText("scores.txt", score.GetName() + "," + score.GetScore());
+            }
         }
 
         // Reads names and scores from a file and puts them in the highScore list
