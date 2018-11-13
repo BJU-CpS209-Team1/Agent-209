@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace Royale_Platformer.Model
 {
-    class GameApp : Application
+    public class GameApp : Application
     {
         public CharacterPlayer PlayerCharacter { get; private set; }
         public List<Character> Characters { get; private set; }

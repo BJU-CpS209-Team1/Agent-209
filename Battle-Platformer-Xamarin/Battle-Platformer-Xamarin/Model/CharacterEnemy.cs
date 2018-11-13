@@ -1,6 +1,6 @@
 ﻿namespace Royale_Platformer.Model
 {
-    class CharacterEnemy : Character
+    public class CharacterEnemy : Character
     {
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {

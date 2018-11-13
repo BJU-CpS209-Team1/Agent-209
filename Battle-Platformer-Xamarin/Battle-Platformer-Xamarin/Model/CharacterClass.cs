@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Royale_Platformer.Model
 {
-    enum CharacterClass
+    public enum CharacterClass
     {
         Gunner,
         Support,
