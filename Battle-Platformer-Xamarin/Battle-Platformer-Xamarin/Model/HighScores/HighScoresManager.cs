@@ -57,7 +57,7 @@ namespace Royale_Platformer.Model.HighScores
 
             foreach (HighScore score in highScores)
             {
-                File.WriteAllText("scores.txt", score.GetName() + "," + score.GetScore());
+                File.WriteAllText(PATH, score.GetName() + "," + score.GetScore());
             }
         }
 
