@@ -34,7 +34,7 @@ namespace Royale_Platformer.Model
 
         public string Serialize()
         {
-            return "";
+            return CharacterNode.Position.ToString();
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Battle_Platformer_Xamarin
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
             {
-                App.Current.MainPage = new Game();
+                App.Current.MainPage = new Game(false);
                 return false;
             });
         }
@@ -39,8 +40,12 @@ namespace Battle_Platformer_Xamarin
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
             {
-                // Load game here
-                App.Current.MainPage = new Game();
+                string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "latest.txt");
+                if (File.Exists(PATH))
+                    App.Current.MainPage = new Game(true);
+                else
+                    DisplayAlert("No Saved Game", "You do not have a saved game.", "Ok.");
+                
                 return false;
             });
         }

@@ -128,8 +128,16 @@ namespace Royale_Platformer.Model
 
         public string Serialize()
         {
-            // dummy data to test
-            return "PlayerCharacter=CharacterPlayer.Scout;Characters=Character1,Character2,Character3;Pickups=Pickup1,Pickup2;Bullets=Bullet1,Bullet2";
+            string output = "";
+
+            string characterString = "Characters=";
+            foreach (var character in Characters)
+            {
+                characterString += character.Serialize() + ",";
+            }
+            output += characterString;
+
+            return output;
         }
 
         public ISerializer Deserialize(string serialized)
@@ -139,11 +147,11 @@ namespace Royale_Platformer.Model
 
         public GameApp Load(string fileName)
         {
-            string path = $"./.data/{fileName}";
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
 
-            if (File.Exists(path))
+            if (File.Exists(PATH))
             {
-                string data = File.ReadLines(path).First();
+                string data = File.ReadLines(PATH).First();
                 return (GameApp) Deserialize(data);
             }
             else
@@ -154,17 +162,10 @@ namespace Royale_Platformer.Model
 
         public void Save(string fileName)
         {
-            // create .data folder and make it private
-            const string PATH = "./.data/";
-            if (!Directory.Exists(PATH))
-            {
-                DirectoryInfo pathInfo = Directory.CreateDirectory(PATH);
-                pathInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-            }
-
-            // Write data to file
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
+            
             string serialized = Serialize();
-            File.WriteAllText(PATH + fileName, serialized);
+            File.WriteAllText(PATH, serialized);
         }
     }
 }
