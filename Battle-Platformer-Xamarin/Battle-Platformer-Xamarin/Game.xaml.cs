@@ -24,9 +24,10 @@ namespace Battle_Platformer_Xamarin
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-                GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData"));
-            if (continueGame)
-                game.Load("latest.txt");
+            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData"));
+
+            if (continueGame) game.Load("latest.txt");
+           
         }
     }
 }
