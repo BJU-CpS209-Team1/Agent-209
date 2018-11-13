@@ -15,6 +15,10 @@ Battle Royale 2D Platformer
 
 # Known Issues
 * File creation to store high scores does not work correctly
+* Physics colliders have incorrect sizes
+* Game canvas does not maximize until the window is resized
+* Loading a game creates two players
+* Player can jump in mid-air
 
 # [Recording](https://www.useloom.com/share/bc20666c46ff47e3b93bbc9f1cbbdf56)
 
