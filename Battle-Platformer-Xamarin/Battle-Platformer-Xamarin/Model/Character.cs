@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Urho;
 
 namespace Royale_Platformer.Model
@@ -18,8 +19,11 @@ namespace Royale_Platformer.Model
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
+            if (maxHealth < 0)
+                throw new Exception("Invalid character max health!");
+
             Class = characterClass;
-            // TODO: Set HeldWeapon
+            HeldWeapon = new WeaponKnife();
             Armor = false;
             MaxHealth = maxHealth;
             Health = maxHealth;
@@ -28,9 +32,19 @@ namespace Royale_Platformer.Model
             Velocity = new Vector2();
         }
 
+        public virtual void Hit(Bullet bullet)
+        {
+            if(Armor)
+            {
+                Armor = false;
+                return;
+            }
+
+            Health -= bullet.Damage;
+        }
+
         public abstract void Update(float deltatime);
 
-        public abstract void Hit(Bullet bullet);
         public abstract ISerializer Deserialize(string serialized);
 
         public string Serialize()

@@ -6,11 +6,6 @@
         {
         }
 
-        public override void Hit(Bullet bullet)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Update(float deltatime)
         {
             throw new System.NotImplementedException();
