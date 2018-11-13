@@ -13,13 +13,13 @@ namespace Royale_Platformer.Model.HighScores
         public HighScoresManager()
         {
             highScores = new List<HighScore>();
-            AddHighScore("David", 2000);
-            AddHighScore("Matthew", 1500);
-            AddHighScore("Stephen", 3000);
-            AddHighScore("Isaac", 1000);
-            AddHighScore("Elias", 2500);
-            SortHighScores();
-            WriteScores();
+            //AddHighScore("David", 2000);
+            //AddHighScore("Matthew", 1500);
+            //AddHighScore("Stephen", 3000);
+            //AddHighScore("Isaac", 1000);
+            //AddHighScore("Elias", 2500);
+            //SortHighScores();
+            //WriteScores();
         }
 
         // Checks to see if score is a high score <score>
@@ -36,10 +36,13 @@ namespace Royale_Platformer.Model.HighScores
             }
         }
 
-        // Adds a player's name <name> and score <score> to the dictionary
+        // Adds a player's name <name> and score <score> to the highScores list from greatest to least 
         public void AddHighScore(string playerName, int playerScore)
         {
             highScores.Add(new HighScore(playerName, playerScore));
+
+            // OrderBy function found at "https://stackoverflow.com/questions/16620135/sort-a-list-of-objects-by-the-value-of-a-property/16620159"
+            highScores = highScores.OrderByDescending(x => x.GetScore()).ToList();
         }
 
         // Writes the highScores List to a file
@@ -117,13 +120,6 @@ namespace Royale_Platformer.Model.HighScores
         public void ClearHighScores()
         {
             highScores.Clear();
-        }
-
-        // Sorts the highScores list and updates it
-        public void SortHighScores()
-        {
-            // OrderBy function found at "https://stackoverflow.com/questions/16620135/sort-a-list-of-objects-by-the-value-of-a-property/16620159"
-            highScores = highScores.OrderByDescending(x => x.GetScore()).ToList();
         }
     }
 }
