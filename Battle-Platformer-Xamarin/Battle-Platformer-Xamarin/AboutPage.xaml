@@ -4,8 +4,26 @@
              x:Class="Battle_Platformer_Xamarin.AboutPage"
              BackgroundImage="bg_castle.png">
     <ContentPage.Content>
-        <StackLayout>
-            
+        <StackLayout Padding="30">
+            <StackLayout HorizontalOptions="Center">
+                <Label Text="About" FontSize="70" TextColor="WhiteSmoke"/>
+            </StackLayout>
+            <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
+                    Clicked="btnBack_Clicked"/>
+            <StackLayout Padding="60">
+                <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Isaac Abrahamson:" FontSize="30" TextColor="WhiteSmoke"/>
+                    <Label Text="Level Design; Game Serialization; Main Menu Screen" FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="David Polar:" FontSize="30" TextColor="WhiteSmoke"/>
+                    <Label Text="Other Menu Screens; High Scores" FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Elias Watson:" FontSize="30" TextColor="WhiteSmoke"/>
+                    <Label Text="Game Logic" FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

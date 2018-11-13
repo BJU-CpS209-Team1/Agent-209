@@ -19,6 +19,7 @@ namespace Battle_Platformer_Xamarin
 			InitializeComponent();
             HighScoresManager scoresClass = new HighScoresManager();
             scores = scoresClass.ReadScoresToList();
+            ShowHighScores();
 		}
 
         // Writes out the high scores and displays a message if there are no high scores yet
@@ -26,17 +27,33 @@ namespace Battle_Platformer_Xamarin
         {
             if (scores.Count == 0)
             {
-                message.Text = "Sorry! There are no High Scores yet!";
+                message.Text = "Sorry! There are no High Scores yet.";
                 message.FontSize = 30;
                 message.TextColor = Color.WhiteSmoke;
+                message.HorizontalOptions = LayoutOptions.Center;
             }
             else
             {
-                for (int i = 0; i < scores.Count; i++)
+                int count = 0;
+                for (int row = 0; row < 5; row++)
                 {
-
+                    for (int col = 0; col < 2; col++)
+                    {
+                        var label = new Label();
+                        string name = scores[count].GetName();
+                        string num = scores[count].GetScore().ToString();
+                        label.Text = name + ": " + num;
+                        scoresGrid.Children.Add(label);
+                        count++;
+                    }
                 }
             }
         }
-	}
+
+        private void btnBack_Clicked(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            App.Current.MainPage = new MainPage();
+        }
+    }
 }

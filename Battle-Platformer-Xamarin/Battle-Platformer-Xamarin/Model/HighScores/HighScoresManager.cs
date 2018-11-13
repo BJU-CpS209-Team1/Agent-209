@@ -13,6 +13,13 @@ namespace Royale_Platformer.Model.HighScores
         public HighScoresManager()
         {
             highScores = new List<HighScore>();
+            AddHighScore("David", 2000);
+            AddHighScore("Matthew", 1500);
+            AddHighScore("Stephen", 3000);
+            AddHighScore("Isaac", 1000);
+            AddHighScore("Elias", 2500);
+            SortHighScores();
+            WriteScores();
         }
 
         // Checks to see if score is a high score <score>
@@ -38,13 +45,26 @@ namespace Royale_Platformer.Model.HighScores
         // Writes the highScores List to a file
         public void WriteScores()
         {
-            using (StreamWriter writer = new StreamWriter(File.Create("HighScores.txt")))
-            {
-                foreach (HighScore score in highScores)
-                {
-                    writer.WriteLine(score.GetName() + "," + score.GetScore());
-                }
-            }
+            //using (StreamWriter writer = new StreamWriter(File.Create("HighScores.txt")))
+            //{
+            //    foreach (HighScore score in highScores)
+            //    {
+            //        writer.WriteLine(score.GetName() + "," + score.GetScore());
+            //    }
+            //}
+
+            // create .highscores folder and make it private
+            //string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
+            //if (!Directory.Exists(PATH))
+            //{
+            //    DirectoryInfo pathInfo = Directory.CreateDirectory(PATH);
+            //    pathInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            //}
+
+            //foreach (HighScore score in highScores)
+            //{
+            //    File.WriteAllText(PATH, score.GetName() + "," + score.GetScore());
+            //}
         }
 
         // Reads names and scores from a file and puts them in the highScore list

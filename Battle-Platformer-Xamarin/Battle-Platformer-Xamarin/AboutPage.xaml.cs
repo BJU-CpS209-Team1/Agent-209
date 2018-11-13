@@ -16,5 +16,11 @@ namespace Battle_Platformer_Xamarin
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void btnBack_Clicked(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            App.Current.MainPage = new MainPage();
+        }
+    }
 }

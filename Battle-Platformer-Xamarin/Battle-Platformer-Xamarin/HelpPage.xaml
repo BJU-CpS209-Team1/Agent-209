@@ -4,8 +4,30 @@
              x:Class="Battle_Platformer_Xamarin.HelpPage"
              BackgroundImage="bg_castle.png">
     <ContentPage.Content>
-        <StackLayout>
-            
+        <StackLayout Padding="30">
+            <StackLayout HorizontalOptions="Center">
+                <Label Text="How To Play" FontSize="70" TextColor="WhiteSmoke"/>
+            </StackLayout>
+            <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
+                    Clicked="btnBack_Clicked"/>
+            <StackLayout Padding="40" HorizontalOptions="Start">
+                <StackLayout Padding="20">
+                    <Label Text="Goal:  Eliminate all other players or score as many points before time runs out." 
+                        FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20">
+                    <Label Text="Movement:  Press 'A' to go left, 'D' to go right, and spacebar to jump."
+                        FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20">
+                    <Label Text="During the Game:  Pick up gear to enhance your player and shoot other players to earn points."
+                       FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20">
+                    <Label Text="End of the Game:  The game ends when either all other players have been eliminated or time has run out."
+                       FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

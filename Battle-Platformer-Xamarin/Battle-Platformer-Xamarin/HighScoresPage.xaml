@@ -3,10 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Battle_Platformer_Xamarin.HighScoresPage"
              BackgroundImage="bg_castle.png">
+
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center">
-            <Label Text="Leaderboard" FontSize="50" TextColor="WhiteSmoke"/>
-            <Label x:Name="message"/>
+        <StackLayout Padding="30">
+            <StackLayout HorizontalOptions="Center">
+                <Label Text="Leaderboard" FontSize="70" TextColor="WhiteSmoke"/>
+            </StackLayout>
+            <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
+                    Clicked="btnBack_Clicked"/>
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid x:Name="scoresGrid" HorizontalOptions="Center" RowSpacing="5" ColumnSpacing="10"></Grid>
+                <Label x:Name="message"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
