@@ -3,9 +3,6 @@
 ![map](https://i.postimg.cc/Y2FFMGzR/starter-Copy.png)
 ![characters](https://img.craftpix.net/2017/08/2d-game-special-forces-character-sprites-sheets-720x480.jpg)
 
-# Agent 209
-Battle Royale 2D Platformer
-
 # Instructions
 * Use 'A' to move left, 'D' to move right, and spacebar to jump. 
 * Collect gear and eliminate other players to earn points.  
