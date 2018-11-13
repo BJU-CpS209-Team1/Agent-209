@@ -2,7 +2,7 @@
 
 namespace Royale_Platformer.Model
 {
-    class CharacterPlayer : Character
+    public class CharacterPlayer : Character
     {
         public struct PlayerInput
         {

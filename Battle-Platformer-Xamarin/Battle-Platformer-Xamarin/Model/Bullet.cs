@@ -1,6 +1,6 @@
 ﻿namespace Royale_Platformer.Model
 {
-    class Bullet : ISerializer
+    public class Bullet : ISerializer
     {
         public int Damage { get; private set; }
 

@@ -3,7 +3,7 @@ using Urho;
 
 namespace Royale_Platformer.Model
 {
-    abstract class Character : ISerializer
+    public abstract class Character : ISerializer
     {
         public CharacterClass Class { get; protected set; }
         public Weapon HeldWeapon { get; protected set; }

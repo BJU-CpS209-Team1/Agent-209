@@ -2,7 +2,7 @@
 
 namespace Royale_Platformer.Model
 {
-    class WeaponPistol : Weapon
+    public class WeaponPistol : Weapon
     {
         public override List<Bullet> Fire()
         {

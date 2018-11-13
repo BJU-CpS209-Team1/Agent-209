@@ -1,6 +1,6 @@
 ﻿namespace Royale_Platformer.Model
 {
-    class PickupArmor : Pickup
+    public class PickupArmor : Pickup
     {
         public override bool PickUp(Character character)
         {
