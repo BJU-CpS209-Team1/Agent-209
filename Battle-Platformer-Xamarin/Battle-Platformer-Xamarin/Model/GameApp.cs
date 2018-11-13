@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using System.IO;
 using Urho;
 using Urho.Urho2D;
+using System.Timers;
+using System.Globalization;
 
 namespace Royale_Platformer.Model
 {
-    class GameApp : Application, ISerializer
+    class GameApp : Application
     {
         public CharacterPlayer PlayerCharacter { get; private set; }
         public List<Character> Characters { get; private set; }
 
         public List<Pickup> Pickups { get; set; }
         public List<Bullet> Bullets { get; set; }
+
+        public bool LoadGame { get; set; }
 
         private Scene scene;
         private Node cameraNode;
@@ -25,6 +29,7 @@ namespace Royale_Platformer.Model
             Characters = new List<Character>();
             Pickups = new List<Pickup>();
             Bullets = new List<Bullet>();
+            LoadGame = false;
         }
 
         protected override void Start()
@@ -47,7 +52,7 @@ namespace Royale_Platformer.Model
             camera.OrthoSize = 2 * halfHeight;
             camera.Zoom = 0.1f * Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
 
-            CreatePlayer();
+            CreatePlayer(0, 0, 0);
 
             // TEMP: Create Ground
             Sprite2D groundSprite = ResourceCache.GetSprite2D("map/assets/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
@@ -76,12 +81,12 @@ namespace Royale_Platformer.Model
             groundShape.DrawDebugGeometry(debugRender, false);
         }
 
-        private void CreatePlayer()
+        private void CreatePlayer(float x, float y, float z)
         {
             Sprite2D playerSprite = ResourceCache.GetSprite2D("characters/special forces/png2/idle/2_Special_forces_Idle_000.png");
 
             Node playerNode = scene.CreateChild("StaticSprite2D");
-            playerNode.Position = new Vector3(0, 0, 0);
+            playerNode.Position = new Vector3(x, y, z);
 
             StaticSprite2D playerStaticSprite = playerNode.CreateComponent<StaticSprite2D>();
             playerStaticSprite.BlendMode = BlendMode.Alpha;
@@ -101,6 +106,17 @@ namespace Royale_Platformer.Model
             player.CharacterNode = playerNode;
 
             AddPlayer(player);
+
+            // save player for testing
+            Timer timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.Interval = 10000;
+            timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            Save("latest.txt");
         }
 
         protected override void OnUpdate(float timeStep)
@@ -128,23 +144,37 @@ namespace Royale_Platformer.Model
 
         public string Serialize()
         {
-            // dummy data to test
-            return "PlayerCharacter=CharacterPlayer.Scout;Characters=Character1,Character2,Character3;Pickups=Pickup1,Pickup2;Bullets=Bullet1,Bullet2";
-        }
+            string output = "";
 
-        public ISerializer Deserialize(string serialized)
-        {
-            return new GameApp(null);
-        }
-
-        public GameApp Load(string fileName)
-        {
-            string path = $"./.data/{fileName}";
-
-            if (File.Exists(path))
+            string characterString = "";
+            foreach (var character in Characters)
             {
-                string data = File.ReadLines(path).First();
-                return (GameApp) Deserialize(data);
+                characterString += character.Serialize();
+            }
+            output += characterString;
+
+            return output;
+        }
+
+        public void Deserialize(string serialized)
+        {
+            // deserialize position of player
+            string[] charactersSplit = serialized.Split(',');
+            float x = float.Parse(charactersSplit[0], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(charactersSplit[1], CultureInfo.InvariantCulture.NumberFormat);
+            float z = float.Parse(charactersSplit[2], CultureInfo.InvariantCulture.NumberFormat);
+
+            CreatePlayer(x,y,z);
+        }
+
+        public void Load(string fileName)
+        {
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
+
+            if (File.Exists(PATH))
+            {
+                string data = File.ReadLines(PATH).First();
+                Deserialize(data);
             }
             else
             {
@@ -154,17 +184,10 @@ namespace Royale_Platformer.Model
 
         public void Save(string fileName)
         {
-            // create .data folder and make it private
-            const string PATH = "./.data/";
-            if (!Directory.Exists(PATH))
-            {
-                DirectoryInfo pathInfo = Directory.CreateDirectory(PATH);
-                pathInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-            }
-
-            // Write data to file
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
+            
             string serialized = Serialize();
-            File.WriteAllText(PATH + fileName, serialized);
+            File.WriteAllText(PATH, serialized);
         }
     }
 }

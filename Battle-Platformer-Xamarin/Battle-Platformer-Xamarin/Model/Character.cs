@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using System.Text.RegularExpressions;
+using Urho;
 
 namespace Royale_Platformer.Model
 {
@@ -34,7 +35,11 @@ namespace Royale_Platformer.Model
 
         public string Serialize()
         {
-            return "";
+            string output = "";
+            output += CharacterNode.Position.X.ToString() + ",";
+            output += CharacterNode.Position.Y.ToString() + ",";
+            output += CharacterNode.Position.Z.ToString();
+            return output;
         }
 
     }
