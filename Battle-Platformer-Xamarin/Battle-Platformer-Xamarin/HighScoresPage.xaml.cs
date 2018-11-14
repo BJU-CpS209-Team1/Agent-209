@@ -10,17 +10,17 @@ using Xamarin.Forms.Xaml;
 
 namespace Battle_Platformer_Xamarin
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HighScoresPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class HighScoresPage : ContentPage
+    {
         List<HighScore> scores;
-		public HighScoresPage()
-		{
-			InitializeComponent();
+        public HighScoresPage()
+        {
+            InitializeComponent();
             HighScoresManager scoresClass = new HighScoresManager();
             scores = scoresClass.ReadScoresToList();
             ShowHighScores();
-		}
+        }
 
         // Writes out the high scores and displays a message if there are no high scores yet
         public void ShowHighScores()
@@ -34,19 +34,27 @@ namespace Battle_Platformer_Xamarin
             }
             else
             {
-                int count = 0;
-                for (int row = 0; row < 5; row++)
+                foreach (var item in scores)
                 {
-                    for (int col = 0; col < 2; col++)
-                    {
-                        var label = new Label();
-                        string name = scores[count].GetName();
-                        string num = scores[count].GetScore().ToString();
-                        label.Text = name + ": " + num;
-                        scoresGrid.Children.Add(label);
-                        count++;
-                    }
+                    var label = new Label();
+                    string name = item.GetName();
+                    string num = item.GetScore().ToString();
+                    label.Text = $"{name}: {num}";
+                    scoresGrid.Children.Add(label);
                 }
+                //int count = 0;
+                //for (int row = 0; row < 5; row++)
+                //{
+                //    for (int col = 0; col < 2; col++)
+                //    {
+                //        var label = new Label();
+                //        string name = scores[count].GetName();
+                //        string num = scores[count].GetScore().ToString();
+                //        label.Text = name + ": " + num;
+                //        scoresGrid.Children.Add(label);
+                //        count++;
+                //    }
+                //}
             }
         }
 

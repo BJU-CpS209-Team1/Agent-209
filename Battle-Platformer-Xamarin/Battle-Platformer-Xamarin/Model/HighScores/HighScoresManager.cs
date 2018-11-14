@@ -55,11 +55,11 @@ namespace Royale_Platformer.Model.HighScores
             //    }
             //}
 
-            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
+            string PATH = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             foreach (HighScore score in highScores)
             {
-                File.WriteAllText(PATH, score.GetName() + "," + score.GetScore());
+                File.WriteAllText(Path.Combine(PATH, "scores.txt"), $"{score.GetName()},{score.GetScore()}");
             }
         }
 
@@ -82,7 +82,6 @@ namespace Royale_Platformer.Model.HighScores
         // Reads names and scores from a file and returns a list
         public List<HighScore> ReadScoresToList()
         {
-            int count = 0;
             List<HighScore> scores = new List<HighScore>();
 
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
@@ -91,7 +90,6 @@ namespace Royale_Platformer.Model.HighScores
             {
                 string[] items = score.Split(',');
                 scores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
-                count++;
             }
             return scores;
         }
