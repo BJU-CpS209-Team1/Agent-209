@@ -13,13 +13,12 @@ namespace Royale_Platformer.Model.HighScores
         public HighScoresManager()
         {
             highScores = new List<HighScore>();
-            //AddHighScore("David", 2000);
-            //AddHighScore("Matthew", 1500);
-            //AddHighScore("Stephen", 3000);
-            //AddHighScore("Isaac", 1000);
-            //AddHighScore("Elias", 2500);
-            //SortHighScores();
-            //WriteScores();
+            AddHighScore("David", 2000);
+            AddHighScore("Matthew", 1500);
+            AddHighScore("Stephen", 3000);
+            AddHighScore("Isaac", 1000);
+            AddHighScore("Elias", 2500);
+            WriteScores();
         }
 
         // Checks to see if score is a high score <score>
@@ -56,11 +55,11 @@ namespace Royale_Platformer.Model.HighScores
             //    }
             //}
 
-            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
+            string PATH = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             foreach (HighScore score in highScores)
             {
-                File.WriteAllText(PATH, score.GetName() + "," + score.GetScore());
+                File.WriteAllText(Path.Combine(PATH, "scores.txt"), $"{score.GetName()},{score.GetScore()}");
             }
         }
 
@@ -83,7 +82,6 @@ namespace Royale_Platformer.Model.HighScores
         // Reads names and scores from a file and returns a list
         public List<HighScore> ReadScoresToList()
         {
-            int count = 0;
             List<HighScore> scores = new List<HighScore>();
 
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
@@ -91,10 +89,8 @@ namespace Royale_Platformer.Model.HighScores
             foreach (var score in File.ReadLines(PATH))
             {
                 string[] items = score.Split(',');
-                scores[count] = new HighScore(items[0], Convert.ToInt32(items[1]));
-                count++;
-            }                   
-                
+                scores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
+            }
             return scores;
         }
 
