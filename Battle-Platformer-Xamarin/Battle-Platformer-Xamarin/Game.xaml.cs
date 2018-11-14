@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Urho;
+using Urho.Forms;
+
 
 namespace Battle_Platformer_Xamarin
 {
@@ -24,7 +27,7 @@ namespace Battle_Platformer_Xamarin
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData"));
+            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true });
 
             if (continueGame) game.Load("latest.txt");
            

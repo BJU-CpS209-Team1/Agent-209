@@ -5,5 +5,7 @@
              x:Class="Battle_Platformer_Xamarin.Game"
              NavigationPage.HasNavigationBar="False">
 
-    <urho:UrhoSurface x:Name="surfaceGame" VerticalOptions="FillAndExpand" />
+    <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="Black">
+        <urho:UrhoSurface x:Name="surfaceGame" VerticalOptions="Fill" />
+    </StackLayout>
 </ContentPage>
