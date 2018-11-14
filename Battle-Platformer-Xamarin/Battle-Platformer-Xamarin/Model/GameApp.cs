@@ -8,6 +8,7 @@ using Urho;
 using Urho.Urho2D;
 using System.Timers;
 using System.Globalization;
+using Battle_Platformer_Xamarin.Model;
 
 namespace Royale_Platformer.Model
 {
@@ -19,6 +20,8 @@ namespace Royale_Platformer.Model
         public List<Pickup> Pickups { get; set; }
         public List<Bullet> Bullets { get; set; }
 
+        public List<MapTile> Tiles { get; set; }
+
         public bool LoadGame { get; set; }
 
         private Scene scene;
@@ -29,6 +32,7 @@ namespace Royale_Platformer.Model
             Characters = new List<Character>();
             Pickups = new List<Pickup>();
             Bullets = new List<Bullet>();
+            Tiles = new List<MapTile>();
             LoadGame = false;
         }
 
@@ -70,6 +74,12 @@ namespace Royale_Platformer.Model
             CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
             groundShape.Size = new Vector2(0.75f, 1f);
             groundShape.Friction = 0.5f;
+
+            // Ruler
+            for (int i = 0; i < 10; ++i)
+            {
+                Tiles.Add(new MapTile(scene, groundSprite, new Vector2(i, 0)));
+            }
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));

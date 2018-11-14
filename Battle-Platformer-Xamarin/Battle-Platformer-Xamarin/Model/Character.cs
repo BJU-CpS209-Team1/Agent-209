@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Battle_Platformer_Xamarin.Model;
+using System;
 using System.Text.RegularExpressions;
 using Urho;
 
 namespace Royale_Platformer.Model
 {
-    public abstract class Character : ISerializer
+    public abstract class Character : WorldObject, ISerializer
     {
         public CharacterClass Class { get; protected set; }
         public Weapon HeldWeapon { get; protected set; }
