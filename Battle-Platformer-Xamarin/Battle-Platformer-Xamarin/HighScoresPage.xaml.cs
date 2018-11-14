@@ -13,7 +13,8 @@ namespace Battle_Platformer_Xamarin
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HighScoresPage : ContentPage
     {
-        List<HighScore> scores;
+        private List<HighScore> scores;
+        private Grid grid = new Grid();
         public HighScoresPage()
         {
             InitializeComponent();
@@ -34,14 +35,21 @@ namespace Battle_Platformer_Xamarin
             }
             else
             {
+                int row = 0;
                 foreach (var item in scores)
                 {
+                    //if (row == 5)
+                    //{
+                        
+                    //}
                     var label = new Label();
                     string name = item.GetName();
                     string num = item.GetScore().ToString();
                     label.Text = $"{name}: {num}";
-                    scoresGrid.Children.Add(label);
+                    grid.Children.Add(label);
+                    row++;
                 }
+                scoresGrid.Children.Add(grid);
                 //int count = 0;
                 //for (int row = 0; row < 5; row++)
                 //{

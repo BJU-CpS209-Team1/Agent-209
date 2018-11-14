@@ -57,10 +57,12 @@ namespace Royale_Platformer.Model.HighScores
 
             string PATH = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
+            string infoList = "";
             foreach (HighScore score in highScores)
             {
-                File.WriteAllText(Path.Combine(PATH, "scores.txt"), $"{score.GetName()},{score.GetScore()}");
+                infoList += $"{score.GetName()},{score.GetScore()}\r\n";
             }
+            File.WriteAllText(Path.Combine(PATH, "scores.txt"), infoList);
         }
 
         // Reads names and scores from a file and puts them in the highScore list
