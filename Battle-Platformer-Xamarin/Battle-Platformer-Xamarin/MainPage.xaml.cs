@@ -85,7 +85,7 @@ namespace Battle_Platformer_Xamarin
             btnLeaderboard.Source = "leaderboard_pressed.png";
             Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
             {
-                btnLeaderboard.Source = "leaderboard_blue.png";
+                btnLeaderboard.Source = "leaderboard.png";
                 return false;
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
