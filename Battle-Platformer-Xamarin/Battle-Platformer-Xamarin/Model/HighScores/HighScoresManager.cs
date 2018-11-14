@@ -13,13 +13,12 @@ namespace Royale_Platformer.Model.HighScores
         public HighScoresManager()
         {
             highScores = new List<HighScore>();
-            //AddHighScore("David", 2000);
-            //AddHighScore("Matthew", 1500);
-            //AddHighScore("Stephen", 3000);
-            //AddHighScore("Isaac", 1000);
-            //AddHighScore("Elias", 2500);
-            //SortHighScores();
-            //WriteScores();
+            AddHighScore("David", 2000);
+            AddHighScore("Matthew", 1500);
+            AddHighScore("Stephen", 3000);
+            AddHighScore("Isaac", 1000);
+            AddHighScore("Elias", 2500);
+            WriteScores();
         }
 
         // Checks to see if score is a high score <score>
@@ -91,10 +90,9 @@ namespace Royale_Platformer.Model.HighScores
             foreach (var score in File.ReadLines(PATH))
             {
                 string[] items = score.Split(',');
-                scores[count] = new HighScore(items[0], Convert.ToInt32(items[1]));
+                scores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
                 count++;
-            }                   
-                
+            }
             return scores;
         }
 
