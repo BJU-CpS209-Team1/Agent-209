@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Battle_Platformer_Xamarin.Model;
+using System;
 
 namespace Royale_Platformer.Model
 {
-    public class Bullet : ISerializer
+    public class Bullet : WorldObject, ISerializer
     {
         public int Damage { get; private set; }
 
