@@ -14,7 +14,6 @@ namespace Battle_Platformer_Xamarin
     public partial class HighScoresPage : ContentPage
     {
         private List<HighScore> scores;
-        private Grid grid = new Grid();
         public HighScoresPage()
         {
             InitializeComponent();
@@ -28,7 +27,7 @@ namespace Battle_Platformer_Xamarin
         {
             if (scores.Count == 0)
             {
-                message.Text = "Sorry! There are no High Scores yet.";
+                message.Text = "Sorry! There are no high scores yet.";
                 message.FontSize = 30;
                 message.TextColor = Color.WhiteSmoke;
                 message.HorizontalOptions = LayoutOptions.Center;
@@ -36,33 +35,17 @@ namespace Battle_Platformer_Xamarin
             else
             {
                 int row = 0;
-                foreach (var item in scores)
+                for (int i = 0; i < scores.Count; i++)
                 {
-                    //if (row == 5)
-                    //{
-                        
-                    //}
                     var label = new Label();
-                    string name = item.GetName();
-                    string num = item.GetScore().ToString();
-                    label.Text = $"{name}: {num}";
-                    grid.Children.Add(label);
+                    string name = scores[i].GetName();
+                    string num = scores[i].GetScore().ToString();
+                    label.Text = $"{i + 1}.  {name} - {num}";
+                    label.FontSize = 30;
+                    label.TextColor = Color.WhiteSmoke;
+                    scoresHolder.Children.Add(label);
                     row++;
                 }
-                scoresGrid.Children.Add(grid);
-                //int count = 0;
-                //for (int row = 0; row < 5; row++)
-                //{
-                //    for (int col = 0; col < 2; col++)
-                //    {
-                //        var label = new Label();
-                //        string name = scores[count].GetName();
-                //        string num = scores[count].GetScore().ToString();
-                //        label.Text = name + ": " + num;
-                //        scoresGrid.Children.Add(label);
-                //        count++;
-                //    }
-                //}
             }
         }
 

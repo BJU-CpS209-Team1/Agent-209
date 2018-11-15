@@ -5,9 +5,7 @@
              BackgroundImage="bg_castle.png">
     <ContentPage.Content>
         <StackLayout Padding="30">
-            <StackLayout HorizontalOptions="Center">
-                <Label Text="About" FontSize="70" TextColor="WhiteSmoke"/>
-            </StackLayout>
+            <Image Source="AboutTitle.png" HorizontalOptions="Center"/>
             <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
                     Clicked="btnBack_Clicked"/>
             <StackLayout Padding="60">

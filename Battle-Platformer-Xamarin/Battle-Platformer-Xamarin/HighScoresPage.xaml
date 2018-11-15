@@ -11,9 +11,8 @@
             </StackLayout>
             <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
                     Clicked="btnBack_Clicked"/>
-            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                <Grid x:Name="scoresGrid" HorizontalOptions="Center" RowSpacing="5" ColumnSpacing="10"></Grid>
-                <Label x:Name="message"/>
+            <StackLayout x:Name="scoresHolder" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Label x:Name="message" VerticalOptions="Start"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

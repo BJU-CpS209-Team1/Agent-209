@@ -33,7 +33,8 @@ namespace Royale_Platformer.Model.HighScores
         {
             HighScoresManager h = new HighScoresManager();
             h.WriteScores();
-            Assert.IsTrue(File.Exists("HighScores.txt"));
+            string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
+            Assert.IsTrue(File.Exists(PATH));
         }
 
         [Test]

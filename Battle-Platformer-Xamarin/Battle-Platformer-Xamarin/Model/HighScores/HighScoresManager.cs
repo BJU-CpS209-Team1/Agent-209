@@ -13,12 +13,6 @@ namespace Royale_Platformer.Model.HighScores
         public HighScoresManager()
         {
             highScores = new List<HighScore>();
-            AddHighScore("David", 2000);
-            AddHighScore("Matthew", 1500);
-            AddHighScore("Stephen", 3000);
-            AddHighScore("Isaac", 1000);
-            AddHighScore("Elias", 2500);
-            WriteScores();
         }
 
         // Checks to see if score is a high score <score>
@@ -42,19 +36,16 @@ namespace Royale_Platformer.Model.HighScores
 
             // OrderBy function found at "https://stackoverflow.com/questions/16620135/sort-a-list-of-objects-by-the-value-of-a-property/16620159"
             highScores = highScores.OrderByDescending(x => x.GetScore()).ToList();
+
+            if (highScores.Count > 10)
+            {
+                highScores.RemoveRange(10, highScores.Count - 10);
+            }
         }
 
         // Writes the highScores List to a file
         public void WriteScores()
         {
-            //using (StreamWriter writer = new StreamWriter(File.Create("HighScores.txt")))
-            //{
-            //    foreach (HighScore score in highScores)
-            //    {
-            //        writer.WriteLine(score.GetName() + "," + score.GetScore());
-            //    }
-            //}
-
             string PATH = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             string infoList = "";
@@ -70,14 +61,21 @@ namespace Royale_Platformer.Model.HighScores
         {
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
 
-            using (StreamReader reader = new StreamReader(File.Open(PATH, FileMode.Open)))
+            if (File.Exists(PATH))
             {
-                while (!reader.EndOfStream)
+                using (StreamReader reader = new StreamReader(File.Open(PATH, FileMode.Open)))
                 {
-                    string score = reader.ReadLine();
-                    string[] items = score.Split(',');
-                    highScores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
+                    while (!reader.EndOfStream)
+                    {
+                        string score = reader.ReadLine();
+                        string[] items = score.Split(',');
+                        highScores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
+                    }
                 }
+            }
+            else
+            {
+                throw new Exception("Scores file has not been created yet.");
             }
         }
 
@@ -88,10 +86,13 @@ namespace Royale_Platformer.Model.HighScores
 
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
 
-            foreach (var score in File.ReadLines(PATH))
+            if (File.Exists(PATH))
             {
-                string[] items = score.Split(',');
-                scores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
+                foreach (var score in File.ReadLines(PATH))
+                {
+                    string[] items = score.Split(',');
+                    scores.Add(new HighScore(items[0], Convert.ToInt32(items[1])));
+                }
             }
             return scores;
         }
