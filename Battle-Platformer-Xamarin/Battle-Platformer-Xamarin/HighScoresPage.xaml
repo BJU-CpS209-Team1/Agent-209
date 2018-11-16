@@ -6,9 +6,7 @@
 
     <ContentPage.Content>
         <StackLayout Padding="30">
-            <StackLayout HorizontalOptions="Center">
-                <Label Text="Leaderboard" FontSize="70" TextColor="WhiteSmoke"/>
-            </StackLayout>
+            <Image Source="LeaderboardTitle.png" HorizontalOptions="Center"/>
             <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
                     Clicked="btnBack_Clicked"/>
             <StackLayout x:Name="scoresHolder" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
