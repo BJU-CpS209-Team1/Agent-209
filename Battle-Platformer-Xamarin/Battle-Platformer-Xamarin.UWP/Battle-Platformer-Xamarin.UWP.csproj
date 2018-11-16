@@ -193,6 +193,7 @@
     <Content Include="buttonSquare_brown_pressed.png" />
     <Content Include="buttonSquare_grey.png" />
     <Content Include="buttonSquare_grey_pressed.png" />
+    <Content Include="GameData\sounds\loop.wav" />
     <Content Include="help.png" />
     <Content Include="help_pressed.png" />
     <Content Include="leaderboard.png" />
@@ -1924,6 +1925,9 @@
     <None Include="GameData\map\assets\platformer-art-complete-pack-0\Base pack\Tiles\Thumbs.db" />
     <None Include="GameData\map\assets\platformer-art-complete-pack-0\Mushroom expansion\PNG\Thumbs.db" />
     <Content Include="GameData\map\levels\starter.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameData\sounds\loop.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
