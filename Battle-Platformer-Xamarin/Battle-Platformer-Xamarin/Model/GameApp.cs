@@ -9,6 +9,7 @@ using Urho.Urho2D;
 using System.Timers;
 using System.Globalization;
 using Battle_Platformer_Xamarin.Model;
+using Urho.Audio;
 
 namespace Royale_Platformer.Model
 {
@@ -57,6 +58,7 @@ namespace Royale_Platformer.Model
             camera.Zoom = 0.1f * Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
 
             CreatePlayer(0, 0, 0);
+            PlayMusic();
 
             // TEMP: Create Ground
             Sprite2D groundSprite = ResourceCache.GetSprite2D("map/assets/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
@@ -91,9 +93,19 @@ namespace Royale_Platformer.Model
             groundShape.DrawDebugGeometry(debugRender, false);
         }
 
+        private void PlayMusic()
+        {
+            var music = ResourceCache.GetSound("sounds/loop.ogg");
+            music.Looped = true;
+            Node musicNode = new Scene().CreateChild("Music");
+            SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
+            musicSource.SetSoundType(SoundType.Music.ToString());
+            musicSource.Play(music);
+        }
+
         private void CreatePlayer(float x, float y, float z)
         {
-            Sprite2D playerSprite = ResourceCache.GetSprite2D("characters/special forces/png2/idle/2_Special_forces_Idle_000.png");
+            Sprite2D playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
 
             Node playerNode = scene.CreateChild("StaticSprite2D");
             playerNode.Position = new Vector3(x, y, z);
