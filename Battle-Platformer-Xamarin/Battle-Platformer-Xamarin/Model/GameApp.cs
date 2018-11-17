@@ -95,7 +95,7 @@ namespace Royale_Platformer.Model
 
         private void PlayMusic()
         {
-            var music = ResourceCache.GetSound("sounds/loop.ogg");
+            var music = ResourceCache.GetSound("sounds/loop1.ogg");
             music.Looped = true;
             Node musicNode = new Scene().CreateChild("Music");
             SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
