@@ -194,6 +194,7 @@
     <Content Include="buttonSquare_brown_pressed.png" />
     <Content Include="buttonSquare_grey.png" />
     <Content Include="buttonSquare_grey_pressed.png" />
+    <Content Include="GameData\characters\special forces\png1\attack\1_Special_forces_attack_Attack_000_reverse.png" />
     <Content Include="GameData\sounds\loop.wav" />
     <Content Include="help.png" />
     <Content Include="help_pressed.png" />

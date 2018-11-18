@@ -9,10 +9,9 @@ namespace Royale_Platformer.Model.HighScores
 {
     public class HighScoresManager
     {
-        private List<HighScore> highScores;
+        private static List<HighScore> highScores = new List<HighScore>();
         public HighScoresManager()
         {
-            highScores = new List<HighScore>();
         }
 
         // Checks to see if score is a high score <score>
