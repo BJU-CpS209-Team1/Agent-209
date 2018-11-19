@@ -3,6 +3,13 @@
 ![map](https://i.postimg.cc/Y2FFMGzR/starter-Copy.png)
 ![characters](https://img.craftpix.net/2017/08/2d-game-special-forces-character-sprites-sheets-720x480.jpg)
 
+
+### Intro Video:
+<a href="https://dl.dropboxusercontent.com/s/7y2aytmsrd6expd/intro.mp4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbnFBQ1gUQB0QDckKeSn8usHF1DHWXuFcH1xH6lLC8ZjOhGc4" alt="video"/></a>
+
+### Gameplay Video (Alpha):
+<a href="https://www.useloom.com/share/bc20666c46ff47e3b93bbc9f1cbbdf56" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbnFBQ1gUQB0QDckKeSn8usHF1DHWXuFcH1xH6lLC8ZjOhGc4" alt="video"/></a>
+
 # Instructions
 * Use 'A' to move left, 'D' to move right, and spacebar to jump. 
 * Collect gear and eliminate other players to earn points.  
@@ -24,8 +31,6 @@
 * Player can jump in mid-air
 * Player can go outside of map
 * No correct way to save game. Currently, position of player is saved every 10 seconds
-
-# [Recording](https://www.useloom.com/share/bc20666c46ff47e3b93bbc9f1cbbdf56)
 
 # Expenses
 | Member | Time Invested | Time Left |
