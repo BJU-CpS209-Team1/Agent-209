@@ -105,10 +105,14 @@ namespace Royale_Platformer.Model
 
         private void CreatePlayer(float x, float y, float z)
         {
-            Sprite2D playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+            var playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
 
             Node playerNode = scene.CreateChild("StaticSprite2D");
             playerNode.Position = new Vector3(x, y, z);
+
+            //AnimatedSprite2D playerAnimatedSprite = playerNode.CreateComponent<AnimatedSprite2D>();
+            //playerAnimatedSprite.BlendMode = BlendMode.Alpha;
+            //playerAnimatedSprite.Sprite = playerSprite;
 
             StaticSprite2D playerStaticSprite = playerNode.CreateComponent<StaticSprite2D>();
             playerStaticSprite.BlendMode = BlendMode.Alpha;

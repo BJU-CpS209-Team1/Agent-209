@@ -14,64 +14,64 @@ namespace Royale_Platformer.Model.HighScores
         [Test]
         public void AddHighScore_PlayerAndScore_AddsToLists()
         {
-            HighScoresManager h = new HighScoresManager();
-            h.AddHighScore("David", 2000);
-            h.AddHighScore("Matthew", 1500);
-            h.AddHighScore("Stephen", 3000);
-            h.AddHighScore("Isaac", 1000);
-            h.AddHighScore("Elias", 2500);
+            HighScoresManager.AddHighScore("David", 2000);
+            HighScoresManager.AddHighScore("Matthew", 1500);
+            HighScoresManager.AddHighScore("Stephen", 3000);
+            HighScoresManager.AddHighScore("Isaac", 1000);
+            HighScoresManager.AddHighScore("Elias", 2500);
 
-            Assert.IsTrue(h.GetHighScores()[0].GetScore() == 3000 && h.GetHighScores()[0].GetName() == "Stephen");
-            Assert.IsTrue(h.GetHighScores()[1].GetScore() == 2500 && h.GetHighScores()[1].GetName() == "Elias");
-            Assert.IsTrue(h.GetHighScores()[2].GetScore() == 2000 && h.GetHighScores()[2].GetName() == "David");
-            Assert.IsTrue(h.GetHighScores()[3].GetScore() == 1500 && h.GetHighScores()[3].GetName() == "Matthew");
-            Assert.IsTrue(h.GetHighScores()[4].GetScore() == 1000 && h.GetHighScores()[4].GetName() == "Isaac");
+            Assert.IsTrue(HighScoresManager.GetHighScores()[0].GetScore() == 3000 && HighScoresManager.GetHighScores()[0].GetName() == "Stephen");
+            Assert.IsTrue(HighScoresManager.GetHighScores()[1].GetScore() == 2500 && HighScoresManager.GetHighScores()[1].GetName() == "Elias");
+            Assert.IsTrue(HighScoresManager.GetHighScores()[2].GetScore() == 2000 && HighScoresManager.GetHighScores()[2].GetName() == "David");
+            Assert.IsTrue(HighScoresManager.GetHighScores()[3].GetScore() == 1500 && HighScoresManager.GetHighScores()[3].GetName() == "Matthew");
+            Assert.IsTrue(HighScoresManager.GetHighScores()[4].GetScore() == 1000 && HighScoresManager.GetHighScores()[4].GetName() == "Isaac");
         }
 
         [Test]
         public void WriteScores_CreateFile_FileIsCreated()
         {
-            HighScoresManager h = new HighScoresManager();
-            h.WriteScores();
+            HighScoresManager.WriteScores();
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.txt");
             Assert.IsTrue(File.Exists(PATH));
         }
 
         [Test]
-        public void ReadScoresToUpdate_ScoresWritten_ScoresRead()
+        public void ReadScores_ScoresWritten_ScoresRead()
         {
-            HighScoresManager h = new HighScoresManager();
+            HighScoresManager.AddHighScore("David", 2000);
+            HighScoresManager.AddHighScore("Matthew", 1500);
+            HighScoresManager.AddHighScore("Stephen", 3000);
+            HighScoresManager.AddHighScore("Isaac", 1000);
+            HighScoresManager.AddHighScore("Elias", 2500);
 
-            h.AddHighScore("David", 2000);
-            h.AddHighScore("Matthew", 1500);
-            h.AddHighScore("Stephen", 3000);
-            h.AddHighScore("Isaac", 1000);
-            h.AddHighScore("Elias", 2500);
-
-            h.WriteScores();
-            h.ClearHighScores();
-            h.ReadScoresToUpdate();
-            Assert.IsTrue(h.GetHighScores()[0].GetScore() == 3000 && h.GetHighScores()[0].GetName() == "Stephen");
-            Assert.IsTrue(h.GetHighScores()[1].GetScore() == 2500 && h.GetHighScores()[1].GetName() == "Elias");
-            Assert.IsTrue(h.GetHighScores()[2].GetScore() == 2000 && h.GetHighScores()[2].GetName() == "David");
-            Assert.IsTrue(h.GetHighScores()[3].GetScore() == 1500 && h.GetHighScores()[3].GetName() == "Matthew");
-            Assert.IsTrue(h.GetHighScores()[4].GetScore() == 1000 && h.GetHighScores()[4].GetName() == "Isaac");
+            HighScoresManager.WriteScores();
+            List<HighScore> testList = HighScoresManager.ReadScores();
+            testList.Add(new HighScore("Stephen", 3000));
+            testList.Add(new HighScore("Elias", 2500));
+            testList.Add(new HighScore("David", 2000));
+            testList.Add(new HighScore("Matthew", 1500));
+            testList.Add(new HighScore("Isaac", 1000));
+            for (int i = 0; i < HighScoresManager.GetHighScores().Count; i++)
+            {
+                Assert.IsTrue(HighScoresManager.GetHighScores()[i].GetName() == testList[i].GetName() &&
+                              HighScoresManager.GetHighScores()[i].GetScore() == testList[i].GetScore());
+            }
         }
 
         [Test]
-        public void ReadScoresToUpdate_ScoresNotWritten_ThrowsException()
+        public void ReadScores_ScoresNotWritten_ThrowsException()
         {
             try
             {
-                HighScoresManager h = new HighScoresManager();
+                HighScoresManager HighScoresManager = new HighScoresManager();
 
-                h.AddHighScore("David", 2000);
-                h.AddHighScore("Matthew", 1500);
-                h.AddHighScore("Stephen", 3000);
-                h.AddHighScore("Isaac", 1000);
-                h.AddHighScore("Elias", 2500);
+                HighScoresManager.AddHighScore("David", 2000);
+                HighScoresManager.AddHighScore("Matthew", 1500);
+                HighScoresManager.AddHighScore("Stephen", 3000);
+                HighScoresManager.AddHighScore("Isaac", 1000);
+                HighScoresManager.AddHighScore("Elias", 2500);
 
-                h.ReadScoresToUpdate();
+                List<HighScore> testList = HighScoresManager.ReadScores();
             }
             catch (Exception e)
             {
@@ -82,33 +82,31 @@ namespace Royale_Platformer.Model.HighScores
         [Test]
         public void CheckScore_HighScore_True()
         {
-            HighScoresManager h = new HighScoresManager();
-            bool check = h.CheckScore(3000);
+            bool check = HighScoresManager.CheckScore(3000);
             Assert.IsTrue(check == true);
         }
 
         [Test]
         public void CheckScore_LowScore_False()
         {
-            HighScoresManager h = new HighScoresManager();
-            bool check = h.CheckScore(2000);
+            bool check = HighScoresManager.CheckScore(2000);
             Assert.IsTrue(check == false);
         }
 
         [Test]
         public void ClearHighScores_ClearedScores_Passes()
         {
-            HighScoresManager h = new HighScoresManager();
+            HighScoresManager HighScoresManager = new HighScoresManager();
 
-            h.AddHighScore("David", 2000);
-            h.AddHighScore("Matthew", 1500);
-            h.AddHighScore("Stephen", 3000);
-            h.AddHighScore("Isaac", 1000);
-            h.AddHighScore("Elias", 2500);
+            HighScoresManager.AddHighScore("David", 2000);
+            HighScoresManager.AddHighScore("Matthew", 1500);
+            HighScoresManager.AddHighScore("Stephen", 3000);
+            HighScoresManager.AddHighScore("Isaac", 1000);
+            HighScoresManager.AddHighScore("Elias", 2500);
 
-            h.ClearHighScores();
+            HighScoresManager.ClearHighScores();
 
-            Assert.IsTrue(h.GetHighScores().Count == 0);
+            Assert.IsTrue(HighScoresManager.GetHighScores().Count == 0);
         }
     }
 }

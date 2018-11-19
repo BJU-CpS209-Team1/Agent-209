@@ -17,8 +17,7 @@ namespace Battle_Platformer_Xamarin
         public HighScoresPage()
         {
             InitializeComponent();
-            HighScoresManager scoresClass = new HighScoresManager();
-            scores = scoresClass.ReadScoresToList();
+            scores = HighScoresManager.ReadScores();
             ShowHighScores();
         }
 

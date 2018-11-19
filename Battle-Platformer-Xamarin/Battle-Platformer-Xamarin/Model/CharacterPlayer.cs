@@ -29,6 +29,8 @@ namespace Royale_Platformer.Model
             var body = CharacterNode.GetComponent<RigidBody2D>();
             body.SetLinearVelocity(new Urho.Vector2(Velocity.X, body.LinearVelocity.Y + Velocity.Y));
 
+            //Animate.UpdateAnimation(body);
+
             Input.LastSpace = Input.Space;
         }
 
