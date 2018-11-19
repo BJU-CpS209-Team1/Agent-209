@@ -30,8 +30,7 @@ namespace Battle_Platformer_Xamarin
         private void entName_Completed(object sender, EventArgs e)
         {
             name = sender as string;
-            HighScoresManager scores = new HighScoresManager();
-            scores.AddHighScore(name, score);
+            HighScoresManager.AddHighScore(name, score);
         }
 
         private void btnDone_Clicked(object sender, EventArgs e)
