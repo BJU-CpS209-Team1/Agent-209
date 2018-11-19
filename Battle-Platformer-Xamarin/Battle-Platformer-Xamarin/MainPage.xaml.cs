@@ -25,7 +25,7 @@ namespace Battle_Platformer_Xamarin
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
             {
-                App.Current.MainPage = new Game(false);
+                App.Current.MainPage = new DifficultySelection(false);
                 return false;
             });
         }
@@ -42,7 +42,7 @@ namespace Battle_Platformer_Xamarin
             {
                 string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "latest.txt");
                 if (File.Exists(PATH))
-                    App.Current.MainPage = new Game(true);
+                    App.Current.MainPage = new DifficultySelection(true);
                 else
                     DisplayAlert("No Saved Game", "You do not have a saved game.", "Ok.");
                 
