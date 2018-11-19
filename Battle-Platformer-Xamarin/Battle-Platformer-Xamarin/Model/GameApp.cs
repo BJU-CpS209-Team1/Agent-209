@@ -60,18 +60,21 @@ namespace Royale_Platformer.Model
             CreatePlayer(0, 0, 0);
             PlayMusic();
 
+            /*
+            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/starter.tmx");
+            if (mapFile == null)
+                throw new Exception("Map not found");
+                */
+
             Node mapNode = scene.CreateChild("TileMap");
             TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
-            //tileMap.TmxFile = ResourceCache.GetTmxFile2D("map/levels/starter.tmx");
-            //tileMap.TmxFile = new TmxFile2D();
-            //tileMap.TmxFile.Load(new MemoryBuffer(Encoding.ASCII.GetBytes(GameData.MapTMX)));
+            //tileMap.TmxFile = mapFile;
 
             // TEMP: Create Ground
             Sprite2D groundSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
             if (groundSprite == null)
                 throw new Exception("Texture not found");
 
-            /*
             Node groundNode = scene.CreateChild("Ground");
             groundNode.Position = new Vector3(0, -10, 0);
             groundNode.CreateComponent<RigidBody2D>();
@@ -83,7 +86,6 @@ namespace Royale_Platformer.Model
             CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
             groundShape.Size = new Vector2(0.75f, 1f);
             groundShape.Friction = 0.5f;
-            */
 
             // Ruler
             for (int i = 0; i < 10; ++i)
