@@ -3,6 +3,10 @@
 ![map](https://i.postimg.cc/Y2FFMGzR/starter-Copy.png)
 ![characters](https://img.craftpix.net/2017/08/2d-game-special-forces-character-sprites-sheets-720x480.jpg)
 
+
+### Intro Video:
+<a href="https://dl.dropboxusercontent.com/s/7y2aytmsrd6expd/intro.mp4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbnFBQ1gUQB0QDckKeSn8usHF1DHWXuFcH1xH6lLC8ZjOhGc4" alt="video"/></a>
+
 # Instructions
 * Use 'A' to move left, 'D' to move right, and spacebar to jump. 
 * Collect gear and eliminate other players to earn points.  
