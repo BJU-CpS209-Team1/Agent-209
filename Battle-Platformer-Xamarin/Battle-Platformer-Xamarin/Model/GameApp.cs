@@ -47,7 +47,7 @@ namespace Royale_Platformer.Model
             // Create Scene
             scene = new Scene();
             scene.CreateComponent<Octree>();
-            scene.CreateComponent<PhysicsWorld2D>();
+            //scene.CreateComponent<PhysicsWorld2D>();
 
             cameraNode = scene.CreateChild("Camera");
             cameraNode.Position = new Vector3(0, 0, -10);
@@ -55,42 +55,14 @@ namespace Royale_Platformer.Model
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
             camera.OrthoSize = 2 * halfHeight;
-            camera.Zoom = 0.1f * Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
+            camera.Zoom = Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
 
             CreatePlayer(0, 0, 0);
+            CreateMap();
             PlayMusic();
-
-            // TEMP: Create Ground
-            Sprite2D groundSprite = ResourceCache.GetSprite2D("map/assets/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
-            if (groundSprite == null)
-                throw new Exception("Texture not found");
-
-            Node groundNode = scene.CreateChild("Ground");
-            groundNode.Position = new Vector3(0, -10, 0);
-            groundNode.CreateComponent<RigidBody2D>();
-            groundNode.Scale = new Vector3(100f, 10f, 1f);
-
-            StaticSprite2D groundStaticSprite = groundNode.CreateComponent<StaticSprite2D>();
-            groundStaticSprite.Sprite = groundSprite;
-
-            CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
-            groundShape.Size = new Vector2(0.75f, 1f);
-            groundShape.Friction = 0.5f;
-
-            // Ruler
-            for (int i = 0; i < 10; ++i)
-            {
-                Tiles.Add(new MapTile(scene, groundSprite, new Vector2(i, 0)));
-            }
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
-
-            Renderer.DrawDebugGeometry(false);
-            var debugRender = scene.GetOrCreateComponent<DebugRenderer>();
-            var physicsComp = scene.GetComponent<PhysicsWorld2D>();
-            physicsComp.DrawDebugGeometry(debugRender, false);
-            groundShape.DrawDebugGeometry(debugRender, false);
         }
 
         private void PlayMusic()
@@ -109,6 +81,7 @@ namespace Royale_Platformer.Model
 
             Node playerNode = scene.CreateChild("StaticSprite2D");
             playerNode.Position = new Vector3(x, y, z);
+            playerNode.SetScale(1f / 12.14f);
 
             //AnimatedSprite2D playerAnimatedSprite = playerNode.CreateComponent<AnimatedSprite2D>();
             //playerAnimatedSprite.BlendMode = BlendMode.Alpha;
@@ -118,6 +91,7 @@ namespace Royale_Platformer.Model
             playerStaticSprite.BlendMode = BlendMode.Alpha;
             playerStaticSprite.Sprite = playerSprite;
 
+            /*
             RigidBody2D playerBody = playerNode.CreateComponent<RigidBody2D>();
             playerBody.BodyType = BodyType2D.Dynamic;
             playerBody.GravityScale = 5f;
@@ -127,6 +101,7 @@ namespace Royale_Platformer.Model
             playerShape.Size = new Vector2(1f, 5f);
             playerShape.Friction = 0.5f;
             playerShape.Density = 1.0f;
+            */
 
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
             player.CharacterNode = playerNode;
@@ -138,6 +113,50 @@ namespace Royale_Platformer.Model
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             timer.Interval = 10000;
             timer.Enabled = true;
+        }
+
+        private void CreateMap()
+        {
+            /*
+            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/starter.tmx");
+            if (mapFile == null)
+                throw new Exception("Map not found");
+                */
+
+            //Node mapNode = scene.CreateChild("TileMap");
+            //TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
+            //tileMap.TmxFile = mapFile;
+
+            Sprite2D groundSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
+            if (groundSprite == null)
+                throw new Exception("Texture not found");
+
+            for(int i = 0; i < 10; ++i)
+            {
+                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -3));
+                tile.WorldNode.SetScale(1f / 0.7f);
+                Tiles.Add(tile);
+            }
+
+            /*
+            Node groundNode = scene.CreateChild("Ground");
+            groundNode.Position = new Vector3(0, -10, 0);
+            groundNode.CreateComponent<RigidBody2D>();
+            groundNode.Scale = new Vector3(100f, 10f, 1f);
+
+            StaticSprite2D groundStaticSprite = groundNode.CreateComponent<StaticSprite2D>();
+            groundStaticSprite.Sprite = groundSprite;
+
+            CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
+            groundShape.Size = new Vector2(0.75f, 1f);
+            groundShape.Friction = 0.5f;
+
+            // Ruler
+            for (int i = 0; i < 10; ++i)
+            {
+                Tiles.Add(new MapTile(scene, groundSprite, new Vector2(i, 0)));
+            }
+            */
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)

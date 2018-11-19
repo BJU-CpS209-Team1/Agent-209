@@ -26,8 +26,10 @@ namespace Royale_Platformer.Model
             if (Input.D) Velocity.X += MoveSpeed * 1000 * deltatime;
             if (Input.Space && !Input.LastSpace) Velocity.Y += 75;
 
+            /*
             var body = CharacterNode.GetComponent<RigidBody2D>();
             body.SetLinearVelocity(new Urho.Vector2(Velocity.X, body.LinearVelocity.Y + Velocity.Y));
+            */
 
             //Animate.UpdateAnimation(body);
 
