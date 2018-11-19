@@ -16,12 +16,14 @@ namespace Battle_Platformer_Xamarin
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Game : ContentPage
     {
-        bool continueGame = false;
+        bool continueGame;
+        bool hardcore;
 
-        public Game(bool continueGame)
+        public Game(bool continueGame, bool hardcore)
         {
             InitializeComponent();
             this.continueGame = continueGame;
+            this.hardcore = hardcore;
         }
 
         protected override async void OnAppearing()
