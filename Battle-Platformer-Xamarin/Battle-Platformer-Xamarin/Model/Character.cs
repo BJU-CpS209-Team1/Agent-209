@@ -14,7 +14,6 @@ namespace Royale_Platformer.Model
         public int Health { get; protected set; }
         public int Score { get; protected set; }
 
-        public Node CharacterNode { get; set; }
         public float MoveSpeed { get; set; }
         public Vector2 Velocity;
 
@@ -51,9 +50,9 @@ namespace Royale_Platformer.Model
         public string Serialize()
         {
             string output = "";
-            output += CharacterNode.Position.X.ToString() + ",";
-            output += CharacterNode.Position.Y.ToString() + ",";
-            output += CharacterNode.Position.Z.ToString();
+            output += WorldNode.Position.X.ToString() + ",";
+            output += WorldNode.Position.Y.ToString() + ",";
+            output += WorldNode.Position.Z.ToString();
             return output;
         }
 
