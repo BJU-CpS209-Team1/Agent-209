@@ -104,7 +104,7 @@ namespace Royale_Platformer.Model
             */
 
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
-            player.CharacterNode = playerNode;
+            player.WorldNode = playerNode;
 
             AddPlayer(player);
 
@@ -209,7 +209,7 @@ namespace Royale_Platformer.Model
             float y = float.Parse(charactersSplit[1], CultureInfo.InvariantCulture.NumberFormat);
             float z = float.Parse(charactersSplit[2], CultureInfo.InvariantCulture.NumberFormat);
 
-            PlayerCharacter.CharacterNode.Position = new Vector3(x, y, z);
+            PlayerCharacter.WorldNode.Position = new Vector3(x, y, z);
         }
 
         public void Load(string fileName)

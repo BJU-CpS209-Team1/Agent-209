@@ -10,6 +10,11 @@ namespace Battle_Platformer_Xamarin.Model
         public Node WorldNode { get; set; }
         public Hitbox WorldHitbox { get; set; }
 
+        public WorldObject()
+        {
+            WorldHitbox = new Hitbox();
+        }
+
         public bool Collides(WorldObject obj)
         {
             return WorldHitbox.Intersects(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);

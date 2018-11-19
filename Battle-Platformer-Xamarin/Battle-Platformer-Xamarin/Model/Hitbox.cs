@@ -22,6 +22,11 @@ namespace Battle_Platformer_Xamarin.Model
 
         public Vector2 Size { get; set; }
 
+        public Hitbox()
+        {
+            Size = Vector2.One;
+        }
+
         public bool Intersects(Hitbox h, Vector2 thisPos, Vector2 hPos)
         {
             Vector2 thisCornerA = thisPos;
@@ -33,6 +38,7 @@ namespace Battle_Platformer_Xamarin.Model
             return !(thisCornerA.X > hCornerB.X || hCornerA.X > thisCornerB.X)
                 && !(thisCornerA.Y > hCornerB.Y || hCornerA.Y > thisCornerB.Y);
         }
+
         public HitSide IntersectsSide(Hitbox h, Vector2 thisPos, Vector2 hPos)
         {
             Vector2 hTopLeft = hPos;
