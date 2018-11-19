@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Battle_Platformer_Xamarin.DifficultySelection"
+             BackgroundImage="bg_castle.png">
+
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+
+        <Image x:Name="desc" Source="difficulty.png" Margin="0,00,0,20" />
+
+        <!--#region CONTINUE -->
+        <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="btnNormal" Source="buttonLong_blue.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadNormal"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-4" Text="Normal" TextColor="Black" FontSize="25" Grid.Row="0" Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadNormal"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region EASY -->
+        <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="0,5,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="btnHardcore" Source="buttonLong_blue.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadHardcore"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" TranslationY="-4" Text="Hardcore" TextColor="Black" FontSize="25" Grid.Row="0" Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="LoadHardcore"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        <!--#endregion-->
+    </StackLayout>
+</ContentPage>

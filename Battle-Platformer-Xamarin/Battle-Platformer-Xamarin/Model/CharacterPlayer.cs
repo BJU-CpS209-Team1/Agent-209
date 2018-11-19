@@ -43,6 +43,8 @@ namespace Royale_Platformer.Model
                 WorldNode.SetPosition2D(v);
             }
 
+            //Animate.UpdateAnimation(body);
+
             Input.LastSpace = Input.Space;
         }
 
