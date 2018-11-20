@@ -71,7 +71,7 @@ namespace Royale_Platformer.Model
 
             time = 6000;
 
-            CreatePlayer(0, 0, 0);
+            CreatePlayer(0, 0);
             CreateMap();
             PlayMusic();
             CreateHUD();
@@ -97,36 +97,15 @@ namespace Royale_Platformer.Model
             musicSource.Play(music);
         }
 
-        private void CreatePlayer(float x, float y, float z)
+        private void CreatePlayer(float x, float y)
         {
-            var playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
-
-            Node playerNode = scene.CreateChild("StaticSprite2D");
-            playerNode.Position = new Vector3(x, y, z);
-            playerNode.SetScale(1f / 12.14f);
-
             //AnimatedSprite2D playerAnimatedSprite = playerNode.CreateComponent<AnimatedSprite2D>();
             //playerAnimatedSprite.BlendMode = BlendMode.Alpha;
             //playerAnimatedSprite.Sprite = playerSprite;
 
-            StaticSprite2D playerStaticSprite = playerNode.CreateComponent<StaticSprite2D>();
-            playerStaticSprite.BlendMode = BlendMode.Alpha;
-            playerStaticSprite.Sprite = playerSprite;
-
-            /*
-            RigidBody2D playerBody = playerNode.CreateComponent<RigidBody2D>();
-            playerBody.BodyType = BodyType2D.Dynamic;
-            playerBody.GravityScale = 5f;
-            playerBody.FixedRotation = true;
-
-            CollisionBox2D playerShape = playerNode.CreateComponent<CollisionBox2D>();
-            playerShape.Size = new Vector2(1f, 5f);
-            playerShape.Friction = 0.5f;
-            playerShape.Density = 1.0f;
-            */
-
+            var playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
-            player.WorldNode = playerNode;
+            player.CreateNode(scene, playerSprite, new Vector2(x, y));
 
             AddPlayer(player);
         }
@@ -147,11 +126,22 @@ namespace Royale_Platformer.Model
             if (groundSprite == null)
                 throw new Exception("Texture not found");
 
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 21; ++i)
             {
-                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -3));
+                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 10, -3));
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
+            }
+
+            for (int i = 0; i < 5; ++i)
+            {
+                MapTile tile = new MapTile(scene, groundSprite, new Vector2(-10, i - 2));
+                Tiles.Add(tile);
+                collisionObjects.Add(tile);
+
+                MapTile tile2 = new MapTile(scene, groundSprite, new Vector2(10, i - 2));
+                Tiles.Add(tile2);
+                collisionObjects.Add(tile2);
             }
 
             for (int i = 0; i < 4; ++i)
@@ -251,6 +241,8 @@ namespace Royale_Platformer.Model
         {
             PlayerCharacter = character;
             AddCharacter(character);
+
+            cameraNode.Parent = character.WorldNode;
         }
 
         public void AddCharacter(Character character)

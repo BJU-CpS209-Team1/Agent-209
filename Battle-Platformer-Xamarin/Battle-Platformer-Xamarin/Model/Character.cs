@@ -2,6 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 using Urho;
+using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
@@ -30,6 +31,17 @@ namespace Royale_Platformer.Model
             Score = 0;
 
             Velocity = new Vector2();
+        }
+
+        public virtual void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
+        {
+            WorldNode = scene.CreateChild();
+            WorldNode.Position = new Vector3(pos);
+            WorldNode.SetScale(1f / 12.14f);
+
+            StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
+            playerStaticSprite.BlendMode = BlendMode.Alpha;
+            playerStaticSprite.Sprite = sprite;
         }
 
         public virtual void Hit(Bullet bullet)
