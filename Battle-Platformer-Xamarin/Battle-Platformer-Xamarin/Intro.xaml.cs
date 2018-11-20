@@ -20,12 +20,27 @@ namespace Battle_Platformer_Xamarin
             this.continueGame = continueGame;
             this.hardcore = hardcore;
 
+            var gestureRecognizer = new TapGestureRecognizer();
+            gestureRecognizer.NumberOfTapsRequired = 2;
+            gestureRecognizer.Tapped += (s, e) =>
+            {
+                ExitVideo();
+            };
+
+            video.GestureRecognizers.Add(gestureRecognizer);
+            video.Focus();
+
             // End of video
             Device.StartTimer(TimeSpan.FromMilliseconds(23500), () =>
             {
-                App.Current.MainPage = new Game(continueGame, hardcore);
+                ExitVideo();
                 return false;
             });
+        }
+
+        public void ExitVideo()
+        {
+            App.Current.MainPage = new Game(continueGame, hardcore);
         }
     }
 }

@@ -7,6 +7,8 @@ namespace Battle_Platformer_Xamarin.Model
 {
     public class Hitbox
     {
+        private static readonly float margin = 0.01f;
+
         public enum HitSide
         {
             Top,
@@ -29,23 +31,23 @@ namespace Battle_Platformer_Xamarin.Model
 
         public bool Intersects(Hitbox h, Vector2 thisPos, Vector2 hPos)
         {
-            Vector2 thisCornerA = thisPos;
-            Vector2 thisCornerB = thisPos + Size;
+            Vector2 thisCornerA = thisPos + (Size / 2);
+            Vector2 thisCornerB = thisPos - (Size / 2);
 
-            Vector2 hCornerA = hPos;
-            Vector2 hCornerB = hPos + h.Size;
+            Vector2 hCornerA = hPos + (h.Size / 2);
+            Vector2 hCornerB = hPos - (h.Size / 2);
 
-            return !(thisCornerA.X > hCornerB.X || hCornerA.X > thisCornerB.X)
+            return !(thisCornerA.X < hCornerB.X || hCornerA.X < thisCornerB.X)
                 && !(thisCornerA.Y > hCornerB.Y || hCornerA.Y > thisCornerB.Y);
         }
 
         public HitSide IntersectsSide(Hitbox h, Vector2 thisPos, Vector2 hPos)
         {
-            Vector2 hTopLeft = hPos;
-            Vector2 hBottomRight = hPos + h.Size;
+            Vector2 hTopRight   = hPos + (h.Size / 2);
+            Vector2 hBottomLeft = hPos - (h.Size / 2);
 
-            Vector2 hTopRight = new Vector2(hBottomRight.X, hTopLeft.Y);
-            Vector2 hBottomLeft = new Vector2(hTopLeft.X, hBottomRight.Y);
+            Vector2 hTopLeft = new Vector2(hBottomLeft.X, hTopRight.Y);
+            Vector2 hBottomRight = new Vector2(hTopRight.X, hBottomLeft.Y);
 
             bool topLeft = Inside(thisPos, hBottomRight);
             bool topRight = Inside(thisPos, hBottomLeft);
@@ -68,10 +70,11 @@ namespace Battle_Platformer_Xamarin.Model
 
         private bool Inside(Vector2 thisPos, Vector2 hPos)
         {
-            Vector2 thisCornerA = thisPos;
-            Vector2 thisCornerB = thisPos + Size;
+            Vector2 thisCornerA = thisPos + (Size / 2); // Top Right
+            Vector2 thisCornerB = thisPos - (Size / 2); // Bottom Left
 
-            return (hPos.X > thisCornerA.X && hPos.X < thisCornerB.X) && (hPos.Y < thisCornerA.Y && hPos.Y > thisCornerB.Y);
+            return (hPos.X - margin < thisCornerA.X && hPos.X + margin > thisCornerB.X)
+                && (hPos.Y - margin < thisCornerA.Y && hPos.Y + margin > thisCornerB.Y);
         }
     }
 }
