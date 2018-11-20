@@ -10,6 +10,8 @@ using System.Timers;
 using System.Globalization;
 using Battle_Platformer_Xamarin.Model;
 using Urho.Audio;
+using Urho.Gui;
+using Battle_Platformer_Xamarin;
 
 namespace Royale_Platformer.Model
 {
@@ -26,12 +28,19 @@ namespace Royale_Platformer.Model
         private List<WorldObject> collisionObjects;
 
         public bool LoadGame { get; set; }
+        public Func<object> Restart { get; internal set; }
 
         private Scene scene;
         private Node cameraNode;
+        private UIElement hud;
+        private int time;
+        private bool hardcore;
+        Timer timer;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
+            hardcore = options.AdditionalFlags == "hardcore" ? true : false;
+
             Characters = new List<Character>();
             Pickups = new List<Pickup>();
             Bullets = new List<Bullet>();
@@ -60,9 +69,13 @@ namespace Royale_Platformer.Model
             camera.OrthoSize = 2 * halfHeight;
             camera.Zoom = Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
 
+            time = 6000;
+
             CreatePlayer(0, 0, 0);
             CreateMap();
             PlayMusic();
+            CreateHUD();
+            CreateClock();
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
@@ -110,12 +123,6 @@ namespace Royale_Platformer.Model
             player.WorldNode = playerNode;
 
             AddPlayer(player);
-
-            // save player for testing
-            Timer timer = new Timer();
-            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Interval = 10000;
-            timer.Enabled = true;
         }
 
         private void CreateMap()
@@ -134,43 +141,60 @@ namespace Royale_Platformer.Model
             if (groundSprite == null)
                 throw new Exception("Texture not found");
 
-            for(int i = 0; i < 10; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -3));
-                tile.WorldNode.SetScale(1f / 0.7f);
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
             }
 
-            /*
-            Node groundNode = scene.CreateChild("Ground");
-            groundNode.Position = new Vector3(0, -10, 0);
-            groundNode.CreateComponent<RigidBody2D>();
-            groundNode.Scale = new Vector3(100f, 10f, 1f);
-
-            StaticSprite2D groundStaticSprite = groundNode.CreateComponent<StaticSprite2D>();
-            groundStaticSprite.Sprite = groundSprite;
-
-            CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
-            groundShape.Size = new Vector2(0.75f, 1f);
-            groundShape.Friction = 0.5f;
-
-            // Ruler
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 4; ++i)
             {
-                Tiles.Add(new MapTile(scene, groundSprite, new Vector2(i, 0)));
+                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -1));
+                Tiles.Add(tile);
+                collisionObjects.Add(tile);
             }
-            */
+
+            CreatePickups();
         }
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void CreatePickups()
         {
-            Save("latest.txt");
+            var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
+            var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
+
+            if (weaponSprite == null || armorSprite == null)
+                throw new Exception("Texture not found");
+
+            for (int i = 0; i < 4; ++i)
+            {
+                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, 0)));
+            }
+
+            for (int i = 0; i < 2; ++i)
+            {
+                Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(i - 5, -2)));
+            }
         }
 
-        protected override void OnUpdate(float timeStep)
+        protected async override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
+
+            foreach (Character c in Characters)
+            {
+                foreach (Pickup p in Pickups.ToList())
+                {
+                    if (c.Collides(p))
+                    {
+                        if (p.PickUp(c))
+                        {
+                            p.WorldNode.Remove();
+                            Pickups.Remove(p);
+                        }
+                    }
+                }
+            }
 
             PlayerCharacter.UpdateCollision(collisionObjects);
 
@@ -180,6 +204,26 @@ namespace Royale_Platformer.Model
             PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
             PlayerCharacter.Input.Space = Input.GetKeyDown(Key.Space);
             PlayerCharacter.Update(timeStep);
+
+            if (Input.GetKeyDown(Key.F1))
+            {
+                Save("latest.txt");
+                var saved = new Text() { Value = "Game Saved" };
+
+                saved.SetColor(Color.Cyan);
+                saved.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                saved.VerticalAlignment = VerticalAlignment.Center;
+                saved.HorizontalAlignment = HorizontalAlignment.Center;
+
+                InvokeOnMain(() => { UI.Root.AddChild(saved); });
+                await Task.Delay(500);
+                InvokeOnMain(() => { UI.Root.RemoveChild(saved); });
+            }
+
+            if (Input.GetKeyDown(Key.F2)) {
+                timer.Enabled = false;
+                Restart();
+            }
         }
 
         public void AddPlayer(CharacterPlayer character)
@@ -191,6 +235,62 @@ namespace Royale_Platformer.Model
         public void AddCharacter(Character character)
         {
             Characters.Add(character);
+        }
+
+        private void CreateHUD()
+        {
+            hud = new UIElement()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                LayoutMode = LayoutMode.Vertical,
+                LayoutSpacing = 5
+            };
+
+            UpdateHUD();
+            UI.Root.AddChild(hud);
+        }
+
+        private void CreateClock()
+        {
+            timer = new Timer(100);
+            timer.Elapsed += GameTick;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        // Run every 1/10 second
+        private void GameTick(Object source, ElapsedEventArgs e)
+        {
+            --time;
+            UpdateHUD();
+        }
+
+        private void UpdateHUD()
+        {
+            InvokeOnMain(() =>
+            {
+                hud.RemoveAllChildren();
+
+                var difficulty = new Text() { Value = hardcore ? "Difficulty: Hardcore" : "Difficulty: Normal" };
+                var armor = new Text() { Value = PlayerCharacter.Armor ? "Armor: Protected" : "Armor: Missing" };
+                var weapon = new Text() { Value = $"Weapon: {PlayerCharacter.HeldWeapon.Serialize()}" };
+                var clock = new Text() { Value = $"Time: {TimeSpan.FromSeconds(time / 10).ToString(@"mm\:ss")}" };
+
+                difficulty.SetColor(Color.Yellow);
+                armor.SetColor(Color.Yellow);
+                weapon.SetColor(Color.Yellow);
+                clock.SetColor(Color.Yellow);
+                difficulty.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                armor.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                weapon.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                clock.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+
+                hud.AddChild(difficulty);
+                hud.AddChild(armor);
+                hud.AddChild(weapon);
+                hud.AddChild(clock);
+            });
         }
 
         public string Serialize()
@@ -236,7 +336,7 @@ namespace Royale_Platformer.Model
         public void Save(string fileName)
         {
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
-            
+
             string serialized = Serialize();
             File.WriteAllText(PATH, serialized);
         }

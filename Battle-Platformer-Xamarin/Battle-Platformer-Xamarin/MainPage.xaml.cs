@@ -94,5 +94,10 @@ namespace Battle_Platformer_Xamarin
                 return false;
             });
         }
+
+        public void Restart()
+        {
+
+        }
     }
 }

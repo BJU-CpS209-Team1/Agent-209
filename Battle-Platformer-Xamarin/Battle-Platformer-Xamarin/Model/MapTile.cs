@@ -12,12 +12,13 @@ namespace Battle_Platformer_Xamarin.Model
         {
             WorldNode = scene.CreateChild();
             WorldNode.Position = new Vector3(pos);
+            WorldNode.SetScale(1f / 0.7f);
 
             StaticSprite2D nodeSprite = WorldNode.CreateComponent<StaticSprite2D>();
             nodeSprite.Sprite = sprite;
 
             WorldHitbox = new Hitbox();
-            WorldHitbox.Size = new Vector2(1, 1);
+            //WorldHitbox.Size = new Vector2(1, 1);
         }
     }
 }

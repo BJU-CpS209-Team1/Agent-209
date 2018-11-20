@@ -18,6 +18,10 @@
                         FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
                 <StackLayout Padding="20">
+                    <Label Text="Movement:  Press 'F1' to save game, and 'F2' to restart game."
+                        FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20">
                     <Label Text="During the Game:  Pick up gear to enhance your player and shoot other players to earn points."
                        FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>

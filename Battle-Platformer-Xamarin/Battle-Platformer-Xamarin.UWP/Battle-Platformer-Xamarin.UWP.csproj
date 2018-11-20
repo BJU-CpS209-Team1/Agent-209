@@ -286,6 +286,24 @@
       <Name>Battle-Platformer-Xamarin</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameData\fonts\data-latin.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameData\fonts\data-unifon.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameData\fonts\SplendidI.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameData\fonts\SplendidN.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameData\fonts\SplendidB.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameData\fonts\FiraSans-Regular.otf" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
