@@ -42,7 +42,7 @@ namespace Battle_Platformer_Xamarin
             {
                 string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "latest.txt");
                 if (File.Exists(PATH))
-                    App.Current.MainPage = new DifficultySelection(true);
+                    App.Current.MainPage = new Game(true, false);
                 else
                     DisplayAlert("No Saved Game", "You do not have a saved game.", "Ok.");
                 

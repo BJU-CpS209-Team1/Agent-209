@@ -31,7 +31,7 @@ namespace Battle_Platformer_Xamarin
             video.Focus();
 
             // End of video
-            Device.StartTimer(TimeSpan.FromMilliseconds(23500), () =>
+            Device.StartTimer(TimeSpan.FromMilliseconds(24500), () =>
             {
                 ExitVideo();
                 return false;
