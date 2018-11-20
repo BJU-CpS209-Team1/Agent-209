@@ -7,19 +7,42 @@ namespace Battle_Platformer_Xamarin.Model
 {
     public class Hitbox
     {
-        private static readonly float margin = 0.01f;
+        private static readonly float margin = 0.0f;
 
-        public enum HitSide
+        public class CollisionSide
         {
-            Top,
-            Bottom,
-            Left,
-            Right,
-            TopLeft,
-            TopRight,
-            BottomLeft,
-            BottomRight,
-            None
+            public bool TopLeft { get; set; }
+            public bool TopRight { get; set; }
+            public bool BottomLeft { get; set; }
+            public bool BottomRight { get; set; }
+
+            public bool TopMiddle { get; set; }
+            public bool BottomMiddle { get; set; }
+            public bool LeftMiddle { get; set; }
+            public bool RightMiddle { get; set; }
+
+            public bool Any
+            {
+                get
+                {
+                    return TopLeft    || TopRight
+                        || BottomLeft || BottomRight
+                        || TopMiddle  || BottomMiddle
+                        || LeftMiddle || RightMiddle;
+                }
+            }
+
+            public void Combine(CollisionSide c)
+            {
+                TopLeft      |= c.TopLeft;
+                TopRight     |= c.TopRight;
+                BottomLeft   |= c.BottomLeft;
+                BottomRight  |= c.BottomRight;
+                TopMiddle    |= c.TopMiddle;
+                BottomMiddle |= c.BottomMiddle;
+                LeftMiddle   |= c.LeftMiddle;
+                RightMiddle  |= c.RightMiddle;
+            }
         }
 
         public Vector2 Size { get; set; }
@@ -31,54 +54,43 @@ namespace Battle_Platformer_Xamarin.Model
 
         public bool Intersects(Hitbox h, Vector2 thisPos, Vector2 hPos)
         {
-            /*
-            Vector2 thisCornerA = thisPos + (Size / 2);
-            Vector2 thisCornerB = thisPos - (Size / 2);
-
-            Vector2 hCornerA = hPos + (h.Size / 2);
-            Vector2 hCornerB = hPos - (h.Size / 2);
-
-            return !(thisCornerA.X < hCornerB.X || hCornerA.X < thisCornerB.X)
-                && !(thisCornerA.Y > hCornerB.Y || hCornerA.Y > thisCornerB.Y);
-            */
-
-            return IntersectsSide(h, thisPos, hPos) != HitSide.None;
+            return IntersectsSide(h, thisPos, hPos).Any;
         }
 
-        public HitSide IntersectsSide(Hitbox h, Vector2 thisPos, Vector2 hPos)
+        public CollisionSide IntersectsSide(Hitbox h, Vector2 thisPos, Vector2 hPos)
         {
-            Vector2 hTopRight   = hPos + (h.Size / 2);
-            Vector2 hBottomLeft = hPos - (h.Size / 2);
+            Vector2 topRight    = thisPos + (Size / 2);
+            Vector2 bottomLeft  = thisPos - (Size / 2);
+            Vector2 topLeft     = new Vector2(bottomLeft.X, topRight.Y);
+            Vector2 bottomRight = new Vector2(topRight.X, bottomLeft.Y);
 
-            Vector2 hTopLeft = new Vector2(hBottomLeft.X, hTopRight.Y);
-            Vector2 hBottomRight = new Vector2(hTopRight.X, hBottomLeft.Y);
+            Vector2 middleTop    = (topLeft    + topRight)    / 2;
+            Vector2 middleBottom = (bottomLeft + bottomRight) / 2;
+            Vector2 middleLeft   = (topLeft    + bottomLeft)  / 2;
+            Vector2 middleRight  = (topRight   + bottomRight) / 2;
 
-            bool topLeft = Inside(thisPos, hBottomRight);
-            bool topRight = Inside(thisPos, hBottomLeft);
-            bool bottomLeft = Inside(thisPos, hTopRight);
-            bool bottomRight = Inside(thisPos, hTopLeft);
+            CollisionSide collisionSide = new CollisionSide();
 
-            if (bottomLeft && bottomRight) return HitSide.Bottom;
-            if (topLeft && topRight) return HitSide.Top;
+            collisionSide.TopLeft     = Inside(h, hPos, topLeft);
+            collisionSide.TopRight    = Inside(h, hPos, topRight);
+            collisionSide.BottomLeft  = Inside(h, hPos, bottomLeft);
+            collisionSide.BottomRight = Inside(h, hPos, bottomRight);
 
-            if (topLeft && bottomLeft) return HitSide.Left;
-            if (topRight && bottomRight) return HitSide.Right;
+            collisionSide.TopMiddle    = Inside(h, hPos, middleTop);
+            collisionSide.BottomMiddle = Inside(h, hPos, middleBottom);
+            collisionSide.LeftMiddle   = Inside(h, hPos, middleLeft);
+            collisionSide.RightMiddle  = Inside(h, hPos, middleRight);
 
-            if (topLeft) return HitSide.TopLeft;
-            if (topRight) return HitSide.TopRight;
-            if (bottomLeft) return HitSide.BottomLeft;
-            if (bottomRight) return HitSide.BottomRight;
-
-            return HitSide.None;
+            return collisionSide;
         }
 
-        private bool Inside(Vector2 thisPos, Vector2 hPos)
+        private static bool Inside(Hitbox h, Vector2 hPos, Vector2 point)
         {
-            Vector2 thisCornerA = thisPos + (Size / 2); // Top Right
-            Vector2 thisCornerB = thisPos - (Size / 2); // Bottom Left
+            Vector2 cornerA = hPos + (h.Size / 2); // Top Right
+            Vector2 cornerB = hPos - (h.Size / 2); // Bottom Left
 
-            return (hPos.X - margin < thisCornerA.X && hPos.X + margin > thisCornerB.X)
-                && (hPos.Y - margin < thisCornerA.Y && hPos.Y + margin > thisCornerB.Y);
+            return (point.X - margin < cornerA.X && point.X + margin > cornerB.X)
+                && (point.Y - margin < cornerA.Y && point.Y + margin > cornerB.Y);
         }
     }
 }

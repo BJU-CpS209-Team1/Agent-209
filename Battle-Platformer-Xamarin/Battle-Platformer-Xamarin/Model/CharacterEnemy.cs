@@ -13,16 +13,6 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
-            bool onGround = (Collision == Hitbox.HitSide.Bottom
-                || Collision == Hitbox.HitSide.BottomLeft
-                || Collision == Hitbox.HitSide.BottomRight);
-
-            bool onLeft = (Collision == Hitbox.HitSide.Left
-                || Collision == Hitbox.HitSide.TopLeft);
-
-            bool onRight = (Collision == Hitbox.HitSide.Right
-                || Collision == Hitbox.HitSide.TopRight);
-
         }
 
         public override ISerializer Deserialize(string serialized)
