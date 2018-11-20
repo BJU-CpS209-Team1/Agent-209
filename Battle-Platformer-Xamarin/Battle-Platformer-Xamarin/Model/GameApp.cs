@@ -11,6 +11,7 @@ using System.Globalization;
 using Battle_Platformer_Xamarin.Model;
 using Urho.Audio;
 using Urho.Gui;
+using Battle_Platformer_Xamarin;
 
 namespace Royale_Platformer.Model
 {
@@ -27,12 +28,14 @@ namespace Royale_Platformer.Model
         private List<WorldObject> collisionObjects;
 
         public bool LoadGame { get; set; }
+        public Func<object> Restart { get; internal set; }
 
         private Scene scene;
         private Node cameraNode;
         private UIElement hud;
         private int time;
         private bool hardcore;
+        Timer timer;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -120,12 +123,6 @@ namespace Royale_Platformer.Model
             player.WorldNode = playerNode;
 
             AddPlayer(player);
-
-            // save player for testing
-            Timer timer = new Timer();
-            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Interval = 10000;
-            timer.Enabled = true;
         }
 
         private void CreateMap()
@@ -180,12 +177,7 @@ namespace Royale_Platformer.Model
             }
         }
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            Save("latest.txt");
-        }
-
-        protected override void OnUpdate(float timeStep)
+        protected async override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
 
@@ -212,6 +204,26 @@ namespace Royale_Platformer.Model
             PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
             PlayerCharacter.Input.Space = Input.GetKeyDown(Key.Space);
             PlayerCharacter.Update(timeStep);
+
+            if (Input.GetKeyDown(Key.F1))
+            {
+                Save("latest.txt");
+                var saved = new Text() { Value = "Game Saved" };
+
+                saved.SetColor(Color.Cyan);
+                saved.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                saved.VerticalAlignment = VerticalAlignment.Center;
+                saved.HorizontalAlignment = HorizontalAlignment.Center;
+
+                InvokeOnMain(() => { UI.Root.AddChild(saved); });
+                await Task.Delay(500);
+                InvokeOnMain(() => { UI.Root.RemoveChild(saved); });
+            }
+
+            if (Input.GetKeyDown(Key.F2)) {
+                timer.Enabled = false;
+                Restart();
+            }
         }
 
         public void AddPlayer(CharacterPlayer character)
@@ -241,7 +253,7 @@ namespace Royale_Platformer.Model
 
         private void CreateClock()
         {
-            Timer timer = new Timer(100);
+            timer = new Timer(100);
             timer.Elapsed += GameTick;
             timer.AutoReset = true;
             timer.Enabled = true;
@@ -259,7 +271,6 @@ namespace Royale_Platformer.Model
             InvokeOnMain(() =>
             {
                 hud.RemoveAllChildren();
-
 
                 var difficulty = new Text() { Value = hardcore ? "Difficulty: Hardcore" : "Difficulty: Normal" };
                 var armor = new Text() { Value = PlayerCharacter.Armor ? "Armor: Protected" : "Armor: Missing" };

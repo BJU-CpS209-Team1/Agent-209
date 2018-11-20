@@ -9,7 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Urho;
 using Urho.Forms;
-
+using Windows.UI.ViewManagement;
 
 namespace Battle_Platformer_Xamarin
 {
@@ -34,8 +34,19 @@ namespace Battle_Platformer_Xamarin
 
             GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true, AdditionalFlags = difficulty });
 
+            game.Restart = () =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await game.Exit();
+                    App.Current.MainPage = new MainPage();
+                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                });
+                return false;
+            };
+
             if (continueGame) game.Load("latest.txt");
-           
+
         }
     }
 }
