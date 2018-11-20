@@ -137,7 +137,6 @@ namespace Royale_Platformer.Model
             for(int i = 0; i < 10; ++i)
             {
                 MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -3));
-                tile.WorldNode.SetScale(1f / 0.7f);
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
             }
@@ -145,7 +144,6 @@ namespace Royale_Platformer.Model
             for(int i = 0; i < 4; ++i)
             {
                 MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -1));
-                tile.WorldNode.SetScale(1f / 0.7f);
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
             }
@@ -158,12 +156,15 @@ namespace Royale_Platformer.Model
             var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
             var armorSprite  = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
 
+            if (weaponSprite == null || armorSprite == null)
+                throw new Exception("Texture not found");
+
             for(int i = 0; i < 3; ++i)
             {
-                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, -1)));
+                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, 0)));
             }
 
-            Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(-5, -3)));
+            Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(-5, -2)));
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)

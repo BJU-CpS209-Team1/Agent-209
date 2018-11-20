@@ -10,11 +10,13 @@ namespace Royale_Platformer.Model
         {
             WorldNode = scene.CreateChild();
             WorldNode.SetPosition2D(pos);
-            WorldNode.SetScale(1f / 0.7f);
+            //WorldNode.SetScale(1f / 0.7f);
 
             StaticSprite2D staticSprite = WorldNode.CreateComponent<StaticSprite2D>();
             staticSprite.BlendMode = BlendMode.Alpha;
             staticSprite.Sprite = sprite;
+
+            WorldHitbox = new Hitbox();
         }
 
         // Returns false if the item isn't picked up
