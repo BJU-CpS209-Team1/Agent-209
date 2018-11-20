@@ -23,6 +23,7 @@ namespace Battle_Platformer_Xamarin.UWP
             this.InitializeComponent();
 
             LoadApplication(new Battle_Platformer_Xamarin.App());
+            Battle_Platformer_Xamarin.App.Init(new WindowsUtilities());
         }
     }
 }
