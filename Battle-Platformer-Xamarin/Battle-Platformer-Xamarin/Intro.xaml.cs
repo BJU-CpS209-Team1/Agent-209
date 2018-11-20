@@ -13,18 +13,21 @@ namespace Battle_Platformer_Xamarin
     {
         bool continueGame;
         bool hardcore;
+        bool skipped;
 
         public Intro(bool continueGame, bool hardcore)
         {
             InitializeComponent();
             this.continueGame = continueGame;
             this.hardcore = hardcore;
+            this.skipped = false;
 
             var gestureRecognizer = new TapGestureRecognizer();
             gestureRecognizer.NumberOfTapsRequired = 2;
             gestureRecognizer.Tapped += (s, e) =>
             {
                 ExitVideo();
+                skipped = true;
             };
 
             video.GestureRecognizers.Add(gestureRecognizer);
@@ -33,7 +36,7 @@ namespace Battle_Platformer_Xamarin
             // End of video
             Device.StartTimer(TimeSpan.FromMilliseconds(24500), () =>
             {
-                ExitVideo();
+                if(!skipped) ExitVideo();
                 return false;
             });
         }

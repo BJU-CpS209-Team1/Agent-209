@@ -142,25 +142,28 @@ namespace Royale_Platformer.Model
                 collisionObjects.Add(tile);
             }
 
-            /*
-            Node groundNode = scene.CreateChild("Ground");
-            groundNode.Position = new Vector3(0, -10, 0);
-            groundNode.CreateComponent<RigidBody2D>();
-            groundNode.Scale = new Vector3(100f, 10f, 1f);
-
-            StaticSprite2D groundStaticSprite = groundNode.CreateComponent<StaticSprite2D>();
-            groundStaticSprite.Sprite = groundSprite;
-
-            CollisionBox2D groundShape = groundNode.CreateComponent<CollisionBox2D>();
-            groundShape.Size = new Vector2(0.75f, 1f);
-            groundShape.Friction = 0.5f;
-
-            // Ruler
-            for (int i = 0; i < 10; ++i)
+            for(int i = 0; i < 4; ++i)
             {
-                Tiles.Add(new MapTile(scene, groundSprite, new Vector2(i, 0)));
+                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -1));
+                tile.WorldNode.SetScale(1f / 0.7f);
+                Tiles.Add(tile);
+                collisionObjects.Add(tile);
             }
-            */
+
+            CreatePickups();
+        }
+
+        private void CreatePickups()
+        {
+            var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
+            var armorSprite  = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
+
+            for(int i = 0; i < 3; ++i)
+            {
+                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, -1)));
+            }
+
+            Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(-5, -3)));
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)

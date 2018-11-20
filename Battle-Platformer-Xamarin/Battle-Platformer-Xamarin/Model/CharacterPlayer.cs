@@ -26,10 +26,19 @@ namespace Royale_Platformer.Model
                 || Collision == Hitbox.HitSide.BottomLeft
                 || Collision == Hitbox.HitSide.BottomRight);
 
+            bool onLeft = (Collision == Hitbox.HitSide.Left
+                || Collision == Hitbox.HitSide.TopLeft);
+
+            bool onRight = (Collision == Hitbox.HitSide.Right
+                || Collision == Hitbox.HitSide.TopRight);
+
             Velocity.X = 0;
 
             if (Input.A) Velocity.X -= MoveSpeed * 100 * deltatime;
             if (Input.D) Velocity.X += MoveSpeed * 100 * deltatime;
+
+            if (onLeft  && Velocity.X < 0) Velocity.X = 0;
+            if (onRight && Velocity.X > 0) Velocity.X = 0;
 
             if(onGround)
             {
@@ -39,6 +48,8 @@ namespace Royale_Platformer.Model
             {
                 Velocity.Y -= 10f * deltatime; // Gravity
             }
+
+            if (Collision == Hitbox.HitSide.Top && Velocity.Y > 0) Velocity.Y = 0;
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
 
