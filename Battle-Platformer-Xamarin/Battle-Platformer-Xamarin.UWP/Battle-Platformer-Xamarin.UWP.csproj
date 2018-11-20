@@ -176,6 +176,15 @@
     <Content Include="barYellow_verticalMid.png" />
     <Content Include="barYellow_verticalTop.png" />
     <Content Include="bg_castle.png" />
+    <Content Include="boxAlt.scale-100.png" />
+    <Content Include="boxAlt.scale-200.png" />
+    <Content Include="boxAlt.scale-400.png" />
+    <Content Include="boxAlt.targetsize-16.png" />
+    <Content Include="boxAlt.targetsize-16_altform-unplated.png" />
+    <Content Include="boxAlt.targetsize-256.png" />
+    <Content Include="boxAlt.targetsize-256_altform-unplated.png" />
+    <Content Include="boxAlt.targetsize-48.png" />
+    <Content Include="boxAlt.targetsize-48_altform-unplated.png" />
     <Content Include="buttonLong_beige.png" />
     <Content Include="buttonLong_beige_pressed.png" />
     <Content Include="buttonLong_blue.png" />
@@ -247,6 +256,9 @@
     <Content Include="panel_brown.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="RulesTitle.png" />
+    <Content Include="Team.scale-150.png" />
+    <Content Include="Team.scale-200.png" />
+    <Content Include="team.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

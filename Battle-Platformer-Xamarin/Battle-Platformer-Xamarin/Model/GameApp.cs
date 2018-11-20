@@ -23,6 +23,8 @@ namespace Royale_Platformer.Model
 
         public List<MapTile> Tiles { get; set; }
 
+        private List<WorldObject> collisionObjects;
+
         public bool LoadGame { get; set; }
 
         private Scene scene;
@@ -34,6 +36,7 @@ namespace Royale_Platformer.Model
             Pickups = new List<Pickup>();
             Bullets = new List<Bullet>();
             Tiles = new List<MapTile>();
+            collisionObjects = new List<WorldObject>();
             LoadGame = false;
         }
 
@@ -136,6 +139,7 @@ namespace Royale_Platformer.Model
                 MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -3));
                 tile.WorldNode.SetScale(1f / 0.7f);
                 Tiles.Add(tile);
+                collisionObjects.Add(tile);
             }
 
             /*
@@ -167,6 +171,8 @@ namespace Royale_Platformer.Model
         protected override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
+
+            PlayerCharacter.UpdateCollision(collisionObjects);
 
             PlayerCharacter.Input.W = Input.GetKeyDown(Key.W);
             PlayerCharacter.Input.A = Input.GetKeyDown(Key.A);

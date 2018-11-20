@@ -1,5 +1,6 @@
 ﻿using Urho;
 using Urho.Urho2D;
+using Battle_Platformer_Xamarin.Model;
 
 namespace Royale_Platformer.Model
 {
@@ -21,27 +22,25 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
+            bool onGround = (Collision == Hitbox.HitSide.Bottom
+                || Collision == Hitbox.HitSide.BottomLeft
+                || Collision == Hitbox.HitSide.BottomRight);
+
             Velocity.X = 0;
+
             if (Input.A) Velocity.X -= MoveSpeed * 100 * deltatime;
             if (Input.D) Velocity.X += MoveSpeed * 100 * deltatime;
-            if (Input.Space && !Input.LastSpace) Velocity.Y += 25f;
 
-            /*
-            var body = CharacterNode.GetComponent<RigidBody2D>();
-            body.SetLinearVelocity(new Urho.Vector2(Velocity.X, body.LinearVelocity.Y + Velocity.Y));
-            */
-
-            // Gravity
-            Velocity.Y -= 10f * deltatime;
+            if(onGround)
+            {
+                Velocity.Y = 0;
+                if (Input.Space && !Input.LastSpace) Velocity.Y += 10f;
+            } else
+            {
+                Velocity.Y -= 10f * deltatime; // Gravity
+            }
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
-
-            if(WorldNode.Position2D.Y < -2)
-            {
-                Vector2 v = WorldNode.Position2D;
-                v.Y = -2;
-                WorldNode.SetPosition2D(v);
-            }
 
             //Animate.UpdateAnimation(body);
 
