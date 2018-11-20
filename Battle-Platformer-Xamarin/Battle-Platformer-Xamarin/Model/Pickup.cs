@@ -6,6 +6,11 @@ namespace Royale_Platformer.Model
 {
     public abstract class Pickup : WorldObject
     {
+        public Pickup()
+        {
+
+        }
+
         public Pickup(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();

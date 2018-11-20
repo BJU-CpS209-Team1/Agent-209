@@ -5,6 +5,11 @@ namespace Royale_Platformer.Model
 {
     public class PickupArmor : Pickup
     {
+        public PickupArmor() : base()
+        {
+
+        }
+
         public PickupArmor(Scene scene, Sprite2D sprite, Vector2 pos) : base(scene, sprite, pos)
         {
         }
