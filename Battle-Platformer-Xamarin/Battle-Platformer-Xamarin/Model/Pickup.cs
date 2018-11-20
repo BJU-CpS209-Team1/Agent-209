@@ -17,6 +17,7 @@ namespace Royale_Platformer.Model
             staticSprite.Sprite = sprite;
 
             WorldHitbox = new Hitbox();
+            WorldHitbox.Size = new Vector2(0.5f, 0.5f);
         }
 
         // Returns false if the item isn't picked up

@@ -43,6 +43,14 @@ namespace Royale_Platformer.Model
             Health -= bullet.Damage;
         }
 
+        public virtual bool UpgradeWeapon()
+        {
+            if (!HeldWeapon.Upgradeable) return false;
+
+            HeldWeapon = HeldWeapon.Upgrade(Class);
+            return true;
+        }
+
         public abstract void Update(float deltatime);
 
         public abstract ISerializer Deserialize(string serialized);

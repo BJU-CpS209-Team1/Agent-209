@@ -154,17 +154,20 @@ namespace Royale_Platformer.Model
         private void CreatePickups()
         {
             var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
-            var armorSprite  = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
+            var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
 
             if (weaponSprite == null || armorSprite == null)
                 throw new Exception("Texture not found");
 
-            for(int i = 0; i < 3; ++i)
+            for (int i = 0; i < 4; ++i)
             {
                 Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, 0)));
             }
 
-            Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(-5, -2)));
+            for (int i = 0; i < 2; ++i)
+            {
+                Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(i - 5, -2)));
+            }
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -175,6 +178,21 @@ namespace Royale_Platformer.Model
         protected override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
+
+            foreach (Character c in Characters)
+            {
+                foreach (Pickup p in Pickups.ToList())
+                {
+                    if(c.Collides(p))
+                    {
+                        if (p.PickUp(c))
+                        {
+                            p.WorldNode.Remove();
+                            Pickups.Remove(p);
+                        }
+                    }
+                }
+            }
 
             PlayerCharacter.UpdateCollision(collisionObjects);
 

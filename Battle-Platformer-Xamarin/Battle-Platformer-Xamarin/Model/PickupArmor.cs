@@ -11,7 +11,10 @@ namespace Royale_Platformer.Model
 
         public override bool PickUp(Character character)
         {
-            throw new System.NotImplementedException();
+            if (character.Armor) return false;
+
+            character.Armor = true;
+            return true;
         }
     }
 }
