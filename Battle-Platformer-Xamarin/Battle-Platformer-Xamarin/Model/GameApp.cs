@@ -10,6 +10,7 @@ using System.Timers;
 using System.Globalization;
 using Battle_Platformer_Xamarin.Model;
 using Urho.Audio;
+using Urho.Gui;
 
 namespace Royale_Platformer.Model
 {
@@ -29,6 +30,8 @@ namespace Royale_Platformer.Model
 
         private Scene scene;
         private Node cameraNode;
+
+        private UIElement hud;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -63,6 +66,7 @@ namespace Royale_Platformer.Model
             CreatePlayer(0, 0, 0);
             CreateMap();
             PlayMusic();
+            CreateHUD();
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
@@ -213,6 +217,28 @@ namespace Royale_Platformer.Model
         public void AddCharacter(Character character)
         {
             Characters.Add(character);
+        }
+
+        private void CreateHUD()
+        {
+            hud = new UIElement() {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                LayoutMode = LayoutMode.Vertical,
+                LayoutSpacing = 5
+            };
+
+            var armor = new Text() { Value = "Armor Level: 0" };
+            var weapon = new Text() { Value = "Weapon Level: 0" };
+
+            armor.SetColor(Color.Yellow);
+            weapon.SetColor(Color.Yellow);
+            armor.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+            weapon.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+
+            hud.AddChild(armor);
+            hud.AddChild(weapon);
+            UI.Root.AddChild(hud);
         }
 
         public string Serialize()
