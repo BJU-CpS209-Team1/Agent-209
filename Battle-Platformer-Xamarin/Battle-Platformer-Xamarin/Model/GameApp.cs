@@ -77,6 +77,12 @@ namespace Royale_Platformer.Model
             CreateHUD();
             CreateClock();
 
+            var bulletSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/laserPurpleDot.png");
+            if (bulletSprite == null)
+                throw new Exception("Bullet sprite not found!");
+
+            Bullets.Add(new Bullet(1, scene, bulletSprite, new Vector2(4, -2)));
+
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
         }
@@ -181,6 +187,7 @@ namespace Royale_Platformer.Model
         {
             base.OnUpdate(timeStep);
 
+            // Pickups
             foreach (Character c in Characters)
             {
                 foreach (Pickup p in Pickups.ToList())
@@ -192,6 +199,20 @@ namespace Royale_Platformer.Model
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
                         }
+                    }
+                }
+            }
+
+            // Bullets
+            foreach (Character c in Characters)
+            {
+                foreach(Bullet b in Bullets.ToList())
+                {
+                    if (c.Collides(b))
+                    {
+                        c.Hit(b);
+                        b.WorldNode.Remove();
+                        Bullets.Remove(b);
                     }
                 }
             }

@@ -9,7 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Urho;
 using Urho.Forms;
-using Windows.UI.ViewManagement;
+//using Windows.UI.ViewManagement;
 
 namespace Battle_Platformer_Xamarin
 {
@@ -40,7 +40,7 @@ namespace Battle_Platformer_Xamarin
                 {
                     await game.Exit();
                     App.Current.MainPage = new MainPage();
-                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                    //ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
                 });
                 return false;
             };

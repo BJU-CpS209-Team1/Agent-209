@@ -5,6 +5,11 @@ namespace Royale_Platformer.Model
 {
     public class PickupWeaponUpgrade : Pickup
     {
+        public PickupWeaponUpgrade() : base()
+        {
+
+        }
+
         public PickupWeaponUpgrade(Scene scene, Sprite2D sprite, Vector2 pos) : base(scene, sprite, pos)
         {
         }
