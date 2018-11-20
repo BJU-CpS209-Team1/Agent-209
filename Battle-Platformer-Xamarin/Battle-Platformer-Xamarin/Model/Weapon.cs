@@ -12,9 +12,7 @@ namespace Royale_Platformer.Model
         public abstract Weapon Upgrade(CharacterClass characterClass);
         public abstract ISerializer Deserialize(string serialized);
 
-        public string Serialize() {
-          return "";
-        }
+        public abstract string Serialize();
 
     }
 }

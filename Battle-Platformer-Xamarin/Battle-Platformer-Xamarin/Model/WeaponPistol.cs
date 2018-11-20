@@ -18,5 +18,7 @@ namespace Royale_Platformer.Model
         {
             throw new System.NotImplementedException();
         }
+
+        public override string Serialize() { return "Pistol"; }
     }
 }

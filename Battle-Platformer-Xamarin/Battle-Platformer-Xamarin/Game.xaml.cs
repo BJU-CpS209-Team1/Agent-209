@@ -29,7 +29,10 @@ namespace Battle_Platformer_Xamarin
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true });
+
+            string difficulty = hardcore ? "hardcore" : "normal";
+
+            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true, AdditionalFlags = difficulty });
 
             if (continueGame) game.Load("latest.txt");
            
