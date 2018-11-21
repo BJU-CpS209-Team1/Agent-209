@@ -72,16 +72,19 @@ namespace Royale_Platformer.Model
             time = 6000;
 
             CreatePlayer(0, 0);
+            CreateEnemies();
             CreateMap();
             PlayMusic();
             CreateHUD();
             CreateClock();
 
+            /*
             var bulletSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/laserPurpleDot.png");
             if (bulletSprite == null)
                 throw new Exception("Bullet sprite not found!");
 
             Bullets.Add(new Bullet(1, scene, bulletSprite, new Vector2(4, -2)));
+            */
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
@@ -104,10 +107,29 @@ namespace Royale_Platformer.Model
             //playerAnimatedSprite.Sprite = playerSprite;
 
             var playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+            if (playerSprite == null)
+                throw new Exception("Player sprite not found");
+
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
             player.CreateNode(scene, playerSprite, new Vector2(x, y));
 
             AddPlayer(player);
+        }
+
+        private void CreateEnemies()
+        {
+            // "C:\Users\Elias\Documents\BJU\CPS209\Royale-Platformer\Battle-Platformer-Xamarin\Battle-Platformer-Xamarin.UWP\GameData\characters\special forces\png2\attack\2_Special_forces_attack_Attack_000.png"
+            var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
+            if (enemySprite == null)
+                throw new Exception("Enemy sprite not found");
+
+            CharacterEnemy enemy = new CharacterEnemy(CharacterClass.Support, 5);
+            enemy.CreateNode(scene, enemySprite, new Vector2(4, -2));
+            AddCharacter(enemy);
+
+            CharacterEnemy enemy2 = new CharacterEnemy(CharacterClass.Support, 5);
+            enemy2.CreateNode(scene, enemySprite, new Vector2(-8, -2));
+            AddCharacter(enemy2);
         }
 
         private void CreateMap()
