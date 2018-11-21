@@ -23,12 +23,6 @@
 * Menu Design
 * Level Design
 
-# Known Issues
-* Player can get stuck on side of wall
-* Player can go through the top half of a surface
-* Enemy players health and armor are not saved/loaded
-* Only armor pickups are saved/loaded
-
 # Expenses
 | Member | Time Invested | Time Left |
 |:------:|:-------------:|:---------:|
