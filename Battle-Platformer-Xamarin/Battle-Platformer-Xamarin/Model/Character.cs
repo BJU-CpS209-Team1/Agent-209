@@ -36,7 +36,7 @@ namespace Royale_Platformer.Model
         public virtual void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
-            WorldNode.Position = new Vector3(pos);
+            WorldNode.Position = new Vector3(pos.X, pos.Y, -1f);
             WorldNode.SetScale(1f / 12.14f);
 
             StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
