@@ -22,6 +22,16 @@
 * Menu Pages
 * Menu Design
 * Level Design
+* Difficulty Levels
+* Gear Pickup
+* Combat
+* Basic AI
+* Highscore Completion
+* HUD
+* Save/Load Serialization
+* Audio Editing
+* Video Editing
+* Advanced UI
 
 # Expenses
 | Member | Time Invested | Time Left |
