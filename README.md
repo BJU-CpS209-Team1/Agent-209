@@ -26,6 +26,6 @@
 # Expenses
 | Member | Time Invested | Time Left |
 |:------:|:-------------:|:---------:|
-| [Elias Watson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Elias-Time-Sheet)     | 13h, 20m | 46h, 40m |
+| [Elias Watson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Elias-Time-Sheet)     | 27h, 20m | 32h, 40m |
 | [Isaac Abrahamson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Isaac-Time-Sheet) | 41h 30m  | 18h 30m      |
 | [David Polar](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/David-Time-Sheet)      | 25h, 20m | 34h, 40m |
