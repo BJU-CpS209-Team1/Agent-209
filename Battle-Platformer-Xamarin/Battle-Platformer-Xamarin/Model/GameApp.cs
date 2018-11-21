@@ -207,12 +207,12 @@ namespace Royale_Platformer.Model
             if (weaponSprite == null || armorSprite == null)
                 throw new Exception("Texture not found");
 
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < (hardcore ? 2 : 4); ++i)
             {
                 Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, 0)));
             }
 
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < (hardcore ? 2 : 4); ++i)
             {
                 Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(i - 5, -2)));
             }
