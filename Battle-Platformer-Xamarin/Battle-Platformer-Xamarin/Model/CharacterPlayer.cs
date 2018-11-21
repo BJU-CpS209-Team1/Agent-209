@@ -1,6 +1,7 @@
 ﻿using Urho;
 using Urho.Urho2D;
 using Battle_Platformer_Xamarin.Model;
+using System.Globalization;
 
 namespace Royale_Platformer.Model
 {
@@ -58,9 +59,14 @@ namespace Royale_Platformer.Model
             Input.LastSpace = Input.Space;
         }
 
-        public override ISerializer Deserialize(string serialized)
+        public Vector3 Deserialize(string serialized)
         {
-            throw new System.NotImplementedException();
+            string[] charactersSplit = serialized.Split(',');
+            float x = float.Parse(charactersSplit[0], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(charactersSplit[1], CultureInfo.InvariantCulture.NumberFormat);
+            float z = float.Parse(charactersSplit[2], CultureInfo.InvariantCulture.NumberFormat);
+
+            return new Vector3(x, y, z);
         }
     }
 }

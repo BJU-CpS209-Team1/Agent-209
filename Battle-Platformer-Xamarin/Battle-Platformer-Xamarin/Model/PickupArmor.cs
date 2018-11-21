@@ -14,6 +14,11 @@ namespace Royale_Platformer.Model
         {
         }
 
+        public override ISerializer Deserialize(string serialized)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override bool PickUp(Character character)
         {
             if (character.Armor) return false;
