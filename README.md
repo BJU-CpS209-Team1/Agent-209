@@ -24,13 +24,10 @@
 * Level Design
 
 # Known Issues
-* File creation to store high scores does not work correctly
-* Physics colliders have incorrect sizes
-* Game canvas does not maximize until the window is resized
-* Loading a saved game creates two players
-* Player can jump in mid-air
-* Player can go outside of map
-* No correct way to save game. Currently, position of player is saved every 10 seconds
+* Player can get stuck on side of wall
+* Player can go through the top half of a surface
+* Enemy players only have position saved/loaded
+* Pickups are saved but not loaded
 
 # Expenses
 | Member | Time Invested | Time Left |
