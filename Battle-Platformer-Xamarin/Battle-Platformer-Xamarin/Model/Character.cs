@@ -18,7 +18,7 @@ namespace Royale_Platformer.Model
         public float MoveSpeed { get; set; }
         public Vector2 Velocity;
 
-        private Vector3 position;
+        public Vector3 Position { get; set; }
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -35,11 +35,29 @@ namespace Royale_Platformer.Model
             Velocity = new Vector2();
         }
 
+        public Character(CharacterClass characterClass, int maxHealth, Vector3 position)
+        {
+            if (maxHealth < 0)
+                throw new Exception("Invalid character max health!");
+
+            Class = characterClass;
+            HeldWeapon = new WeaponKnife();
+            Armor = false;
+            MaxHealth = maxHealth;
+            Health = maxHealth;
+            Score = 0;
+
+            Velocity = new Vector2();
+            
+            Position = position;
+        }
+
+
         public virtual void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
             WorldNode.Position = new Vector3(pos);
-            position = WorldNode.Position;
+            Position = WorldNode.Position;
             WorldNode.SetScale(1f / 12.14f);
 
             StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
@@ -70,10 +88,10 @@ namespace Royale_Platformer.Model
 
         //public abstract ISerializer Deserialize(string serialized);
 
-        public string Serialize() 
+        public string Serialize()
         {
-            position = WorldNode.Position;
-            return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";
+            Position = WorldNode.Position;
+            return $"{Position.X.ToString()},{Position.Y.ToString()},{Position.Z.ToString()}";
         }
 
     }

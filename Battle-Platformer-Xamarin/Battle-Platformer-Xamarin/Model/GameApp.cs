@@ -37,13 +37,16 @@ namespace Royale_Platformer.Model
         private UIElement hud;
         private int time;
         private bool hardcore;
+        private bool continueGame;
         Timer timer;
-
+        
         public GameApp(ApplicationOptions options) : base(options)
         {
             Instance = this;
+            string[] flags = options.AdditionalFlags.ToString().Split(',');
 
-            hardcore = options.AdditionalFlags == "hardcore" ? true : false;
+            hardcore = flags[0] == "True" ? true : false;
+            continueGame = flags[1] == "True" ? true : false;
 
             Characters = new List<Character>();
             Pickups = new List<Pickup>();
@@ -76,7 +79,7 @@ namespace Royale_Platformer.Model
             time = 6000;
 
             CreatePlayer(0, 0);
-            CreateEnemies();
+            if (!continueGame) CreateEnemies();
             CreateMap();
             PlayMusic();
             CreateHUD();
@@ -273,10 +276,14 @@ namespace Royale_Platformer.Model
 
                 InvokeOnMain(() => { UI.Root.AddChild(saved); });
                 await Task.Delay(500);
-                InvokeOnMain(() => {
-                    try { UI.Root.RemoveChild(saved); }
-                    catch { return; }                    
-                });
+                try
+                {
+                    InvokeOnMain(() =>
+                    {
+                        try { UI.Root.RemoveChild(saved); }
+                        catch { return; }
+                    });
+                } catch { return; }
             }
 
             if (Input.GetKeyDown(Key.F2)) {
@@ -380,7 +387,7 @@ namespace Royale_Platformer.Model
 
             // Add enemies
             string characterString = "";
-            foreach (var character in Characters) { characterString += $"{character.Serialize()};"; }
+            foreach (var character in Characters.Skip(1)) { characterString += $"{character.Serialize()};"; }
             output += Environment.NewLine + characterString;
 
             // Add pickups
@@ -425,7 +432,7 @@ namespace Royale_Platformer.Model
                             ++lineNumber;
                             break;
                         case 5: // Enemies
-                            // TODO: Implement this
+                            LoadEnemies(line);
                             ++lineNumber;
                             break;
                         case 6: // Pickups
@@ -441,6 +448,23 @@ namespace Royale_Platformer.Model
                     }
                 }
             }
+        }
+
+        private void LoadEnemies(string line)
+        {
+            var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
+            if (enemySprite == null)
+                throw new Exception("Enemy sprite not found");
+
+            string[] enemiesSplit = line.Split(';');
+            for (int i = 0; i < enemiesSplit.Length - 1; i++)
+            {
+                var enemyCharacter = new CharacterEnemy(CharacterClass.Gunner, 5);
+                var position = enemyCharacter.Deserialize(enemiesSplit[i]);
+                enemyCharacter = new CharacterEnemy(CharacterClass.Gunner, 5, position);
+                enemyCharacter.CreateNode(scene, enemySprite, new Vector2(enemyCharacter.Position.X, enemyCharacter.Position.Y));
+                AddCharacter(enemyCharacter);
+            }   
         }
 
         public void Load(string fileName)

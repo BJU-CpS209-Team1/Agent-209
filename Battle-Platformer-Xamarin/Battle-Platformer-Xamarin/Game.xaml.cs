@@ -29,9 +29,7 @@ namespace Battle_Platformer_Xamarin
         {
             base.OnAppearing();
 
-            string difficulty = hardcore ? "hardcore" : "normal";
-
-            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true, AdditionalFlags = difficulty });
+            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true, AdditionalFlags = $"{hardcore.ToString()},{continueGame.ToString()}" });
 
             game.Restart = () =>
             {

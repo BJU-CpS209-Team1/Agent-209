@@ -1,4 +1,5 @@
 ﻿using Battle_Platformer_Xamarin.Model;
+using System.Globalization;
 using Urho;
 using Urho.Urho2D;
 
@@ -9,6 +10,11 @@ namespace Royale_Platformer.Model
         private float direction = 1f;
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
+        {
+            MoveSpeed = 10;
+        }
+
+        public CharacterEnemy(CharacterClass characterClass, int maxHealth, Vector3 position) : base(characterClass, maxHealth, position)
         {
             MoveSpeed = 10;
         }
@@ -26,9 +32,15 @@ namespace Royale_Platformer.Model
             WorldNode.SetPosition2D(WorldNode.Position2D + new Vector2(speed, 0));
         }
 
-        public ISerializer Deserialize(string serialized)
+        public Vector3 Deserialize(string serialized)
         {
-            throw new System.NotImplementedException();
+            string[] coords = serialized.Split(',');
+
+            float x = float.Parse(coords[0], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(coords[1], CultureInfo.InvariantCulture.NumberFormat);
+            float z = float.Parse(coords[2], CultureInfo.InvariantCulture.NumberFormat);
+
+            return new Vector3(x, y, z);
         }
     }
 }
