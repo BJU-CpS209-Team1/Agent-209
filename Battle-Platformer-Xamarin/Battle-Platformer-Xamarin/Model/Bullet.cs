@@ -8,6 +8,8 @@ namespace Royale_Platformer.Model
     public class Bullet : WorldObject, ISerializer
     {
         public int Damage { get; private set; }
+        public Character Owner { get; set; }
+        public Vector2 Direction { get; set; }
 
         public Bullet(int damage)
         {
@@ -16,14 +18,10 @@ namespace Royale_Platformer.Model
             Damage = damage;
         }
 
-        public Bullet(int damage, Scene scene, Sprite2D sprite, Vector2 pos)
+        public void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos, Vector2 dir)
         {
-            if (damage < 0)
-                throw new Exception("Invalid bullet damage!");
-            Damage = damage;
-
             WorldNode = scene.CreateChild();
-            WorldNode.SetPosition2D(pos);
+            WorldNode.Position = new Vector3(pos);
             WorldNode.SetScale(1f / 0.7f);
 
             StaticSprite2D staticSprite = WorldNode.CreateComponent<StaticSprite2D>();
@@ -32,6 +30,7 @@ namespace Royale_Platformer.Model
 
             WorldHitbox = new Hitbox();
             WorldHitbox.Size = new Vector2(0.3f, 0.3f);
+            Direction = dir;
         }
 
         public string Serialize()
