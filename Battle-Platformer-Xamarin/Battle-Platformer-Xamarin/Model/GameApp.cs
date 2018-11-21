@@ -17,6 +17,8 @@ namespace Royale_Platformer.Model
 {
     public class GameApp : Application
     {
+        public static GameApp Instance { get; private set; }
+
         public CharacterPlayer PlayerCharacter { get; private set; }
         public List<Character> Characters { get; private set; }
 
@@ -39,6 +41,8 @@ namespace Royale_Platformer.Model
 
         public GameApp(ApplicationOptions options) : base(options)
         {
+            Instance = this;
+
             hardcore = options.AdditionalFlags == "hardcore" ? true : false;
 
             Characters = new List<Character>();
@@ -127,7 +131,7 @@ namespace Royale_Platformer.Model
             enemy.CreateNode(scene, enemySprite, new Vector2(4, -2));
             AddCharacter(enemy);
 
-            CharacterEnemy enemy2 = new CharacterEnemy(CharacterClass.Support, 5);
+            CharacterEnemy enemy2 = new CharacterEnemy(CharacterClass.Tank, 5);
             enemy2.CreateNode(scene, enemySprite, new Vector2(-8, -2));
             AddCharacter(enemy2);
         }
@@ -169,6 +173,12 @@ namespace Royale_Platformer.Model
             for (int i = 0; i < 4; ++i)
             {
                 MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -1));
+                Tiles.Add(tile);
+                collisionObjects.Add(tile);
+            }
+
+            {
+                MapTile tile = new MapTile(scene, groundSprite, new Vector2(2, -2));
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
             }
@@ -216,10 +226,11 @@ namespace Royale_Platformer.Model
             }
 
             // Bullets
-            foreach (Character c in Characters)
+            foreach (Bullet b in Bullets.ToList())
             {
-                foreach(Bullet b in Bullets.ToList())
+                foreach (Character c in Characters)
                 {
+                    if (b.Owner == c) continue;
                     if (c.Collides(b))
                     {
                         c.Hit(b);
@@ -227,16 +238,28 @@ namespace Royale_Platformer.Model
                         Bullets.Remove(b);
                     }
                 }
-            }
 
-            PlayerCharacter.UpdateCollision(collisionObjects);
+                foreach(WorldObject o in collisionObjects)
+                {
+                    if (o.Collides(b))
+                    {
+                        b.WorldNode.Remove();
+                        Bullets.Remove(b);
+                    }
+                }
+            }
 
             PlayerCharacter.Input.W = Input.GetKeyDown(Key.W);
             PlayerCharacter.Input.A = Input.GetKeyDown(Key.A);
             PlayerCharacter.Input.S = Input.GetKeyDown(Key.S);
             PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
             PlayerCharacter.Input.Space = Input.GetKeyDown(Key.Space);
-            PlayerCharacter.Update(timeStep);
+
+            foreach(Character c in Characters)
+            {
+                c.UpdateCollision(collisionObjects);
+                c.Update(timeStep);
+            }
 
             if (Input.GetKeyDown(Key.F1))
             {
