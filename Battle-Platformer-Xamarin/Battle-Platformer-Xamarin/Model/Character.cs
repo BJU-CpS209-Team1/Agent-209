@@ -9,7 +9,7 @@ namespace Royale_Platformer.Model
     public abstract class Character : WorldObject
     {
         public CharacterClass Class { get; protected set; }
-        public Weapon HeldWeapon { get; protected set; }
+        public Weapon HeldWeapon { get; set; }
         public bool Armor { get; set; }
         public int MaxHealth { get; protected set; }
         public int Health { get; set; }
@@ -49,7 +49,7 @@ namespace Royale_Platformer.Model
 
         public virtual void Hit(Bullet bullet)
         {
-            if(Armor)
+            if (Armor)
             {
                 Armor = false;
                 return;
@@ -70,7 +70,11 @@ namespace Royale_Platformer.Model
 
         //public abstract ISerializer Deserialize(string serialized);
 
-        public string Serialize() { return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()};"; }
+        public string Serialize() 
+        {
+            position = WorldNode.Position;
+            return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";
+        }
 
     }
 }

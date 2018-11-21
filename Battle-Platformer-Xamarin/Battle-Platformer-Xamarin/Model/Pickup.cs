@@ -15,10 +15,10 @@ namespace Royale_Platformer.Model
 
         public Pickup(Scene scene, Sprite2D sprite, Vector2 pos)
         {
-            position = new Vector3(pos);
 
             WorldNode = scene.CreateChild();
             WorldNode.SetPosition2D(pos);
+            position = WorldNode.Position;
             //WorldNode.SetScale(1f / 0.7f);
 
             StaticSprite2D staticSprite = WorldNode.CreateComponent<StaticSprite2D>();
@@ -37,7 +37,7 @@ namespace Royale_Platformer.Model
 
         public string Serialize()
         {
-            return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()};";
+            return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";
         }
     }
 }

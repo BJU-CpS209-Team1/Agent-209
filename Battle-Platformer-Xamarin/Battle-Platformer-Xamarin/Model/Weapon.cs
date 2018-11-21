@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Royale_Platformer.Model
 {
@@ -14,5 +15,27 @@ namespace Royale_Platformer.Model
 
         public abstract string Serialize();
 
+        public static Weapon GetWeaponType(string type)
+        {
+            switch (type)
+            {
+                case "Knife":
+                    return new WeaponKnife();
+                case "AR":
+                    return new WeaponAR();
+                case "AdvancedAR":
+                    return new WeaponAdvancedAR();
+                case "Shotgun":
+                    return new WeaponShotgun();
+                case "AdvancedShotgun":
+                    return new WeaponAdvancedShotgun();
+                case "Pistol":
+                    return new WeaponPistol();
+                case "PistolShield":
+                    return new WeaponPistolShield();
+                default:
+                    return new WeaponKnife();
+            }
+        }
     }
 }

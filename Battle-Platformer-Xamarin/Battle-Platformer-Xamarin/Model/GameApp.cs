@@ -250,7 +250,10 @@ namespace Royale_Platformer.Model
 
                 InvokeOnMain(() => { UI.Root.AddChild(saved); });
                 await Task.Delay(500);
-                InvokeOnMain(() => { UI.Root.RemoveChild(saved); });
+                InvokeOnMain(() => {
+                    try { UI.Root.RemoveChild(saved); }
+                    catch { return; }                    
+                });
             }
 
             if (Input.GetKeyDown(Key.F2)) {
@@ -349,15 +352,21 @@ namespace Royale_Platformer.Model
             // Add Health
             output += Environment.NewLine + PlayerCharacter.Health.ToString();
 
+            // Add Armor
+            output += Environment.NewLine + PlayerCharacter.Armor.ToString();
+
             // Add enemies
             string characterString = "";
-            foreach (var character in Characters) { characterString += character.Serialize(); }
+            foreach (var character in Characters) { characterString += $"{character.Serialize()};"; }
             output += Environment.NewLine + characterString;
 
             // Add pickups
             string pickupString = "";
-            foreach (var item in Pickups) { pickupString += item.Serialize(); }
+            foreach (var item in Pickups) { pickupString += $"{item.Serialize()};"; }
             output += Environment.NewLine + pickupString;
+
+            // Add Weapon
+            output += Environment.NewLine + PlayerCharacter.HeldWeapon.Serialize();
 
             return output;
         }
@@ -388,12 +397,20 @@ namespace Royale_Platformer.Model
                             PlayerCharacter.Health = Convert.ToInt32(line);
                             ++lineNumber;
                             break;
-                        case 4: // Enemies
+                        case 4: // Armor
+                            PlayerCharacter.Armor = line == "True" ? true : false;
+                            ++lineNumber;
+                            break;
+                        case 5: // Enemies
                             // TODO: Implement this
                             ++lineNumber;
                             break;
-                        case 5: // Pickups
+                        case 6: // Pickups
                             // TODO: Implement this
+                            ++lineNumber;
+                            break;
+                        case 7: // Weapon
+                            PlayerCharacter.HeldWeapon = Weapon.GetWeaponType(line);
                             ++lineNumber;
                             break;
                         default:
@@ -401,14 +418,6 @@ namespace Royale_Platformer.Model
                     }
                 }
             }
-
-            // deserialize position of player
-            string[] charactersSplit = serialized.Split(',');
-            float x = float.Parse(charactersSplit[0], CultureInfo.InvariantCulture.NumberFormat);
-            float y = float.Parse(charactersSplit[1], CultureInfo.InvariantCulture.NumberFormat);
-            float z = float.Parse(charactersSplit[2], CultureInfo.InvariantCulture.NumberFormat);
-
-            PlayerCharacter.WorldNode.Position = new Vector3(x, y, z);
         }
 
         public void Load(string fileName)
@@ -417,7 +426,8 @@ namespace Royale_Platformer.Model
 
             if (File.Exists(PATH))
             {
-                string data = File.ReadLines(PATH).First();
+                string data = "";
+                foreach (var line in File.ReadLines(PATH)) { data += line + Environment.NewLine; };                
                 Deserialize(data);
             }
             else
