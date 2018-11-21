@@ -10,7 +10,7 @@ namespace Battle_Platformer_Xamarin.Model
         public Node WorldNode { get; set; }
         public Hitbox WorldHitbox { get; set; }
 
-        public Hitbox.HitSide Collision { get; protected set; }
+        public Hitbox.CollisionSide Collision { get; protected set; }
 
         public WorldObject()
         {
@@ -19,13 +19,9 @@ namespace Battle_Platformer_Xamarin.Model
 
         public void UpdateCollision(List<WorldObject> objs)
         {
-            Collision = Hitbox.HitSide.None;
+            Collision = new Hitbox.CollisionSide();
             foreach(WorldObject o in objs)
-            {
-                Hitbox.HitSide hit = CollidesSide(o);
-                if (hit != Hitbox.HitSide.None)
-                    Collision = hit;
-            }
+                Collision.Combine(CollidesSide(o));
         }
 
         public bool Collides(WorldObject obj)
@@ -33,7 +29,7 @@ namespace Battle_Platformer_Xamarin.Model
             return WorldHitbox.Intersects(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
         }
 
-        public Hitbox.HitSide CollidesSide(WorldObject obj)
+        public Hitbox.CollisionSide CollidesSide(WorldObject obj)
         {
             return WorldHitbox.IntersectsSide(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
         }

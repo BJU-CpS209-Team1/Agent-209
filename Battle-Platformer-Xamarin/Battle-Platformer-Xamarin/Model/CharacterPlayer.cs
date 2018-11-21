@@ -23,15 +23,10 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
-            bool onGround = (Collision == Hitbox.HitSide.Bottom
-                || Collision == Hitbox.HitSide.BottomLeft
-                || Collision == Hitbox.HitSide.BottomRight);
-
-            bool onLeft = (Collision == Hitbox.HitSide.Left
-                || Collision == Hitbox.HitSide.TopLeft);
-
-            bool onRight = (Collision == Hitbox.HitSide.Right
-                || Collision == Hitbox.HitSide.TopRight);
+            bool onBottom = Collision.BottomLeft  || Collision.BottomMiddle || Collision.BottomRight;
+            bool onTop    = Collision.TopLeft     || Collision.TopMiddle    || Collision.TopRight;
+            bool onLeft   = Collision.LeftMiddle  || Collision.TopLeft;
+            bool onRight  = Collision.RightMiddle || Collision.TopRight;
 
             Velocity.X = 0;
 
@@ -41,7 +36,7 @@ namespace Royale_Platformer.Model
             if (onLeft  && Velocity.X < 0) Velocity.X = 0;
             if (onRight && Velocity.X > 0) Velocity.X = 0;
 
-            if(onGround)
+            if(onBottom)
             {
                 Velocity.Y = 0;
                 if (Input.Space && !Input.LastSpace) Velocity.Y += 10f;
@@ -50,7 +45,7 @@ namespace Royale_Platformer.Model
                 Velocity.Y -= 10f * deltatime; // Gravity
             }
 
-            if (Collision == Hitbox.HitSide.Top && Velocity.Y > 0) Velocity.Y = 0;
+            if (onTop && Velocity.Y > 0) Velocity.Y = 0;
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
 
