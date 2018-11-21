@@ -32,8 +32,11 @@ namespace Royale_Platformer.Model
         public bool LoadGame { get; set; }
         public Func<object> Restart { get; internal set; }
 
+        private static readonly float bulletSpeed = 10f;
+
         private Scene scene;
         private Node cameraNode;
+        private Sprite2D bulletSprite;
         private UIElement hud;
         private int time;
         private bool hardcore;
@@ -82,11 +85,11 @@ namespace Royale_Platformer.Model
             CreateHUD();
             CreateClock();
 
-            /*
-            var bulletSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/laserPurpleDot.png");
+            bulletSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/laserPurpleDot.png");
             if (bulletSprite == null)
                 throw new Exception("Bullet sprite not found!");
 
+            /*
             Bullets.Add(new Bullet(1, scene, bulletSprite, new Vector2(4, -2)));
             */
 
@@ -116,6 +119,16 @@ namespace Royale_Platformer.Model
 
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
             player.CreateNode(scene, playerSprite, new Vector2(x, y));
+
+            /*
+            Input.MouseButtonDown += (args) =>
+            {
+                if(args.Button == 1)
+                {
+                    PlayerCharacter.Input.LeftClick = true;
+                }
+            };
+            */
 
             AddPlayer(player);
         }
@@ -228,6 +241,16 @@ namespace Royale_Platformer.Model
             // Bullets
             foreach (Bullet b in Bullets.ToList())
             {
+                if(b.WorldNode.Position2D.Length > 50f)
+                {
+                    b.WorldNode.Remove();
+                    Bullets.Remove(b);
+                    continue;
+                }
+
+                bool deleted = false;
+                b.WorldNode.SetPosition2D(b.WorldNode.Position2D + (b.Direction * bulletSpeed * timeStep));
+
                 foreach (Character c in Characters)
                 {
                     if (b.Owner == c) continue;
@@ -236,8 +259,12 @@ namespace Royale_Platformer.Model
                         c.Hit(b);
                         b.WorldNode.Remove();
                         Bullets.Remove(b);
+                        deleted = true;
+                        break;
                     }
                 }
+
+                if (deleted) continue;
 
                 foreach(WorldObject o in collisionObjects)
                 {
@@ -245,6 +272,7 @@ namespace Royale_Platformer.Model
                     {
                         b.WorldNode.Remove();
                         Bullets.Remove(b);
+                        break;
                     }
                 }
             }
@@ -253,13 +281,29 @@ namespace Royale_Platformer.Model
             PlayerCharacter.Input.A = Input.GetKeyDown(Key.A);
             PlayerCharacter.Input.S = Input.GetKeyDown(Key.S);
             PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
-            PlayerCharacter.Input.Space = Input.GetKeyDown(Key.Space);
+            PlayerCharacter.Input.Space = Input.GetKeyPress(Key.Space);
+            PlayerCharacter.Input.LeftClick = Input.GetKeyDown(Key.E);
 
-            foreach(Character c in Characters)
+            Vector2 mousePosition = new Vector2(Input.MousePosition.X, Input.MousePosition.Y);
+            Vector2 resolution = new Vector2(Graphics.Width, Graphics.Height);
+            Vector2 mouseUV = ((2f * mousePosition) - resolution) / resolution.Y;
+            mouseUV.Y *= -1f;
+            PlayerCharacter.Input.MousePosition = mouseUV;
+
+            foreach(Character c in Characters.ToList())
             {
+                if(c.Health <= 0)
+                {
+                    c.WorldNode.Remove();
+                    Characters.Remove(c);
+                    continue;
+                }
+
                 c.UpdateCollision(collisionObjects);
                 c.Update(timeStep);
             }
+
+            PlayerCharacter.Input.LeftClick = false;
 
             if (Input.GetKeyDown(Key.F1))
             {
@@ -292,6 +336,7 @@ namespace Royale_Platformer.Model
 
         public void AddCharacter(Character character)
         {
+            character.UpgradeWeapon(); // TEMP
             Characters.Add(character);
         }
 
@@ -349,6 +394,17 @@ namespace Royale_Platformer.Model
                 hud.AddChild(weapon);
                 hud.AddChild(clock);
             });
+        }
+
+        public void CreateBullets(List<Bullet> bullets, Character character)
+        {
+            foreach (Bullet b in bullets)
+            {
+                b.Owner = character;
+                b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
+
+                Bullets.Add(b);
+            }
         }
 
         public string Serialize()

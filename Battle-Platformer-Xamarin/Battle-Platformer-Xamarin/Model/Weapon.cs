@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Urho;
 
 namespace Royale_Platformer.Model
 {
@@ -8,7 +9,7 @@ namespace Royale_Platformer.Model
         public float MaxCooldown { get; protected set; }
         public float CurrentCooldown { get; protected set; }
 
-        public abstract List<Bullet> Fire();
+        public abstract List<Bullet> Fire(Vector2 dir);
         public abstract Weapon Upgrade(CharacterClass characterClass);
         public abstract ISerializer Deserialize(string serialized);
 

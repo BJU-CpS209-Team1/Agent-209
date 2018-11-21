@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Urho;
 
 namespace Royale_Platformer.Model
 {
     public class WeaponPistolShield : Weapon
     {
-        public override List<Bullet> Fire()
+        public override List<Bullet> Fire(Vector2 dir)
         {
             throw new System.NotImplementedException();
         }
