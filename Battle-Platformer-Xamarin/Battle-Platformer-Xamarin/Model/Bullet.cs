@@ -18,7 +18,7 @@ namespace Royale_Platformer.Model
             Damage = damage;
         }
 
-        public void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos, Vector2 dir)
+        public void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
             WorldNode.Position = new Vector3(pos);
@@ -30,7 +30,6 @@ namespace Royale_Platformer.Model
 
             WorldHitbox = new Hitbox();
             WorldHitbox.Size = new Vector2(0.3f, 0.3f);
-            Direction = dir;
         }
 
         public string Serialize()

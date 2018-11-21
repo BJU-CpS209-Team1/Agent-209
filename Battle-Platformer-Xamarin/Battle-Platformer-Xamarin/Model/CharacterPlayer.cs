@@ -10,7 +10,9 @@ namespace Royale_Platformer.Model
         public struct PlayerInput
         {
             public bool W, A, S, D;
-            public bool Space, LastSpace;
+            public bool Space;
+            public bool LeftClick;
+            public Vector2 MousePosition;
         }
 
         public PlayerInput Input;
@@ -18,7 +20,7 @@ namespace Royale_Platformer.Model
         public CharacterPlayer(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
             Input = new PlayerInput();
-            MoveSpeed = 10;
+            MoveSpeed = 5;
         }
 
         public override void Update(float deltatime)
@@ -30,8 +32,8 @@ namespace Royale_Platformer.Model
 
             Velocity.X = 0;
 
-            if (Input.A) Velocity.X -= MoveSpeed * 100 * deltatime;
-            if (Input.D) Velocity.X += MoveSpeed * 100 * deltatime;
+            if (Input.A) Velocity.X -= MoveSpeed;
+            if (Input.D) Velocity.X += MoveSpeed;
 
             if (onLeft  && Velocity.X < 0) Velocity.X = 0;
             if (onRight && Velocity.X > 0) Velocity.X = 0;
@@ -39,7 +41,7 @@ namespace Royale_Platformer.Model
             if(onBottom)
             {
                 Velocity.Y = 0;
-                if (Input.Space && !Input.LastSpace) Velocity.Y += 10f;
+                if (Input.Space) Velocity.Y += 10f;
             } else
             {
                 Velocity.Y -= 10f * deltatime; // Gravity
@@ -51,7 +53,12 @@ namespace Royale_Platformer.Model
 
             //Animate.UpdateAnimation(body);
 
-            Input.LastSpace = Input.Space;
+            if(Input.LeftClick)
+            {
+                Vector2 dir = Input.MousePosition;
+                dir.Normalize();
+                GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this);
+            }
         }
 
         public Vector3 Deserialize(string serialized)

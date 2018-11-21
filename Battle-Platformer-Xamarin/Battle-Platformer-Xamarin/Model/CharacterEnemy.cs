@@ -11,7 +11,7 @@ namespace Royale_Platformer.Model
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
-            MoveSpeed = 10;
+            MoveSpeed = 4;
         }
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth, Vector3 position) : base(characterClass, maxHealth, position)
@@ -28,7 +28,7 @@ namespace Royale_Platformer.Model
             if (onRight) direction = -1f;
 
             if (deltatime > 0.05f) deltatime = 0f;
-            float speed = MoveSpeed * direction * deltatime * deltatime * 80f;
+            float speed = MoveSpeed * direction * deltatime;
             WorldNode.SetPosition2D(WorldNode.Position2D + new Vector2(speed, 0));
         }
 
