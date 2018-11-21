@@ -26,7 +26,7 @@ namespace Royale_Platformer.Model
             WorldNode.SetPosition2D(WorldNode.Position2D + new Vector2(speed, 0));
         }
 
-        public override ISerializer Deserialize(string serialized)
+        public ISerializer Deserialize(string serialized)
         {
             throw new System.NotImplementedException();
         }

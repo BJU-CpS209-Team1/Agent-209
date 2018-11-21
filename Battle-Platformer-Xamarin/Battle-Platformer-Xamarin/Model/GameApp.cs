@@ -317,7 +317,10 @@ namespace Royale_Platformer.Model
 
                 InvokeOnMain(() => { UI.Root.AddChild(saved); });
                 await Task.Delay(500);
-                InvokeOnMain(() => { UI.Root.RemoveChild(saved); });
+                InvokeOnMain(() => {
+                    try { UI.Root.RemoveChild(saved); }
+                    catch { return; }                    
+                });
             }
 
             if (Input.GetKeyDown(Key.F2)) {
@@ -376,22 +379,27 @@ namespace Royale_Platformer.Model
                 hud.RemoveAllChildren();
 
                 var difficulty = new Text() { Value = hardcore ? "Difficulty: Hardcore" : "Difficulty: Normal" };
-                var armor = new Text() { Value = PlayerCharacter.Armor ? "Armor: Protected" : "Armor: Missing" };
                 var weapon = new Text() { Value = $"Weapon: {PlayerCharacter.HeldWeapon.Serialize()}" };
+                var armor = new Text() { Value = PlayerCharacter.Armor ? "Armor: Protected" : "Armor: Missing" };
+                var health = new Text() { Value = $"Health: {PlayerCharacter.Health.ToString()}" };
                 var clock = new Text() { Value = $"Time: {TimeSpan.FromSeconds(time / 10).ToString(@"mm\:ss")}" };
 
                 difficulty.SetColor(Color.Yellow);
-                armor.SetColor(Color.Yellow);
                 weapon.SetColor(Color.Yellow);
+                armor.SetColor(Color.Yellow);
+                health.SetColor(Color.Yellow);
                 clock.SetColor(Color.Yellow);
+
                 difficulty.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
-                armor.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
                 weapon.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                armor.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                health.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
                 clock.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
 
                 hud.AddChild(difficulty);
-                hud.AddChild(armor);
                 hud.AddChild(weapon);
+                hud.AddChild(armor);
+                hud.AddChild(health);
                 hud.AddChild(clock);
             });
         }
@@ -411,25 +419,84 @@ namespace Royale_Platformer.Model
         {
             string output = "";
 
+            // Add Player
+            output += PlayerCharacter.Serialize();
+
+            // Add Difficulty
+            output += Environment.NewLine + hardcore.ToString();
+
+            // Add Time
+            output += Environment.NewLine + time.ToString();
+
+            // Add Health
+            output += Environment.NewLine + PlayerCharacter.Health.ToString();
+
+            // Add Armor
+            output += Environment.NewLine + PlayerCharacter.Armor.ToString();
+
+            // Add enemies
             string characterString = "";
-            foreach (var character in Characters)
-            {
-                characterString += character.Serialize();
-            }
-            output += characterString;
+            foreach (var character in Characters) { characterString += $"{character.Serialize()};"; }
+            output += Environment.NewLine + characterString;
+
+            // Add pickups
+            string pickupString = "";
+            foreach (var item in Pickups) { pickupString += $"{item.Serialize()};"; }
+            output += Environment.NewLine + pickupString;
+
+            // Add Weapon
+            output += Environment.NewLine + PlayerCharacter.HeldWeapon.Serialize();
 
             return output;
         }
 
         public void Deserialize(string serialized)
         {
-            // deserialize position of player
-            string[] charactersSplit = serialized.Split(',');
-            float x = float.Parse(charactersSplit[0], CultureInfo.InvariantCulture.NumberFormat);
-            float y = float.Parse(charactersSplit[1], CultureInfo.InvariantCulture.NumberFormat);
-            float z = float.Parse(charactersSplit[2], CultureInfo.InvariantCulture.NumberFormat);
-
-            PlayerCharacter.WorldNode.Position = new Vector3(x, y, z);
+            using (StringReader reader = new StringReader(serialized))
+            {
+                string line;
+                int lineNumber = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    switch(lineNumber)
+                    {
+                        case 0: // Player
+                            PlayerCharacter.WorldNode.Position = PlayerCharacter.Deserialize(line);
+                            ++lineNumber;
+                            break;
+                        case 1: // Difficulty
+                            hardcore = line == "True" ? true : false;
+                            ++lineNumber;
+                            break;
+                        case 2: // Time
+                            time = Convert.ToInt32(line);
+                            ++lineNumber;
+                            break;
+                        case 3: // Health
+                            PlayerCharacter.Health = Convert.ToInt32(line);
+                            ++lineNumber;
+                            break;
+                        case 4: // Armor
+                            PlayerCharacter.Armor = line == "True" ? true : false;
+                            ++lineNumber;
+                            break;
+                        case 5: // Enemies
+                            // TODO: Implement this
+                            ++lineNumber;
+                            break;
+                        case 6: // Pickups
+                            // TODO: Implement this
+                            ++lineNumber;
+                            break;
+                        case 7: // Weapon
+                            PlayerCharacter.HeldWeapon = Weapon.GetWeaponType(line);
+                            ++lineNumber;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
 
         public void Load(string fileName)
@@ -438,7 +505,8 @@ namespace Royale_Platformer.Model
 
             if (File.Exists(PATH))
             {
-                string data = File.ReadLines(PATH).First();
+                string data = "";
+                foreach (var line in File.ReadLines(PATH)) { data += line + Environment.NewLine; };                
                 Deserialize(data);
             }
             else

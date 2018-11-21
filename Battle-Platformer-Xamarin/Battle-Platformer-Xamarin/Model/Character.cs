@@ -6,17 +6,19 @@ using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
-    public abstract class Character : WorldObject, ISerializer
+    public abstract class Character : WorldObject
     {
         public CharacterClass Class { get; protected set; }
-        public Weapon HeldWeapon { get; protected set; }
+        public Weapon HeldWeapon { get; set; }
         public bool Armor { get; set; }
         public int MaxHealth { get; protected set; }
-        public int Health { get; protected set; }
+        public int Health { get; set; }
         public int Score { get; protected set; }
 
         public float MoveSpeed { get; set; }
         public Vector2 Velocity;
+
+        private Vector3 position;
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -36,7 +38,8 @@ namespace Royale_Platformer.Model
         public virtual void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
-            WorldNode.Position = new Vector3(pos.X, pos.Y, -1f);
+            WorldNode.Position = new Vector3(pos);
+            position = WorldNode.Position;
             WorldNode.SetScale(1f / 12.14f);
 
             StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
@@ -46,7 +49,7 @@ namespace Royale_Platformer.Model
 
         public virtual void Hit(Bullet bullet)
         {
-            if(Armor)
+            if (Armor)
             {
                 Armor = false;
                 return;
@@ -65,15 +68,12 @@ namespace Royale_Platformer.Model
 
         public abstract void Update(float deltatime);
 
-        public abstract ISerializer Deserialize(string serialized);
+        //public abstract ISerializer Deserialize(string serialized);
 
-        public string Serialize()
+        public string Serialize() 
         {
-            string output = "";
-            output += WorldNode.Position.X.ToString() + ",";
-            output += WorldNode.Position.Y.ToString() + ",";
-            output += WorldNode.Position.Z.ToString();
-            return output;
+            position = WorldNode.Position;
+            return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";
         }
 
     }
