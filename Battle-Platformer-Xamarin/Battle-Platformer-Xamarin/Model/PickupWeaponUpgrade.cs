@@ -14,7 +14,7 @@ namespace Royale_Platformer.Model
         {
         }
 
-        public override ISerializer Deserialize(string serialized)
+        public override Vector2 Deserialize(string serialized)
         {
             throw new System.NotImplementedException();
         }

@@ -4,7 +4,7 @@ using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
-    public abstract class Pickup : WorldObject, ISerializer
+    public abstract class Pickup : WorldObject
     {
         Vector3 position;
 
@@ -29,7 +29,7 @@ namespace Royale_Platformer.Model
             WorldHitbox.Size = new Vector2(0.5f, 0.5f);
         }
 
-        public abstract ISerializer Deserialize(string serialized);
+        public abstract Vector2 Deserialize(string serialized);
 
         // Returns false if the item isn't picked up
         // Ex: Pickup is armor and character already has armor

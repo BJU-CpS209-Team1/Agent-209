@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using System.Globalization;
+using Urho;
 using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
@@ -14,9 +15,14 @@ namespace Royale_Platformer.Model
         {
         }
 
-        public override ISerializer Deserialize(string serialized)
+        public override Vector2 Deserialize(string serialized)
         {
-            throw new System.NotImplementedException();
+            string[] coords = serialized.Split(',');
+
+            float x = float.Parse(coords[0], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(coords[1], CultureInfo.InvariantCulture.NumberFormat);
+
+            return new Vector2(x, y);
         }
 
         public override bool PickUp(Character character)

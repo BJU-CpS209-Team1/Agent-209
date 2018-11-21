@@ -186,7 +186,7 @@ namespace Royale_Platformer.Model
                 collisionObjects.Add(tile);
             }
 
-            CreatePickups();
+            if (!continueGame) CreatePickups();
         }
 
         private void CreatePickups()
@@ -436,7 +436,7 @@ namespace Royale_Platformer.Model
                             ++lineNumber;
                             break;
                         case 6: // Pickups
-                            // TODO: Implement this
+                            LoadPickups(line);
                             ++lineNumber;
                             break;
                         case 7: // Weapon
@@ -447,6 +447,23 @@ namespace Royale_Platformer.Model
                             break;
                     }
                 }
+            }
+        }
+
+        private void LoadPickups(string line)
+        {
+            var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
+            var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
+
+            if (weaponSprite == null || armorSprite == null)
+                throw new Exception("Texture not found");
+
+            string[] pickupsSplit = line.Split(';');
+            for (int i = 0; i < pickupsSplit.Length - 1; i++)
+            {
+                var pickup = new PickupArmor();
+                var position = pickup.Deserialize(pickupsSplit[i]);
+                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(position.X, position.Y)));
             }
         }
 
