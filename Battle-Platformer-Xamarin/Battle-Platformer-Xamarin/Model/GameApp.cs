@@ -42,7 +42,7 @@ namespace Royale_Platformer.Model
         private bool hardcore;
         private bool continueGame;
         Timer timer;
-        
+
         public GameApp(ApplicationOptions options) : base(options)
         {
             Instance = this;
@@ -88,7 +88,7 @@ namespace Royale_Platformer.Model
             CreateHUD();
             CreateClock();
 
-            bulletSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/laserPurpleDot.png");
+            bulletSprite = ResourceCache.GetSprite2D("shot.png");
             if (bulletSprite == null)
                 throw new Exception("Bullet sprite not found!");
 
@@ -100,6 +100,7 @@ namespace Royale_Platformer.Model
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
         }
 
+        #region Gameplay Methods
         private void PlayMusic()
         {
             var music = ResourceCache.GetSound("sounds/loop1.ogg");
@@ -244,7 +245,7 @@ namespace Royale_Platformer.Model
             // Bullets
             foreach (Bullet b in Bullets.ToList())
             {
-                if(b.WorldNode.Position2D.Length > 50f)
+                if (b.WorldNode.Position2D.Length > 50f)
                 {
                     b.WorldNode.Remove();
                     Bullets.Remove(b);
@@ -269,7 +270,7 @@ namespace Royale_Platformer.Model
 
                 if (deleted) continue;
 
-                foreach(WorldObject o in collisionObjects)
+                foreach (WorldObject o in collisionObjects)
                 {
                     if (o.Collides(b))
                     {
@@ -293,9 +294,9 @@ namespace Royale_Platformer.Model
             mouseUV.Y *= -1f;
             PlayerCharacter.Input.MousePosition = mouseUV;
 
-            foreach(Character c in Characters.ToList())
+            foreach (Character c in Characters.ToList())
             {
-                if(c.Health <= 0)
+                if (c.Health <= 0)
                 {
                     c.WorldNode.Remove();
                     Characters.Remove(c);
@@ -327,10 +328,12 @@ namespace Royale_Platformer.Model
                         try { UI.Root.RemoveChild(saved); }
                         catch { return; }
                     });
-                } catch { return; }
+                }
+                catch { return; }
             }
 
-            if (Input.GetKeyDown(Key.F2)) {
+            if (Input.GetKeyDown(Key.F2))
+            {
                 timer.Enabled = false;
                 Restart();
             }
@@ -346,7 +349,7 @@ namespace Royale_Platformer.Model
 
         public void AddCharacter(Character character)
         {
-            character.UpgradeWeapon(); // TEMP
+            // character.UpgradeWeapon(); Disabled for testing Save/Load
             Characters.Add(character);
         }
 
@@ -421,25 +424,21 @@ namespace Royale_Platformer.Model
                 Bullets.Add(b);
             }
         }
+        #endregion
 
+        #region Save/Load Methods
         public string Serialize()
         {
             string output = "";
 
-            // Add Player
-            output += PlayerCharacter.Serialize();
-
             // Add Difficulty
-            output += Environment.NewLine + hardcore.ToString();
+            output += hardcore.ToString();
 
             // Add Time
             output += Environment.NewLine + time.ToString();
 
-            // Add Health
-            output += Environment.NewLine + PlayerCharacter.Health.ToString();
-
-            // Add Armor
-            output += Environment.NewLine + PlayerCharacter.Armor.ToString();
+            // Add Player
+            output += Environment.NewLine + PlayerCharacter.Serialize();
 
             // Add enemies
             string characterString = "";
@@ -450,9 +449,6 @@ namespace Royale_Platformer.Model
             string pickupString = "";
             foreach (var item in Pickups) { pickupString += $"{item.Serialize()};"; }
             output += Environment.NewLine + pickupString;
-
-            // Add Weapon
-            output += Environment.NewLine + PlayerCharacter.HeldWeapon.Serialize();
 
             return output;
         }
@@ -465,38 +461,26 @@ namespace Royale_Platformer.Model
                 int lineNumber = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    switch(lineNumber)
+                    switch (lineNumber)
                     {
-                        case 0: // Player
-                            PlayerCharacter.WorldNode.Position = PlayerCharacter.Deserialize(line);
-                            ++lineNumber;
-                            break;
-                        case 1: // Difficulty
+                        case 0: // Difficulty
                             hardcore = line == "True" ? true : false;
                             ++lineNumber;
                             break;
-                        case 2: // Time
+                        case 1: // Time
                             time = Convert.ToInt32(line);
                             ++lineNumber;
                             break;
-                        case 3: // Health
-                            PlayerCharacter.Health = Convert.ToInt32(line);
+                        case 2: // Player
+                            LoadPlayer(line);
                             ++lineNumber;
                             break;
-                        case 4: // Armor
-                            PlayerCharacter.Armor = line == "True" ? true : false;
-                            ++lineNumber;
-                            break;
-                        case 5: // Enemies
+                        case 3: // Enemies
                             LoadEnemies(line);
                             ++lineNumber;
                             break;
-                        case 6: // Pickups
+                        case 4: // Pickups
                             LoadPickups(line);
-                            ++lineNumber;
-                            break;
-                        case 7: // Weapon
-                            PlayerCharacter.HeldWeapon = Weapon.GetWeaponType(line);
                             ++lineNumber;
                             break;
                         default:
@@ -506,38 +490,189 @@ namespace Royale_Platformer.Model
             }
         }
 
+        private void LoadPlayer(string line)
+        {
+            // Create variables to store character properties.
+            // Order of serialized is:
+            // Class,HeldWeapon,Armor,Health,MaxHealth,Score,X,Y,Z
+            string[] props = line.Split(',');
+            var playerClass = props[0];
+            var playerWeapon = props[1];
+            var playerArmor = props[2];
+            var playerHealth = props[3];
+            var playerMaxHealth = props[4];
+            var playerScore = props[5];
+
+            string[] position = props.Skip(6).Take(3).ToArray();
+            float x = float.Parse(position[0], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(position[1], CultureInfo.InvariantCulture.NumberFormat);
+            float z = float.Parse(position[2], CultureInfo.InvariantCulture.NumberFormat);
+
+            // Determine CharacterClass
+            CharacterClass charClass = CharacterClass.Gunner;
+            switch (playerClass)
+            {
+                case "Gunner":
+                    charClass = CharacterClass.Gunner;
+                    break;
+                case "Support":
+                    charClass = CharacterClass.Support;
+                    break;
+                case "Tank":
+                    charClass = CharacterClass.Tank;
+                    break;
+            }
+
+            // Determine HeldWeapon
+            Weapon heldWeapon = new WeaponKnife();
+            switch (playerWeapon)
+            {
+                case "Royale_Platformer.Model.WeaponKnife":
+                    heldWeapon = new WeaponKnife();
+                    break;
+                case "Royale_Platformer.Model.WeaponPistol":
+                    heldWeapon = new WeaponPistol();
+                    break;
+                case "Royale_Platformer.Model.WeaponPistolShield":
+                    heldWeapon = new WeaponPistolShield();
+                    break;
+                case "Royale_Platformer.Model.WeaponShotgun":
+                    heldWeapon = new WeaponShotgun();
+                    break;
+                case "Royale_Platformer.Model.WeaponAdvancedShotgun":
+                    heldWeapon = new WeaponAdvancedShotgun();
+                    break;
+                case "Royale_Platformer.Model.WeaponAR":
+                    heldWeapon = new WeaponAR();
+                    break;
+            }
+
+            // Update Player
+            PlayerCharacter.Class = charClass;
+            PlayerCharacter.MaxHealth = Convert.ToInt32(playerMaxHealth);
+            PlayerCharacter.Position = new Vector3(x, y, z);
+            PlayerCharacter.Health = Convert.ToInt32(playerHealth);
+            PlayerCharacter.HeldWeapon = heldWeapon;
+            PlayerCharacter.Armor = playerArmor == "True" ? true : false;
+            PlayerCharacter.Score = Convert.ToInt32(playerScore);
+
+            // Load Enemy
+            PlayerCharacter.WorldNode.Position = PlayerCharacter.Position;
+        }
+
         private void LoadPickups(string line)
         {
+            // Create images
             var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
             var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
-
             if (weaponSprite == null || armorSprite == null)
                 throw new Exception("Texture not found");
 
+            // Load each pickup
             string[] pickupsSplit = line.Split(';');
-            for (int i = 0; i < pickupsSplit.Length - 1; i++)
+            foreach (var pickup in pickupsSplit.Take(pickupsSplit.Length - 1))
             {
-                var pickup = new PickupArmor();
-                var position = pickup.Deserialize(pickupsSplit[i]);
-                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(position.X, position.Y)));
+                Pickup pickupObj;
+
+                // determine type
+                var pickupType = pickup.Split(',')[0];
+                if (pickupType == "Royale_Platformer.Model.PickupArmor")
+                    pickupObj = new PickupArmor();
+                else
+                    pickupObj = new PickupWeaponUpgrade();
+
+                // determine position
+                var position = pickupObj.Deserialize(pickup);
+
+                // Load
+                if (pickupType == "Royale_Platformer.Model.PickupArmor")
+                    Pickups.Add(new PickupArmor(scene, weaponSprite, new Vector2(position.X, position.Y)));
+                else
+                    Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(position.X, position.Y)));
             }
         }
 
         private void LoadEnemies(string line)
         {
+            // Create Images
             var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
             if (enemySprite == null)
                 throw new Exception("Enemy sprite not found");
 
+            // Load each enemy
             string[] enemiesSplit = line.Split(';');
-            for (int i = 0; i < enemiesSplit.Length - 1; i++)
+            foreach (var enemy in enemiesSplit.Take(enemiesSplit.Length - 1))
             {
-                var enemyCharacter = new CharacterEnemy(CharacterClass.Gunner, 5);
-                var position = enemyCharacter.Deserialize(enemiesSplit[i]);
-                enemyCharacter = new CharacterEnemy(CharacterClass.Gunner, 5, position);
-                enemyCharacter.CreateNode(scene, enemySprite, new Vector2(enemyCharacter.Position.X, enemyCharacter.Position.Y));
-                AddCharacter(enemyCharacter);
-            }   
+                // Create variables to store character properties.
+                // Order of serialized is:
+                // Class,HeldWeapon,Armor,Health,MaxHealth,Score,X,Y,Z
+                string[] props = enemy.Split(',');
+                var enemyClass = props[0];
+                var enemyWeapon = props[1];
+                var enemyArmor = props[2];
+                var enemyHealth = props[3];
+                var enemyMaxHealth = props[4];
+                var enemyScore = props[5];
+
+                string[] position = props.Skip(6).Take(3).ToArray();
+                float x = float.Parse(position[0], CultureInfo.InvariantCulture.NumberFormat);
+                float y = float.Parse(position[1], CultureInfo.InvariantCulture.NumberFormat);
+                float z = float.Parse(position[2], CultureInfo.InvariantCulture.NumberFormat);
+
+                // Determine CharacterClass
+                CharacterClass charClass = CharacterClass.Gunner;
+                switch (enemyClass)
+                {
+                    case "Gunner":
+                        charClass = CharacterClass.Gunner;
+                        break;
+                    case "Support":
+                        charClass = CharacterClass.Support;
+                        break;
+                    case "Tank":
+                        charClass = CharacterClass.Tank;
+                        break;
+                }
+
+                // Determine HeldWeapon
+                Weapon heldWeapon = new WeaponKnife();
+                switch (enemyWeapon)
+                {
+                    case "Royale_Platformer.Model.WeaponKnife":
+                        heldWeapon = new WeaponKnife();
+                        break;
+                    case "Royale_Platformer.Model.WeaponPistol":
+                        heldWeapon = new WeaponPistol();
+                        break;
+                    case "Royale_Platformer.Model.WeaponPistolShield":
+                        heldWeapon = new WeaponPistolShield();
+                        break;
+                    case "Royale_Platformer.Model.WeaponShotgun":
+                        heldWeapon = new WeaponShotgun();
+                        break;
+                    case "Royale_Platformer.Model.WeaponAdvancedShotgun":
+                        heldWeapon = new WeaponAdvancedShotgun();
+                        break;
+                    case "Royale_Platformer.Model.WeaponAR":
+                        heldWeapon = new WeaponAR();
+                        break;
+                }
+
+                // Create new Character
+                CharacterEnemy enemyPlayer = new CharacterEnemy(
+                    charClass,
+                    Convert.ToInt32(enemyMaxHealth),
+                    new Vector3(x, y, z)
+                );
+                enemyPlayer.Health = Convert.ToInt32(enemyHealth);
+                enemyPlayer.HeldWeapon = heldWeapon;
+                enemyPlayer.Armor = enemyArmor == "True" ? true : false;
+                enemyPlayer.Score = Convert.ToInt32(enemyScore);
+
+                // Load Enemy
+                enemyPlayer.CreateNode(scene, enemySprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
+                AddCharacter(enemyPlayer);
+            }
         }
 
         public void Load(string fileName)
@@ -547,7 +682,7 @@ namespace Royale_Platformer.Model
             if (File.Exists(PATH))
             {
                 string data = "";
-                foreach (var line in File.ReadLines(PATH)) { data += line + Environment.NewLine; };                
+                foreach (var line in File.ReadLines(PATH)) { data += line + Environment.NewLine; };
                 Deserialize(data);
             }
             else
@@ -563,5 +698,6 @@ namespace Royale_Platformer.Model
             string serialized = Serialize();
             File.WriteAllText(PATH, serialized);
         }
+        #endregion
     }
 }

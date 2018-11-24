@@ -17,10 +17,10 @@ namespace Royale_Platformer.Model
 
         public override Vector2 Deserialize(string serialized)
         {
-            string[] coords = serialized.Split(',');
+            string[] data = serialized.Split(',');
 
-            float x = float.Parse(coords[0], CultureInfo.InvariantCulture.NumberFormat);
-            float y = float.Parse(coords[1], CultureInfo.InvariantCulture.NumberFormat);
+            float x = float.Parse(data[1], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(data[2], CultureInfo.InvariantCulture.NumberFormat);
 
             return new Vector2(x, y);
         }

@@ -11,12 +11,12 @@ namespace Royale_Platformer.Model
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
-            MoveSpeed = 4;
+            MoveSpeed = 2;
         }
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth, Vector3 position) : base(characterClass, maxHealth, position)
         {
-            MoveSpeed = 10;
+            MoveSpeed = 2;
         }
 
         public override void Update(float deltatime)

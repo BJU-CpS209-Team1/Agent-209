@@ -37,7 +37,7 @@ namespace Royale_Platformer.Model
 
         public string Serialize()
         {
-            return $"{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";
+            return $"{this.GetType()},{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";
         }
     }
 }

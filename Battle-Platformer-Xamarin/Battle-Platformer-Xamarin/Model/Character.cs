@@ -8,12 +8,12 @@ namespace Royale_Platformer.Model
 {
     public abstract class Character : WorldObject
     {
-        public CharacterClass Class { get; protected set; }
+        public CharacterClass Class { get; set; }
         public Weapon HeldWeapon { get; set; }
         public bool Armor { get; set; }
-        public int MaxHealth { get; protected set; }
+        public int MaxHealth { get; set; }
         public int Health { get; set; }
-        public int Score { get; protected set; }
+        public int Score { get; set; }
 
         public float MoveSpeed { get; set; }
         public Vector2 Velocity;
@@ -91,7 +91,7 @@ namespace Royale_Platformer.Model
         public string Serialize()
         {
             Position = WorldNode.Position;
-            return $"{Position.X.ToString()},{Position.Y.ToString()},{Position.Z.ToString()}";
+            return $"{Class},{HeldWeapon},{Armor},{Health},{MaxHealth},{Score},{Position.X.ToString()},{Position.Y.ToString()},{Position.Z.ToString()}";
         }
 
     }
