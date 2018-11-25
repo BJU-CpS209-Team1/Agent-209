@@ -134,10 +134,10 @@ namespace Royale_Platformer.Model
             switch (charClass)
             {
                 case CharacterClass.Gunner:
-                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
                     break;
                 case CharacterClass.Support:
-                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
+                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
                     break;
                 case CharacterClass.Tank:
                     playerSprite = ResourceCache.GetSprite2D("characters/special forces/png3/attack/3_Special_forces_Attack_000.png");
@@ -165,17 +165,16 @@ namespace Royale_Platformer.Model
 
         private void CreateEnemies()
         {
-            // "C:\Users\Elias\Documents\BJU\CPS209\Royale-Platformer\Battle-Platformer-Xamarin\Battle-Platformer-Xamarin.UWP\GameData\characters\special forces\png2\attack\2_Special_forces_attack_Attack_000.png"
-            var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
-            if (enemySprite == null)
-                throw new Exception("Enemy sprite not found");
-
             CharacterEnemy enemy = new CharacterEnemy(CharacterClass.Support, 5);
-            enemy.CreateNode(scene, enemySprite, new Vector2(4, -2));
+            Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
+            if (sprite == null) throw new Exception("Enemy sprite not found");
+            enemy.CreateNode(scene, sprite, new Vector2(4, -2));
             AddCharacter(enemy);
 
             CharacterEnemy enemy2 = new CharacterEnemy(CharacterClass.Tank, 5);
-            enemy2.CreateNode(scene, enemySprite, new Vector2(-8, -2));
+            Sprite2D sprite2 = ResourceCache.GetSprite2D(enemy2.GetSprite());
+            if (sprite2 == null) throw new Exception("Enemy sprite not found");
+            enemy2.CreateNode(scene, sprite2, new Vector2(-8, -2));
             AddCharacter(enemy2);
         }
 
@@ -644,11 +643,6 @@ namespace Royale_Platformer.Model
         {
             InvokeOnMain(() =>
             {
-                // Create Images
-                var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
-                if (enemySprite == null)
-                    throw new Exception("Enemy sprite not found");
-
                 // Load each enemy
                 string[] enemiesSplit = line.Split(';');
                 foreach (var enemy in enemiesSplit.Take(enemiesSplit.Length - 1))
@@ -720,7 +714,9 @@ namespace Royale_Platformer.Model
                     enemyPlayer.Score = Convert.ToInt32(enemyScore);
 
                     // Load Enemy
-                    enemyPlayer.CreateNode(scene, enemySprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
+                    Sprite2D sprite = ResourceCache.GetSprite2D(enemyPlayer.GetSprite());
+                    if (sprite == null) throw new Exception("Enemy sprite not found");
+                    enemyPlayer.CreateNode(scene, sprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
                     AddCharacter(enemyPlayer);
                 }
             });
