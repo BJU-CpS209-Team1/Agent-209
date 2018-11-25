@@ -84,7 +84,7 @@ namespace Royale_Platformer.Model
             CreatePlayer(0, 0);
             if (!continueGame) CreateEnemies();
             CreateMap();
-            PlayMusic();
+            PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
             CreateHUD();
             CreateClock();
 
@@ -101,12 +101,11 @@ namespace Royale_Platformer.Model
         }
 
         #region Gameplay Methods
-        private void PlayMusic()
+        private void PlaySound(string name, bool looped, Node source)
         {
-            var music = ResourceCache.GetSound("sounds/loop1.ogg");
-            music.Looped = true;
-            Node musicNode = new Scene().CreateChild("Music");
-            SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
+            var music = ResourceCache.GetSound(name);
+            music.Looped = looped; 
+            SoundSource musicSource = source.CreateComponent<SoundSource>();
             musicSource.SetSoundType(SoundType.Music.ToString());
             musicSource.Play(music);
         }
@@ -235,6 +234,7 @@ namespace Royale_Platformer.Model
                     {
                         if (p.PickUp(c))
                         {
+                            PlaySound("sounds/effects/pop.ogg", false, c.WorldNode);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
                         }
@@ -296,8 +296,15 @@ namespace Royale_Platformer.Model
 
             foreach (Character c in Characters.ToList())
             {
+                // Death
                 if (c.Health <= 0)
                 {
+                    // sound effect
+                    // create new node to play sound from, as character will be removed
+                    var node = new Scene().CreateChild();
+                    node.Position = c.Position;
+                    PlaySound("sounds/effects/death.ogg", false, node);
+
                     c.WorldNode.Remove();
                     Characters.Remove(c);
                     continue;
@@ -422,6 +429,7 @@ namespace Royale_Platformer.Model
                 b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
 
                 Bullets.Add(b);
+                PlaySound("sounds/effects/gunshot.ogg", false, b.WorldNode);
             }
         }
         #endregion
