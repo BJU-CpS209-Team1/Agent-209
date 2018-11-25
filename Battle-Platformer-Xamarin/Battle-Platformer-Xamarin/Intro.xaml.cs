@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Royale_Platformer.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +15,14 @@ namespace Battle_Platformer_Xamarin
         bool continueGame;
         bool hardcore;
         bool skipped;
+        CharacterClass charClass;
 
-        public Intro(bool continueGame, bool hardcore)
+        public Intro(bool continueGame, bool hardcore, CharacterClass charClass)
         {
             InitializeComponent();
             this.continueGame = continueGame;
             this.hardcore = hardcore;
+            this.charClass = charClass;
             this.skipped = false;
 
             var gestureRecognizer = new TapGestureRecognizer();
@@ -43,7 +46,7 @@ namespace Battle_Platformer_Xamarin
 
         public void ExitVideo()
         {
-            App.Current.MainPage = new Game(continueGame, hardcore);
+            App.Current.MainPage = new Game(continueGame, hardcore, charClass);
         }
     }
 }

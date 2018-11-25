@@ -41,6 +41,7 @@ namespace Royale_Platformer.Model
         private int time;
         private bool hardcore;
         private bool continueGame;
+        private CharacterClass charClass;
         Timer timer;
 
         public GameApp(ApplicationOptions options) : base(options)
@@ -50,6 +51,19 @@ namespace Royale_Platformer.Model
 
             hardcore = flags[0] == "True" ? true : false;
             continueGame = flags[1] == "True" ? true : false;
+
+            switch (flags[2])
+            {
+                case "Gunner":
+                    charClass = CharacterClass.Gunner;
+                    break;
+                case "Tank":
+                    charClass = CharacterClass.Tank;
+                    break;
+                case "Support":
+                    charClass = CharacterClass.Support;
+                    break;
+            }
 
             Characters = new List<Character>();
             Pickups = new List<Pickup>();
@@ -72,7 +86,7 @@ namespace Royale_Platformer.Model
             //scene.CreateComponent<PhysicsWorld2D>();
 
             cameraNode = scene.CreateChild("Camera");
-            cameraNode.Position = new Vector3(0, 0, -10);
+            cameraNode.Position = new Vector3(0, 0, -1);
 
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
@@ -81,7 +95,7 @@ namespace Royale_Platformer.Model
 
             time = 6000;
 
-            CreatePlayer(0, 0);
+            if (!continueGame) CreatePlayer(0, 0);
             if (!continueGame) CreateEnemies();
             CreateMap();
             PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
@@ -104,7 +118,7 @@ namespace Royale_Platformer.Model
         private void PlaySound(string name, bool looped, Node source)
         {
             var music = ResourceCache.GetSound(name);
-            music.Looped = looped; 
+            music.Looped = looped;
             SoundSource musicSource = source.CreateComponent<SoundSource>();
             musicSource.SetSoundType(SoundType.Music.ToString());
             musicSource.Play(music);
@@ -115,12 +129,25 @@ namespace Royale_Platformer.Model
             //AnimatedSprite2D playerAnimatedSprite = playerNode.CreateComponent<AnimatedSprite2D>();
             //playerAnimatedSprite.BlendMode = BlendMode.Alpha;
             //playerAnimatedSprite.Sprite = playerSprite;
+            Sprite2D playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
 
-            var playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+            switch (charClass)
+            {
+                case CharacterClass.Gunner:
+                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+                    break;
+                case CharacterClass.Support:
+                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
+                    break;
+                case CharacterClass.Tank:
+                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png3/attack/3_Special_forces_Attack_000.png");
+                    break;
+            }
+
             if (playerSprite == null)
                 throw new Exception("Player sprite not found");
 
-            CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
+            CharacterPlayer player = new CharacterPlayer(charClass, 10);
             player.CreateNode(scene, playerSprite, new Vector2(x, y));
 
             /*
@@ -281,68 +308,73 @@ namespace Royale_Platformer.Model
                 }
             }
 
-            PlayerCharacter.Input.W = Input.GetKeyDown(Key.W);
-            PlayerCharacter.Input.A = Input.GetKeyDown(Key.A);
-            PlayerCharacter.Input.S = Input.GetKeyDown(Key.S);
-            PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
-            PlayerCharacter.Input.Space = Input.GetKeyPress(Key.Space);
-            PlayerCharacter.Input.LeftClick = Input.GetKeyDown(Key.E);
-
-            Vector2 mousePosition = new Vector2(Input.MousePosition.X, Input.MousePosition.Y);
-            Vector2 resolution = new Vector2(Graphics.Width, Graphics.Height);
-            Vector2 mouseUV = ((2f * mousePosition) - resolution) / resolution.Y;
-            mouseUV.Y *= -1f;
-            PlayerCharacter.Input.MousePosition = mouseUV;
-
-            foreach (Character c in Characters.ToList())
+            // PlayerCharacter may have to be loaded from saved game
+            if (PlayerCharacter != null)
             {
-                // Death
-                if (c.Health <= 0)
+                PlayerCharacter.Input.W = Input.GetKeyDown(Key.W);
+                PlayerCharacter.Input.A = Input.GetKeyDown(Key.A);
+                PlayerCharacter.Input.S = Input.GetKeyDown(Key.S);
+                PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
+                PlayerCharacter.Input.Space = Input.GetKeyPress(Key.Space);
+                PlayerCharacter.Input.LeftClick = Input.GetKeyDown(Key.E);
+
+
+                Vector2 mousePosition = new Vector2(Input.MousePosition.X, Input.MousePosition.Y);
+                Vector2 resolution = new Vector2(Graphics.Width, Graphics.Height);
+                Vector2 mouseUV = ((2f * mousePosition) - resolution) / resolution.Y;
+                mouseUV.Y *= -1f;
+                PlayerCharacter.Input.MousePosition = mouseUV;
+
+                foreach (Character c in Characters.ToList())
                 {
-                    // sound effect
-                    // create new node to play sound from, as character will be removed
-                    var node = new Scene().CreateChild();
-                    node.Position = c.Position;
-                    PlaySound("sounds/effects/death.ogg", false, node);
-
-                    c.WorldNode.Remove();
-                    Characters.Remove(c);
-                    continue;
-                }
-
-                c.UpdateCollision(collisionObjects);
-                c.Update(timeStep);
-            }
-
-            PlayerCharacter.Input.LeftClick = false;
-
-            if (Input.GetKeyDown(Key.F1))
-            {
-                Save("latest.txt");
-                var saved = new Text() { Value = "Game Saved" };
-
-                saved.SetColor(Color.Cyan);
-                saved.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
-                saved.VerticalAlignment = VerticalAlignment.Center;
-                saved.HorizontalAlignment = HorizontalAlignment.Center;
-
-                InvokeOnMain(() => { UI.Root.AddChild(saved); });
-                await Task.Delay(500);
-                try
-                {
-                    InvokeOnMain(() =>
+                    // Death
+                    if (c.Health <= 0)
                     {
-                        try { UI.Root.RemoveChild(saved); }
-                        catch { return; }
-                    });
-                }
-                catch { return; }
-            }
+                        // sound effect
+                        // create new node to play sound from, as character will be removed
+                        var node = new Scene().CreateChild();
+                        node.Position = c.Position;
+                        PlaySound("sounds/effects/death.ogg", false, node);
 
-            if (Input.GetKeyDown(Key.F2))
-            {
-                timer.Enabled = false;
-                Restart();
+                        c.WorldNode.Remove();
+                        Characters.Remove(c);
+                        continue;
+                    }
+
+                    c.UpdateCollision(collisionObjects);
+                    c.Update(timeStep);
+                }
+
+                PlayerCharacter.Input.LeftClick = false;
+
+                if (Input.GetKeyDown(Key.F1))
+                {
+                    Save("latest.txt");
+                    var saved = new Text() { Value = "Game Saved" };
+
+                    saved.SetColor(Color.Cyan);
+                    saved.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                    saved.VerticalAlignment = VerticalAlignment.Center;
+                    saved.HorizontalAlignment = HorizontalAlignment.Center;
+
+                    InvokeOnMain(() => { UI.Root.AddChild(saved); });
+                    await Task.Delay(500);
+                    try
+                    {
+                        InvokeOnMain(() =>
+                        {
+                            try { UI.Root.RemoveChild(saved); }
+                            catch { return; }
+                        });
+                    }
+                    catch { return; }
+                }
+
+                if (Input.GetKeyDown(Key.F2))
+                {
+                    timer.Enabled = false;
+                    Restart();
+                }
             }
         }
 
@@ -370,7 +402,7 @@ namespace Royale_Platformer.Model
                 LayoutSpacing = 5
             };
 
-            UpdateHUD();
+            if (PlayerCharacter != null) UpdateHUD();
             UI.Root.AddChild(hud);
         }
 
@@ -500,127 +532,18 @@ namespace Royale_Platformer.Model
 
         private void LoadPlayer(string line)
         {
-            // Create variables to store character properties.
-            // Order of serialized is:
-            // Class,HeldWeapon,Armor,Health,MaxHealth,Score,X,Y,Z
-            string[] props = line.Split(',');
-            var playerClass = props[0];
-            var playerWeapon = props[1];
-            var playerArmor = props[2];
-            var playerHealth = props[3];
-            var playerMaxHealth = props[4];
-            var playerScore = props[5];
-
-            string[] position = props.Skip(6).Take(3).ToArray();
-            float x = float.Parse(position[0], CultureInfo.InvariantCulture.NumberFormat);
-            float y = float.Parse(position[1], CultureInfo.InvariantCulture.NumberFormat);
-            float z = float.Parse(position[2], CultureInfo.InvariantCulture.NumberFormat);
-
-            // Determine CharacterClass
-            CharacterClass charClass = CharacterClass.Gunner;
-            switch (playerClass)
-            {
-                case "Gunner":
-                    charClass = CharacterClass.Gunner;
-                    break;
-                case "Support":
-                    charClass = CharacterClass.Support;
-                    break;
-                case "Tank":
-                    charClass = CharacterClass.Tank;
-                    break;
-            }
-
-            // Determine HeldWeapon
-            Weapon heldWeapon = new WeaponKnife();
-            switch (playerWeapon)
-            {
-                case "Royale_Platformer.Model.WeaponKnife":
-                    heldWeapon = new WeaponKnife();
-                    break;
-                case "Royale_Platformer.Model.WeaponPistol":
-                    heldWeapon = new WeaponPistol();
-                    break;
-                case "Royale_Platformer.Model.WeaponPistolShield":
-                    heldWeapon = new WeaponPistolShield();
-                    break;
-                case "Royale_Platformer.Model.WeaponShotgun":
-                    heldWeapon = new WeaponShotgun();
-                    break;
-                case "Royale_Platformer.Model.WeaponAdvancedShotgun":
-                    heldWeapon = new WeaponAdvancedShotgun();
-                    break;
-                case "Royale_Platformer.Model.WeaponAR":
-                    heldWeapon = new WeaponAR();
-                    break;
-            }
-
-            // Update Player
-            PlayerCharacter.Class = charClass;
-            PlayerCharacter.MaxHealth = Convert.ToInt32(playerMaxHealth);
-            PlayerCharacter.Position = new Vector3(x, y, z);
-            PlayerCharacter.Health = Convert.ToInt32(playerHealth);
-            PlayerCharacter.HeldWeapon = heldWeapon;
-            PlayerCharacter.Armor = playerArmor == "True" ? true : false;
-            PlayerCharacter.Score = Convert.ToInt32(playerScore);
-
-            // Load Enemy
-            PlayerCharacter.WorldNode.Position = PlayerCharacter.Position;
-        }
-
-        private void LoadPickups(string line)
-        {
-            // Create images
-            var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
-            var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
-            if (weaponSprite == null || armorSprite == null)
-                throw new Exception("Texture not found");
-
-            // Load each pickup
-            string[] pickupsSplit = line.Split(';');
-            foreach (var pickup in pickupsSplit.Take(pickupsSplit.Length - 1))
-            {
-                Pickup pickupObj;
-
-                // determine type
-                var pickupType = pickup.Split(',')[0];
-                if (pickupType == "Royale_Platformer.Model.PickupArmor")
-                    pickupObj = new PickupArmor();
-                else
-                    pickupObj = new PickupWeaponUpgrade();
-
-                // determine position
-                var position = pickupObj.Deserialize(pickup);
-
-                // Load
-                if (pickupType == "Royale_Platformer.Model.PickupArmor")
-                    Pickups.Add(new PickupArmor(scene, weaponSprite, new Vector2(position.X, position.Y)));
-                else
-                    Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(position.X, position.Y)));
-            }
-        }
-
-        private void LoadEnemies(string line)
-        {
-            // Create Images
-            var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
-            if (enemySprite == null)
-                throw new Exception("Enemy sprite not found");
-
-            // Load each enemy
-            string[] enemiesSplit = line.Split(';');
-            foreach (var enemy in enemiesSplit.Take(enemiesSplit.Length - 1))
+            InvokeOnMain(() =>
             {
                 // Create variables to store character properties.
                 // Order of serialized is:
                 // Class,HeldWeapon,Armor,Health,MaxHealth,Score,X,Y,Z
-                string[] props = enemy.Split(',');
-                var enemyClass = props[0];
-                var enemyWeapon = props[1];
-                var enemyArmor = props[2];
-                var enemyHealth = props[3];
-                var enemyMaxHealth = props[4];
-                var enemyScore = props[5];
+                string[] props = line.Split(',');
+                var playerClass = props[0];
+                var playerWeapon = props[1];
+                var playerArmor = props[2];
+                var playerHealth = props[3];
+                var playerMaxHealth = props[4];
+                var playerScore = props[5];
 
                 string[] position = props.Skip(6).Take(3).ToArray();
                 float x = float.Parse(position[0], CultureInfo.InvariantCulture.NumberFormat);
@@ -628,8 +551,7 @@ namespace Royale_Platformer.Model
                 float z = float.Parse(position[2], CultureInfo.InvariantCulture.NumberFormat);
 
                 // Determine CharacterClass
-                CharacterClass charClass = CharacterClass.Gunner;
-                switch (enemyClass)
+                switch (playerClass)
                 {
                     case "Gunner":
                         charClass = CharacterClass.Gunner;
@@ -642,9 +564,12 @@ namespace Royale_Platformer.Model
                         break;
                 }
 
+                // Create default player with correct class
+                CreatePlayer(x, y);
+
                 // Determine HeldWeapon
                 Weapon heldWeapon = new WeaponKnife();
-                switch (enemyWeapon)
+                switch (playerWeapon)
                 {
                     case "Royale_Platformer.Model.WeaponKnife":
                         heldWeapon = new WeaponKnife();
@@ -666,21 +591,139 @@ namespace Royale_Platformer.Model
                         break;
                 }
 
-                // Create new Character
-                CharacterEnemy enemyPlayer = new CharacterEnemy(
-                    charClass,
-                    Convert.ToInt32(enemyMaxHealth),
-                    new Vector3(x, y, z)
-                );
-                enemyPlayer.Health = Convert.ToInt32(enemyHealth);
-                enemyPlayer.HeldWeapon = heldWeapon;
-                enemyPlayer.Armor = enemyArmor == "True" ? true : false;
-                enemyPlayer.Score = Convert.ToInt32(enemyScore);
+                // Update Player
+                PlayerCharacter.MaxHealth = Convert.ToInt32(playerMaxHealth);
+                PlayerCharacter.Position = new Vector3(x, y, z);
+                PlayerCharacter.Health = Convert.ToInt32(playerHealth);
+                PlayerCharacter.HeldWeapon = heldWeapon;
+                PlayerCharacter.Armor = playerArmor == "True" ? true : false;
+                PlayerCharacter.Score = Convert.ToInt32(playerScore);
 
-                // Load Enemy
-                enemyPlayer.CreateNode(scene, enemySprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
-                AddCharacter(enemyPlayer);
-            }
+                // Update Camera
+                cameraNode.Parent = PlayerCharacter.WorldNode;
+                cameraNode.Position = new Vector3(x, y, -1);
+            });
+        }
+
+        private void LoadPickups(string line)
+        {
+            InvokeOnMain(() =>
+            {
+                // Create images
+                var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
+                var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
+                if (weaponSprite == null || armorSprite == null)
+                    throw new Exception("Texture not found");
+
+                // Load each pickup
+                string[] pickupsSplit = line.Split(';');
+                foreach (var pickup in pickupsSplit.Take(pickupsSplit.Length - 1))
+                {
+                    Pickup pickupObj;
+
+                    // determine type
+                    var pickupType = pickup.Split(',')[0];
+                    if (pickupType == "Royale_Platformer.Model.PickupArmor")
+                        pickupObj = new PickupArmor();
+                    else
+                        pickupObj = new PickupWeaponUpgrade();
+
+                    // determine position
+                    var position = pickupObj.Deserialize(pickup);
+
+                    // Load
+                    if (pickupType == "Royale_Platformer.Model.PickupArmor")
+                        Pickups.Add(new PickupArmor(scene, weaponSprite, new Vector2(position.X, position.Y)));
+                    else
+                        Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(position.X, position.Y)));
+                }
+            });
+        }
+
+        private void LoadEnemies(string line)
+        {
+            InvokeOnMain(() =>
+            {
+                // Create Images
+                var enemySprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
+                if (enemySprite == null)
+                    throw new Exception("Enemy sprite not found");
+
+                // Load each enemy
+                string[] enemiesSplit = line.Split(';');
+                foreach (var enemy in enemiesSplit.Take(enemiesSplit.Length - 1))
+                {
+                    // Create variables to store character properties.
+                    // Order of serialized is:
+                    // Class,HeldWeapon,Armor,Health,MaxHealth,Score,X,Y,Z
+                    string[] props = enemy.Split(',');
+                    var enemyClass = props[0];
+                    var enemyWeapon = props[1];
+                    var enemyArmor = props[2];
+                    var enemyHealth = props[3];
+                    var enemyMaxHealth = props[4];
+                    var enemyScore = props[5];
+
+                    string[] position = props.Skip(6).Take(3).ToArray();
+                    float x = float.Parse(position[0], CultureInfo.InvariantCulture.NumberFormat);
+                    float y = float.Parse(position[1], CultureInfo.InvariantCulture.NumberFormat);
+                    float z = float.Parse(position[2], CultureInfo.InvariantCulture.NumberFormat);
+
+                    // Determine CharacterClass
+                    CharacterClass charClass = CharacterClass.Gunner;
+                    switch (enemyClass)
+                    {
+                        case "Gunner":
+                            charClass = CharacterClass.Gunner;
+                            break;
+                        case "Support":
+                            charClass = CharacterClass.Support;
+                            break;
+                        case "Tank":
+                            charClass = CharacterClass.Tank;
+                            break;
+                    }
+
+                    // Determine HeldWeapon
+                    Weapon heldWeapon = new WeaponKnife();
+                    switch (enemyWeapon)
+                    {
+                        case "Royale_Platformer.Model.WeaponKnife":
+                            heldWeapon = new WeaponKnife();
+                            break;
+                        case "Royale_Platformer.Model.WeaponPistol":
+                            heldWeapon = new WeaponPistol();
+                            break;
+                        case "Royale_Platformer.Model.WeaponPistolShield":
+                            heldWeapon = new WeaponPistolShield();
+                            break;
+                        case "Royale_Platformer.Model.WeaponShotgun":
+                            heldWeapon = new WeaponShotgun();
+                            break;
+                        case "Royale_Platformer.Model.WeaponAdvancedShotgun":
+                            heldWeapon = new WeaponAdvancedShotgun();
+                            break;
+                        case "Royale_Platformer.Model.WeaponAR":
+                            heldWeapon = new WeaponAR();
+                            break;
+                    }
+
+                    // Create new Character
+                    CharacterEnemy enemyPlayer = new CharacterEnemy(
+                        charClass,
+                        Convert.ToInt32(enemyMaxHealth),
+                        new Vector3(x, y, z)
+                    );
+                    enemyPlayer.Health = Convert.ToInt32(enemyHealth);
+                    enemyPlayer.HeldWeapon = heldWeapon;
+                    enemyPlayer.Armor = enemyArmor == "True" ? true : false;
+                    enemyPlayer.Score = Convert.ToInt32(enemyScore);
+
+                    // Load Enemy
+                    enemyPlayer.CreateNode(scene, enemySprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
+                    AddCharacter(enemyPlayer);
+                }
+            });
         }
 
         public void Load(string fileName)
