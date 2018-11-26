@@ -114,15 +114,15 @@ namespace Royale_Platformer.Model
         private void CreatePlayer(float x, float y)
         {
             //AnimatedSprite2D playerAnimatedSprite = playerNode.CreateComponent<AnimatedSprite2D>();
-            //playerAnimatedSprite.BlendMode = BlendMode.Alpha;
+            //playerAnimatedSprite.BlendMode = BlendMode.Alpha; 
             //playerAnimatedSprite.Sprite = playerSprite;
 
-            var playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+            var playerSprite = ResourceCache.GetAnimationSet2D("characters/scml/Special_forces_1/Special_forces_1.scml");
             if (playerSprite == null)
                 throw new Exception("Player sprite not found");
 
             CharacterPlayer player = new CharacterPlayer(CharacterClass.Gunner, 10);
-            player.CreateNode(scene, playerSprite, new Vector2(x, y));
+            player.CreateNode(scene, playerSprite.Sprite, new Vector2(x, y));
 
             /*
             Input.MouseButtonDown += (args) =>
