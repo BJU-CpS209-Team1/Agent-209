@@ -9,6 +9,7 @@ namespace Royale_Platformer.Model
         public WeaponAdvancedShotgun()
         {
             Cooldown = 15;
+            Upgradeable = false;
         }
 
         public override List<Bullet> Fire(Vector2 dir)
@@ -33,7 +34,7 @@ namespace Royale_Platformer.Model
 
         public override Weapon Upgrade(CharacterClass characterClass)
         {
-            throw new System.NotImplementedException();
+            return this;
         }
 
         public override ISerializer Deserialize(string serialized)

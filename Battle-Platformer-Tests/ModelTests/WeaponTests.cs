@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Urho;
 
 namespace Royale_Platformer.Model.Tests
 {
@@ -14,25 +15,25 @@ namespace Royale_Platformer.Model.Tests
         public void Weapon_Fire_CreatesBullets()
         {
             Weapon w = new WeaponAdvancedAR();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
 
             w = new WeaponAdvancedShotgun();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
 
             w = new WeaponAR();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
 
             w = new WeaponKnife();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
 
             w = new WeaponPistol();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
 
             w = new WeaponPistolShield();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
 
             w = new WeaponShotgun();
-            Assert.IsTrue(w.Fire().Count > 0);
+            Assert.IsTrue(w.Fire(Vector2.One).Count > 0);
         }
 
         [Test]
