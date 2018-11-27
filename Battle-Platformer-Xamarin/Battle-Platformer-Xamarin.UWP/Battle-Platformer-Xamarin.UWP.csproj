@@ -263,6 +263,9 @@
     <Content Include="panel_brown.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="RulesTitle.png" />
+    <Content Include="shell.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Team.scale-150.png" />
     <Content Include="Team.scale-200.png" />
     <Content Include="team.scale-400.png" />
@@ -322,6 +325,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="GameData\sounds\effects\pop.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GameData\sounds\effects\shotgun.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

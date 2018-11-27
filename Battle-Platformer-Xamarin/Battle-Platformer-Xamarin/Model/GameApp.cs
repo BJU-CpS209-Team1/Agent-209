@@ -113,7 +113,15 @@ namespace Royale_Platformer.Model
             CreateHUD();
             CreateClock();
 
-            bulletSprite = ResourceCache.GetSprite2D("shot.png");
+            switch (PlayerCharacter.Class)
+            {
+                case CharacterClass.Support:
+                    bulletSprite = ResourceCache.GetSprite2D("shell.png");
+                    break;
+                default:
+                    bulletSprite = ResourceCache.GetSprite2D("shot.png");
+                    break;
+            }            
             if (bulletSprite == null)
                 throw new Exception("Bullet sprite not found!");
 
@@ -519,13 +527,23 @@ namespace Royale_Platformer.Model
                 return;
             }
 
+            bool playedSound = false;
             foreach (Bullet b in bullets)
             {
                 b.Owner = character;
                 b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
 
                 Bullets.Add(b);
-                PlaySound("sounds/effects/gunshot.ogg", false, b.WorldNode);
+
+                // Don't repeat sound for shotguns
+                if (bullets.Count >= 4 && playedSound) continue;
+
+                if (bullets.Count >= 4)
+                    PlaySound("sounds/effects/shotgun.ogg", false, PlayerCharacter.WorldNode);
+                else
+                    PlaySound("sounds/effects/gunshot.ogg", false, PlayerCharacter.WorldNode);
+
+                playedSound = true;
             }
         }
         #endregion
