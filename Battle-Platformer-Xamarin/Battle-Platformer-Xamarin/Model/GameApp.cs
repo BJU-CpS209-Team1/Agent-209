@@ -453,7 +453,7 @@ namespace Royale_Platformer.Model
                 clock.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
 
                 hud.AddChild(difficulty);
-                hud.AddChild(weapon);   
+                hud.AddChild(weapon);
                 hud.AddChild(armor);
                 hud.AddChild(health);
                 hud.AddChild(clock);
@@ -468,13 +468,35 @@ namespace Royale_Platformer.Model
                 CooldownTimer.Enabled = false;
         }
 
-        public void CreateBullets(List<Bullet> bullets, Character character, int cooldownDelay)
+        public async void CreateBullets(List<Bullet> bullets, Character character, int cooldownDelay)
         {
             // run timer to count down
             if (cooldown > 0) return;
 
             cooldown = cooldownDelay;
             CooldownTimer.Enabled = true;
+
+            // handle knife
+            if (bullets == null)
+            {
+                Bullet b = new Bullet(20) { Owner = character };
+                b.CreateNode(scene, ResourceCache.GetSprite2D("knife.png"), character.WorldNode.Position2D);
+                Bullets.Add(b);
+
+                var node = new Scene().CreateChild();
+                node.Position = b.WorldNode.Position;
+                PlaySound("sounds/effects/jump.ogg", false, node);
+
+                await Task.Delay(200);
+                Bullets.Remove(b);
+
+                // if bullet collides with a player, it will be already removed from the world,
+                // so ignore error if thrown.
+                try { b.WorldNode.Remove(); }
+                catch { return; }
+
+                return;
+            }
 
             foreach (Bullet b in bullets)
             {

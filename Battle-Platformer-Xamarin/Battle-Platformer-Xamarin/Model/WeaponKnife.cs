@@ -8,6 +8,7 @@ namespace Royale_Platformer.Model
         public WeaponKnife()
         {
             Upgradeable = true;
+            Cooldown = 50;
         }
 
         public override List<Bullet> Fire(Vector2 dir)
