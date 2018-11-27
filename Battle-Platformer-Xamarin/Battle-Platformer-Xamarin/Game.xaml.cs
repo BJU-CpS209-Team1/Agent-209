@@ -48,6 +48,28 @@ namespace Battle_Platformer_Xamarin
                 return false;
             };
 
+            game.HandleWin = () =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await game.Exit();
+                    App.Current.MainPage = new Win();
+                    App.Utilities.SetFullscreen();
+                });
+                return false;
+            };
+
+            game.HandleLose = () =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await game.Exit();
+                    App.Current.MainPage = new Lose();
+                    App.Utilities.SetFullscreen();
+                });
+                return false;
+            };
+
             if (continueGame) game.Load("latest.txt");
 
         }

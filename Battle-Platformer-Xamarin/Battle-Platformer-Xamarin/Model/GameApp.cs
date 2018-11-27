@@ -31,6 +31,8 @@ namespace Royale_Platformer.Model
 
         public bool LoadGame { get; set; }
         public Func<object> Restart { get; internal set; }
+        public Func<object> HandleWin { get; internal set; }
+        public Func<object> HandleLose { get; internal set; }
         public Timer CooldownTimer { get; set; }
 
         private static readonly float bulletSpeed = 10f;
@@ -46,6 +48,7 @@ namespace Royale_Platformer.Model
         Timer timer;
 
         private int cooldown = 0;
+        private bool gameover = false;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -345,6 +348,13 @@ namespace Royale_Platformer.Model
 
                         c.WorldNode.Remove();
                         Characters.Remove(c);
+
+                        if (Characters.Count == 1)
+                        {
+                            gameover = true;
+                            HandleWin();
+                        }
+
                         continue;
                     }
 
@@ -425,11 +435,22 @@ namespace Royale_Platformer.Model
         private void GameTick(Object source, ElapsedEventArgs e)
         {
             --time;
+
+            if (time <= 0)
+            {
+                gameover = true;
+                HandleLose();
+                timer.Enabled = false;
+                return;
+            }
+
             UpdateHUD();
         }
 
         private void UpdateHUD()
         {
+            if (gameover) return;
+
             InvokeOnMain(() =>
             {
                 hud.RemoveAllChildren();
