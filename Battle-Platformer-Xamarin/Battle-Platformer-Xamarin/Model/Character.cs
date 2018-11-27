@@ -14,6 +14,7 @@ namespace Royale_Platformer.Model
         public int MaxHealth { get; set; }
         public int Health { get; set; }
         public int Score { get; set; }
+        public int Cooldown { get; set; }
 
         public float MoveSpeed { get; set; }
         public Vector2 Velocity;

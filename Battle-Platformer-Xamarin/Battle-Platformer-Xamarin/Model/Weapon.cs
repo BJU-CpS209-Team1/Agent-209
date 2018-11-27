@@ -9,6 +9,7 @@ namespace Royale_Platformer.Model
         public bool Upgradeable { get; protected set; }
         public float MaxCooldown { get; protected set; }
         public float CurrentCooldown { get; protected set; }
+        public int Cooldown { get; set; }
 
         public abstract List<Bullet> Fire(Vector2 dir);
         public abstract Weapon Upgrade(CharacterClass characterClass);

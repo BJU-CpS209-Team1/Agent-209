@@ -44,6 +44,9 @@ namespace Royale_Platformer.Model
         private CharacterClass charClass;
         Timer timer;
 
+        private int cooldown = 0;
+        Timer cooldownTimer;
+
         public GameApp(ApplicationOptions options) : base(options)
         {
             Instance = this;
@@ -71,6 +74,11 @@ namespace Royale_Platformer.Model
             Tiles = new List<MapTile>();
             collisionObjects = new List<WorldObject>();
             LoadGame = false;
+
+            cooldownTimer = new Timer();
+            cooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
+            cooldownTimer.Interval = 100;
+            cooldownTimer.Enabled = false;
         }
 
         protected override void Start()
@@ -445,15 +453,29 @@ namespace Royale_Platformer.Model
                 clock.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
 
                 hud.AddChild(difficulty);
-                hud.AddChild(weapon);
+                hud.AddChild(weapon);   
                 hud.AddChild(armor);
                 hud.AddChild(health);
                 hud.AddChild(clock);
             });
         }
 
-        public void CreateBullets(List<Bullet> bullets, Character character)
+        private void RunCooldown(object sender, ElapsedEventArgs e)
         {
+            --cooldown;
+
+            if (cooldown < 1)
+                cooldownTimer.Enabled = false;
+        }
+
+        public void CreateBullets(List<Bullet> bullets, Character character, int cooldownDelay)
+        {
+            // run timer to count down
+            if (cooldown > 0) return;
+
+            cooldown = cooldownDelay;
+            cooldownTimer.Enabled = true;
+
             foreach (Bullet b in bullets)
             {
                 b.Owner = character;
