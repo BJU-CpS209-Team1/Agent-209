@@ -31,6 +31,7 @@ namespace Royale_Platformer.Model
 
         public bool LoadGame { get; set; }
         public Func<object> Restart { get; internal set; }
+        public Timer CooldownTimer { get; set; }
 
         private static readonly float bulletSpeed = 10f;
 
@@ -45,7 +46,6 @@ namespace Royale_Platformer.Model
         Timer timer;
 
         private int cooldown = 0;
-        Timer cooldownTimer;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -75,10 +75,10 @@ namespace Royale_Platformer.Model
             collisionObjects = new List<WorldObject>();
             LoadGame = false;
 
-            cooldownTimer = new Timer();
-            cooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
-            cooldownTimer.Interval = 100;
-            cooldownTimer.Enabled = false;
+            CooldownTimer = new Timer();
+            CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
+            CooldownTimer.Interval = 100;
+            CooldownTimer.Enabled = false;
         }
 
         protected override void Start()
@@ -465,7 +465,7 @@ namespace Royale_Platformer.Model
             --cooldown;
 
             if (cooldown < 1)
-                cooldownTimer.Enabled = false;
+                CooldownTimer.Enabled = false;
         }
 
         public void CreateBullets(List<Bullet> bullets, Character character, int cooldownDelay)
@@ -474,7 +474,7 @@ namespace Royale_Platformer.Model
             if (cooldown > 0) return;
 
             cooldown = cooldownDelay;
-            cooldownTimer.Enabled = true;
+            CooldownTimer.Enabled = true;
 
             foreach (Bullet b in bullets)
             {
