@@ -42,7 +42,7 @@ namespace Battle_Platformer_Xamarin
             {
                 string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "latest.txt");
                 if (File.Exists(PATH))
-                    App.Current.MainPage = new Game(true, false);
+                    App.Current.MainPage = new Game(true, false, Royale_Platformer.Model.CharacterClass.Gunner);
                 else
                     DisplayAlert("No Saved Game", "You do not have a saved game.", "Ok.");
                 

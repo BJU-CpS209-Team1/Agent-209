@@ -1,4 +1,5 @@
 ﻿using Battle_Platformer_Xamarin.Model;
+using System;
 using System.Globalization;
 using Urho;
 using Urho.Urho2D;
@@ -21,10 +22,10 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
-            bool onLeft  = Collision.LeftMiddle  || Collision.TopLeft;
+            bool onLeft = Collision.LeftMiddle || Collision.TopLeft;
             bool onRight = Collision.RightMiddle || Collision.TopRight;
 
-            if (onLeft)  direction = 1f;
+            if (onLeft) direction = 1f;
             if (onRight) direction = -1f;
 
             if (deltatime > 0.05f) deltatime = 0f;
@@ -41,6 +42,20 @@ namespace Royale_Platformer.Model
             float z = float.Parse(coords[2], CultureInfo.InvariantCulture.NumberFormat);
 
             return new Vector3(x, y, z);
+        }
+
+        public string GetSprite()
+        {
+            switch (Class)
+            {
+                case CharacterClass.Gunner:
+                    return "characters/special_forces/scml/Special_forces_2/Special_forces_2.scml";
+                case CharacterClass.Support:
+                    return "characters/special_forces/scml/Special_forces_1/Special_forces_1.scml";
+                case CharacterClass.Tank:
+                    return "characters/special_forces/scml/Special_forces_3/Special_forces_3.scml";
+            }
+            return "";
         }
     }
 }

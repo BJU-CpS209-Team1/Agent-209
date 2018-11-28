@@ -51,8 +51,6 @@ namespace Royale_Platformer.Model
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
 
-            //Animate.UpdateAnimation(body);
-
             if(Input.LeftClick)
             {
                 Vector2 dir = Input.MousePosition;

@@ -17,19 +17,25 @@ namespace Battle_Platformer_Xamarin
     {
         bool continueGame;
         bool hardcore;
+        CharacterClass charClass;
 
-        public Game(bool continueGame, bool hardcore)
+        public Game(bool continueGame, bool hardcore, CharacterClass charClass)
         {
             InitializeComponent();
             this.continueGame = continueGame;
             this.hardcore = hardcore;
+            this.charClass = charClass;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData") { ResizableWindow = true, AdditionalFlags = $"{hardcore.ToString()},{continueGame.ToString()}" });
+            GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData")
+            {
+                ResizableWindow = true,
+                AdditionalFlags = $"{hardcore.ToString()},{continueGame.ToString()},{charClass.ToString()}"
+            });
 
             game.Restart = () =>
             {
