@@ -8,6 +8,12 @@ namespace Battle_Platformer_Xamarin.Model
 {
     public class MapTile : WorldObject
     {
+        public MapTile(Node node)
+        {
+            WorldNode = node;
+            WorldHitbox = new Hitbox();
+        }
+
         public MapTile(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();

@@ -97,7 +97,7 @@ namespace Royale_Platformer.Model
             //scene.CreateComponent<PhysicsWorld2D>();
 
             cameraNode = scene.CreateChild("Camera");
-            cameraNode.Position = new Vector3(0, 0, -1);
+            cameraNode.Position = new Vector3(5, 10, -1);
 
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
@@ -106,7 +106,7 @@ namespace Royale_Platformer.Model
 
             time = 6000;
 
-            if (!continueGame) CreatePlayer(0, 0);
+            if (!continueGame) CreatePlayer(5, 10);
             if (!continueGame) CreateEnemies();
             CreateMap();
             PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
@@ -199,16 +199,35 @@ namespace Royale_Platformer.Model
 
         private void CreateMap()
         {
-            /*
-            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/starter.tmx");
+            //TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/test_1.tmx");
+            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("test/test_1.tmx");
             if (mapFile == null)
                 throw new Exception("Map not found");
-                */
 
-            //Node mapNode = scene.CreateChild("TileMap");
-            //TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
-            //tileMap.TmxFile = mapFile;
+            Node mapNode = scene.CreateChild("TileMap");
+            mapNode.SetScale(1f / 0.7f);
 
+            TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
+            tileMap.TmxFile = mapFile;
+
+            for(uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
+            {
+                TileMapLayer2D layer = tileMap.GetLayer(layerID);
+                for(int x = 0; x < layer.Width; ++x)
+                {
+                    for(int y = 0; y < layer.Height; ++y)
+                    {
+                        Node n = layer.GetTileNode(x, y);
+                        if (n == null) continue;
+
+                        MapTile tile = new MapTile(n);
+                        Tiles.Add(tile);
+                        collisionObjects.Add(tile);
+                    }
+                }
+            }
+
+            /*
             Sprite2D groundSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
             if (groundSprite == null)
                 throw new Exception("Texture not found");
@@ -243,6 +262,7 @@ namespace Royale_Platformer.Model
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
             }
+            */
 
             if (!continueGame) CreatePickups();
         }
