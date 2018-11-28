@@ -18,6 +18,7 @@ namespace Battle_Platformer_Xamarin
         bool continueGame;
         bool hardcore;
         CharacterClass charClass;
+        bool cheat = false;
 
         public Game(bool continueGame, bool hardcore, CharacterClass charClass)
         {
@@ -27,6 +28,16 @@ namespace Battle_Platformer_Xamarin
             this.charClass = charClass;
         }
 
+        // Cheat mode
+        public Game()
+        {
+            InitializeComponent();
+            continueGame = false;
+            hardcore = true;
+            charClass = CharacterClass.Schaub;
+            cheat = true;
+        }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -34,7 +45,7 @@ namespace Battle_Platformer_Xamarin
             GameApp game = await surfaceGame.Show<GameApp>(new Urho.ApplicationOptions(assetsFolder: "GameData")
             {
                 ResizableWindow = true,
-                AdditionalFlags = $"{hardcore.ToString()},{continueGame.ToString()},{charClass.ToString()}"
+                AdditionalFlags = $"{hardcore.ToString()},{continueGame.ToString()},{charClass.ToString()},{cheat.ToString()}"
             });
 
             game.Restart = () =>
@@ -71,7 +82,6 @@ namespace Battle_Platformer_Xamarin
             };
 
             if (continueGame) game.Load("latest.txt");
-
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Royale_Platformer.Model
     {
         Gunner,
         Support,
-        Tank
+        Tank,
+        Schaub
     }
 }

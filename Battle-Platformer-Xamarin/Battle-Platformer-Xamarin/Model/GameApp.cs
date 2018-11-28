@@ -49,6 +49,7 @@ namespace Royale_Platformer.Model
 
         private int cooldown = 0;
         private bool gameover = false;
+        private bool schaubMode = false;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -57,6 +58,7 @@ namespace Royale_Platformer.Model
 
             hardcore = flags[0] == "True" ? true : false;
             continueGame = flags[1] == "True" ? true : false;
+            schaubMode = flags[3] == "True" ? true : false;
 
             switch (flags[2])
             {
@@ -68,6 +70,9 @@ namespace Royale_Platformer.Model
                     break;
                 case "Support":
                     charClass = CharacterClass.Support;
+                    break;
+                case "Schaub":
+                    charClass = CharacterClass.Schaub;
                     break;
             }
 
@@ -106,10 +111,15 @@ namespace Royale_Platformer.Model
 
             time = 6000;
 
-            if (!continueGame) CreatePlayer(5, 10);
+            if (!continueGame && !schaubMode) CreatePlayer(5, 10);
+            if (schaubMode) LoadSchaub();
             if (!continueGame) CreateEnemies();
             CreateMap();
-            PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
+
+            if (schaubMode)
+                PlaySound("sounds/schaubGame.ogg", true, new Scene().CreateChild("Music"));
+            else PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
+
             CreateHUD();
             CreateClock();
 
@@ -118,10 +128,13 @@ namespace Royale_Platformer.Model
                 case CharacterClass.Support:
                     bulletSprite = ResourceCache.GetSprite2D("shell.png");
                     break;
+                case CharacterClass.Schaub:
+                    bulletSprite = ResourceCache.GetSprite2D("cheatShot.png");
+                    break;
                 default:
                     bulletSprite = ResourceCache.GetSprite2D("shot.png");
                     break;
-            }            
+            }
             if (bulletSprite == null)
                 throw new Exception("Bullet sprite not found!");
 
@@ -131,6 +144,27 @@ namespace Royale_Platformer.Model
 
             // Setup Viewport
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+        }
+
+        public void LoadSchaub()
+        {
+            schaubMode = true;
+            charClass = CharacterClass.Schaub;
+            // Create default player with correct class
+            CreatePlayer(5, 10);
+
+            // Update Player
+            PlayerCharacter.MaxHealth = 100;
+            PlayerCharacter.Position = new Vector3(0, 0, 0);
+            PlayerCharacter.Health = 100;
+            PlayerCharacter.HeldWeapon = new WeaponSchaub();
+            PlayerCharacter.Armor = true;
+            PlayerCharacter.Score = 1000;
+            PlayerCharacter.WorldNode.SetScale(0.5f);
+
+            // Update Camera
+            cameraNode.Parent = PlayerCharacter.WorldNode;
+            cameraNode.Position = new Vector3(0, 0, -1);
         }
 
         #region Gameplay Methods
@@ -160,6 +194,9 @@ namespace Royale_Platformer.Model
                     break;
                 case CharacterClass.Tank:
                     playerSprite = ResourceCache.GetSprite2D("characters/special forces/png3/attack/3_Special_forces_Attack_000.png");
+                    break;
+                case CharacterClass.Schaub:
+                    playerSprite = ResourceCache.GetSprite2D("characters/cheat.png");
                     break;
             }
 
@@ -555,6 +592,13 @@ namespace Royale_Platformer.Model
 
                 Bullets.Add(b);
 
+                if (schaubMode)
+                {
+                    PlaySound("sounds/effects/schaubShot.ogg", false, PlayerCharacter.WorldNode);
+                    playedSound = true;
+                    continue;
+                }
+
                 // Don't repeat sound for shotguns
                 if (bullets.Count >= 4 && playedSound) continue;
 
@@ -827,6 +871,8 @@ namespace Royale_Platformer.Model
 
         public void Load(string fileName)
         {
+            if (schaubMode) return;
+
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
 
             if (File.Exists(PATH))

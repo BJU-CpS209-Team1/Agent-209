@@ -50,6 +50,21 @@ namespace Battle_Platformer_Xamarin
             });
         }
 
+        private void LoadCheat(object sender, EventArgs e)
+        {
+            btnCheat.Source = "buttonLong_blue_pressed.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), () =>
+            {
+                btnCheat.Source = "buttonLong_blue.png";
+                return false;
+            });
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
+            {
+                App.Current.MainPage = new IntroCheat();
+                return false;
+            });
+        }
+
         private void LoadHelp(object sender, EventArgs e)
         {
             btnHelp.Source = "help_pressed.png";
