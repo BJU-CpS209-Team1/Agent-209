@@ -31,6 +31,9 @@ namespace Royale_Platformer.Model
 
         public bool LoadGame { get; set; }
         public Func<object> Restart { get; internal set; }
+        public Func<object> HandleWin { get; internal set; }
+        public Func<object> HandleLose { get; internal set; }
+        public Timer CooldownTimer { get; set; }
 
         private static readonly float bulletSpeed = 10f;
 
@@ -43,6 +46,9 @@ namespace Royale_Platformer.Model
         private bool continueGame;
         private CharacterClass charClass;
         Timer timer;
+
+        private int cooldown = 0;
+        private bool gameover = false;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -71,6 +77,11 @@ namespace Royale_Platformer.Model
             Tiles = new List<MapTile>();
             collisionObjects = new List<WorldObject>();
             LoadGame = false;
+
+            CooldownTimer = new Timer();
+            CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
+            CooldownTimer.Interval = 100;
+            CooldownTimer.Enabled = false;
         }
 
         protected override void Start()
@@ -86,7 +97,7 @@ namespace Royale_Platformer.Model
             //scene.CreateComponent<PhysicsWorld2D>();
 
             cameraNode = scene.CreateChild("Camera");
-            cameraNode.Position = new Vector3(0, 0, -1);
+            cameraNode.Position = new Vector3(5, 10, -1);
 
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
@@ -95,14 +106,22 @@ namespace Royale_Platformer.Model
 
             time = 6000;
 
-            if (!continueGame) CreatePlayer(0, 0);
+            if (!continueGame) CreatePlayer(5, 10);
             if (!continueGame) CreateEnemies();
             CreateMap();
             PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
             CreateHUD();
             CreateClock();
 
-            bulletSprite = ResourceCache.GetSprite2D("shot.png");
+            switch (PlayerCharacter.Class)
+            {
+                case CharacterClass.Support:
+                    bulletSprite = ResourceCache.GetSprite2D("shell.png");
+                    break;
+                default:
+                    bulletSprite = ResourceCache.GetSprite2D("shot.png");
+                    break;
+            }            
             if (bulletSprite == null)
                 throw new Exception("Bullet sprite not found!");
 
@@ -176,16 +195,35 @@ namespace Royale_Platformer.Model
 
         private void CreateMap()
         {
-            /*
-            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/starter.tmx");
+            //TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/test_1.tmx");
+            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("test/test_1.tmx");
             if (mapFile == null)
                 throw new Exception("Map not found");
-                */
 
-            //Node mapNode = scene.CreateChild("TileMap");
-            //TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
-            //tileMap.TmxFile = mapFile;
+            Node mapNode = scene.CreateChild("TileMap");
+            mapNode.SetScale(1f / 0.7f);
 
+            TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
+            tileMap.TmxFile = mapFile;
+
+            for(uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
+            {
+                TileMapLayer2D layer = tileMap.GetLayer(layerID);
+                for(int x = 0; x < layer.Width; ++x)
+                {
+                    for(int y = 0; y < layer.Height; ++y)
+                    {
+                        Node n = layer.GetTileNode(x, y);
+                        if (n == null) continue;
+
+                        MapTile tile = new MapTile(n);
+                        Tiles.Add(tile);
+                        collisionObjects.Add(tile);
+                    }
+                }
+            }
+
+            /*
             Sprite2D groundSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
             if (groundSprite == null)
                 throw new Exception("Texture not found");
@@ -220,6 +258,7 @@ namespace Royale_Platformer.Model
                 Tiles.Add(tile);
                 collisionObjects.Add(tile);
             }
+            */
 
             if (!continueGame) CreatePickups();
         }
@@ -333,6 +372,13 @@ namespace Royale_Platformer.Model
 
                         c.WorldNode.Remove();
                         Characters.Remove(c);
+
+                        if (Characters.Count == 1)
+                        {
+                            gameover = true;
+                            HandleWin();
+                        }
+
                         continue;
                     }
 
@@ -413,11 +459,22 @@ namespace Royale_Platformer.Model
         private void GameTick(Object source, ElapsedEventArgs e)
         {
             --time;
+
+            if (time <= 0)
+            {
+                gameover = true;
+                HandleLose();
+                timer.Enabled = false;
+                return;
+            }
+
             UpdateHUD();
         }
 
         private void UpdateHUD()
         {
+            if (gameover) return;
+
             InvokeOnMain(() =>
             {
                 hud.RemoveAllChildren();
@@ -448,15 +505,61 @@ namespace Royale_Platformer.Model
             });
         }
 
-        public void CreateBullets(List<Bullet> bullets, Character character)
+        private void RunCooldown(object sender, ElapsedEventArgs e)
         {
+            --cooldown;
+
+            if (cooldown < 1)
+                CooldownTimer.Enabled = false;
+        }
+
+        public async void CreateBullets(List<Bullet> bullets, Character character, int cooldownDelay)
+        {
+            // run timer to count down
+            if (cooldown > 0) return;
+
+            cooldown = cooldownDelay;
+            CooldownTimer.Enabled = true;
+
+            // handle knife
+            if (bullets == null)
+            {
+                Bullet b = new Bullet(20) { Owner = character };
+                b.CreateNode(scene, ResourceCache.GetSprite2D("knife.png"), character.WorldNode.Position2D);
+                Bullets.Add(b);
+
+                var node = new Scene().CreateChild();
+                node.Position = b.WorldNode.Position;
+                PlaySound("sounds/effects/jump.ogg", false, node);
+
+                await Task.Delay(200);
+                Bullets.Remove(b);
+
+                // if bullet collides with a player, it will be already removed from the world,
+                // so ignore error if thrown.
+                try { b.WorldNode.Remove(); }
+                catch { return; }
+
+                return;
+            }
+
+            bool playedSound = false;
             foreach (Bullet b in bullets)
             {
                 b.Owner = character;
                 b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
 
                 Bullets.Add(b);
-                PlaySound("sounds/effects/gunshot.ogg", false, b.WorldNode);
+
+                // Don't repeat sound for shotguns
+                if (bullets.Count >= 4 && playedSound) continue;
+
+                if (bullets.Count >= 4)
+                    PlaySound("sounds/effects/shotgun.ogg", false, PlayerCharacter.WorldNode);
+                else
+                    PlaySound("sounds/effects/gunshot.ogg", false, PlayerCharacter.WorldNode);
+
+                playedSound = true;
             }
         }
         #endregion

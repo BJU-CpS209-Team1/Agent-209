@@ -8,11 +8,12 @@ namespace Royale_Platformer.Model
         public WeaponKnife()
         {
             Upgradeable = true;
+            Cooldown = 50;
         }
 
         public override List<Bullet> Fire(Vector2 dir)
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public override Weapon Upgrade(CharacterClass characterClass)

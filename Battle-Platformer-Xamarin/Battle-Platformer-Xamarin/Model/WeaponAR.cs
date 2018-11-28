@@ -5,6 +5,12 @@ namespace Royale_Platformer.Model
 {
     public class WeaponAR : Weapon
     {
+        public WeaponAR()
+        {
+            Upgradeable = true;
+            Cooldown = 5;
+        }
+
         public override List<Bullet> Fire(Vector2 dir)
         {
             List<Bullet> bl = new List<Bullet>();
@@ -19,7 +25,7 @@ namespace Royale_Platformer.Model
 
         public override Weapon Upgrade(CharacterClass characterClass)
         {
-            throw new System.NotImplementedException();
+            return new WeaponAdvancedAR();
         }
 
         public override ISerializer Deserialize(string serialized)
