@@ -179,32 +179,28 @@ namespace Royale_Platformer.Model
 
         private void CreatePlayer(float x, float y)
         {
-            //AnimatedSprite2D playerAnimatedSprite = playerNode.CreateComponent<AnimatedSprite2D>();
-            //playerAnimatedSprite.BlendMode = BlendMode.Alpha;
-            //playerAnimatedSprite.Sprite = playerSprite;
-            Sprite2D playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
-
+            AnimationSet2D animationSet = new AnimationSet2D();
             switch (charClass)
             {
                 case CharacterClass.Gunner:
-                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png2/attack/2_Special_forces_attack_Attack_000.png");
+                    animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_2/Special_forces_2.scml");
                     break;
                 case CharacterClass.Support:
-                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png1/attack/1_Special_forces_attack_Attack_000.png");
+                    animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_1/Special_forces_1.scml");
                     break;
                 case CharacterClass.Tank:
-                    playerSprite = ResourceCache.GetSprite2D("characters/special forces/png3/attack/3_Special_forces_Attack_000.png");
+                    animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_3/Special_forces_3.scml");
                     break;
                 case CharacterClass.Schaub:
                     playerSprite = ResourceCache.GetSprite2D("characters/cheat.png");
                     break;
             }
-
-            if (playerSprite == null)
+            
+            if (animationSet == null)
                 throw new Exception("Player sprite not found");
 
             CharacterPlayer player = new CharacterPlayer(charClass, 10);
-            player.CreateNode(scene, playerSprite, new Vector2(x, y));
+            player.CreateNode(scene, animationSet, new Vector2(x, y));
 
             /*
             Input.MouseButtonDown += (args) =>
@@ -222,13 +218,13 @@ namespace Royale_Platformer.Model
         private void CreateEnemies()
         {
             CharacterEnemy enemy = new CharacterEnemy(CharacterClass.Support, 5);
-            Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
+            AnimationSet2D sprite = ResourceCache.GetAnimationSet2D(enemy.GetSprite());
             if (sprite == null) throw new Exception("Enemy sprite not found");
             enemy.CreateNode(scene, sprite, new Vector2(4, -2));
             AddCharacter(enemy);
 
             CharacterEnemy enemy2 = new CharacterEnemy(CharacterClass.Tank, 5);
-            Sprite2D sprite2 = ResourceCache.GetSprite2D(enemy2.GetSprite());
+            AnimationSet2D sprite2 = ResourceCache.GetAnimationSet2D(enemy2.GetSprite());
             if (sprite2 == null) throw new Exception("Enemy sprite not found");
             enemy2.CreateNode(scene, sprite2, new Vector2(-8, -2));
             AddCharacter(enemy2);
@@ -861,7 +857,7 @@ namespace Royale_Platformer.Model
                     enemyPlayer.Score = Convert.ToInt32(enemyScore);
 
                     // Load Enemy
-                    Sprite2D sprite = ResourceCache.GetSprite2D(enemyPlayer.GetSprite());
+                    AnimationSet2D sprite = ResourceCache.GetAnimationSet2D(enemyPlayer.GetSprite());
                     if (sprite == null) throw new Exception("Enemy sprite not found");
                     enemyPlayer.CreateNode(scene, sprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
                     AddCharacter(enemyPlayer);
