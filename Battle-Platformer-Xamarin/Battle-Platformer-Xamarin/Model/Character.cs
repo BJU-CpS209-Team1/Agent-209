@@ -63,23 +63,6 @@ namespace Royale_Platformer.Model
             Position = position;
         }
 
-
-        public virtual void CreateNode(Scene scene, AnimationSet2D animationSet, Vector2 pos)
-        {
-            WorldNode = scene.CreateChild();
-            WorldNode.Position = new Vector3(pos);
-            Position = WorldNode.Position;
-            WorldNode.SetScale(1f / 12.14f);
-
-            //StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
-            //playerStaticSprite.BlendMode = BlendMode.Alpha;
-            //playerStaticSprite.Sprite = sprite;
-
-            AnimatedSprite2D playerSprite = WorldNode.CreateComponent<AnimatedSprite2D>();
-            playerSprite.AnimationSet = animationSet;
-            playerSprite.SetAnimation(animationNames[0], LoopMode2D.Default);
-        }
-
         public virtual void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
@@ -90,6 +73,10 @@ namespace Royale_Platformer.Model
             StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
             playerStaticSprite.BlendMode = BlendMode.Alpha;
             playerStaticSprite.Sprite = sprite;
+
+            //AnimatedSprite2D playerSprite = WorldNode.CreateComponent<AnimatedSprite2D>();
+            //playerSprite.AnimationSet = animationSet;
+            //playerSprite.SetAnimation(animationNames[0], LoopMode2D.Default);
         }
 
         public virtual void Hit(Bullet bullet)
