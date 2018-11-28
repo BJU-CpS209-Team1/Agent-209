@@ -179,38 +179,44 @@ namespace Royale_Platformer.Model
 
         private void CreatePlayer(float x, float y)
         {
-            AnimationSet2D animationSet = new AnimationSet2D();
-            switch (charClass)
-            {
-                case CharacterClass.Gunner:
-                    animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_2/Special_forces_2.scml");
-                    break;
-                case CharacterClass.Support:
-                    animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_1/Special_forces_1.scml");
-                    break;
-                case CharacterClass.Tank:
-                    animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_3/Special_forces_3.scml");
-                    break;
-                case CharacterClass.Schaub:
-                    playerSprite = ResourceCache.GetSprite2D("characters/cheat.png");
-                    break;
-            }
-            
-            if (animationSet == null)
-                throw new Exception("Player sprite not found");
-
             CharacterPlayer player = new CharacterPlayer(charClass, 10);
-            player.CreateNode(scene, animationSet, new Vector2(x, y));
 
-            /*
-            Input.MouseButtonDown += (args) =>
+            if (schaubMode)
             {
-                if(args.Button == 1)
+                var sprite = ResourceCache.GetSprite2D("characters/cheat.png");
+                player.CreateNode(scene, sprite, new Vector2(x, y));
+            }
+            else
+            {
+
+                AnimationSet2D animationSet = new AnimationSet2D();
+                switch (charClass)
                 {
-                    PlayerCharacter.Input.LeftClick = true;
+                    case CharacterClass.Gunner:
+                        animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_2/Special_forces_2.scml");
+                        break;
+                    case CharacterClass.Support:
+                        animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_1/Special_forces_1.scml");
+                        break;
+                    case CharacterClass.Tank:
+                        animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_3/Special_forces_3.scml");
+                        break;
                 }
-            };
-            */
+
+                if (animationSet == null)
+                    throw new Exception("Player sprite not found");
+                player.CreateNode(scene, animationSet, new Vector2(x, y));
+
+                /*
+                Input.MouseButtonDown += (args) =>
+                {
+                    if(args.Button == 1)
+                    {
+                        PlayerCharacter.Input.LeftClick = true;
+                    }
+                };
+                */
+            }
 
             AddPlayer(player);
         }
