@@ -267,6 +267,8 @@ namespace Royale_Platformer.Model
             for(uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
             {
                 TileMapLayer2D layer = tileMap.GetLayer(layerID);
+                if (layer.GetProperty("Solid") != "True") continue;
+
                 for(int x = 0; x < layer.Width; ++x)
                 {
                     for(int y = 0; y < layer.Height; ++y)
