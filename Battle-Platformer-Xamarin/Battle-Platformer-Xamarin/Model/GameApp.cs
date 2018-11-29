@@ -47,6 +47,9 @@ namespace Royale_Platformer.Model
         private CharacterClass charClass;
         Timer timer;
 
+        private float weaponSpawnRate = 0.1f;
+        private float armorSpawnRate = 0.1f;
+
         private int cooldown = 0;
         private bool gameover = false;
         private bool schaubMode = false;
@@ -267,8 +270,7 @@ namespace Royale_Platformer.Model
 
         private void CreateMap()
         {
-
-            //TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/test_1.tmx");
+            // Load map
             TmxFile2D mapFile = ResourceCache.GetTmxFile2D("test/map_1.tmx");
             if (mapFile == null)
                 throw new Exception("Map not found");
@@ -280,83 +282,63 @@ namespace Royale_Platformer.Model
             TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
             tileMap.TmxFile = mapFile;
 
-            for(uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
-            {
-                TileMapLayer2D layer = tileMap.GetLayer(layerID);
-                if (layer.GetProperty("Solid") != "True") continue;
-
-                for(int x = 0; x < layer.Width; ++x)
-                {
-                    for(int y = 0; y < layer.Height; ++y)
-                    {
-                        Node n = layer.GetTileNode(x, y);
-                        if (n == null) continue;
-
-                        Vector2 pos = tileMap.TileIndexToPosition(x, y);
-                        pos /= 0.7f;
-                        MapTile tile = new MapTile(pos + new Vector2(0.5f, 0.5f));
-                        Tiles.Add(tile);
-                        collisionObjects.Add(tile);
-                    }
-                }
-            }
-
-            /*
-            Sprite2D groundSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Base pack/Tiles/grassMid.png");
-            if (groundSprite == null)
-                throw new Exception("Texture not found");
-
-            for (int i = 0; i < 21; ++i)
-            {
-                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 10, -3));
-                Tiles.Add(tile);
-                collisionObjects.Add(tile);
-            }
-
-            for (int i = 0; i < 5; ++i)
-            {
-                MapTile tile = new MapTile(scene, groundSprite, new Vector2(-10, i - 2));
-                Tiles.Add(tile);
-                collisionObjects.Add(tile);
-
-                MapTile tile2 = new MapTile(scene, groundSprite, new Vector2(10, i - 2));
-                Tiles.Add(tile2);
-                collisionObjects.Add(tile2);
-            }
-
-            for (int i = 0; i < 4; ++i)
-            {
-                MapTile tile = new MapTile(scene, groundSprite, new Vector2(i - 5, -1));
-                Tiles.Add(tile);
-                collisionObjects.Add(tile);
-            }
-
-            {
-                MapTile tile = new MapTile(scene, groundSprite, new Vector2(2, -2));
-                Tiles.Add(tile);
-                collisionObjects.Add(tile);
-            }
-            */
-
-            if (!continueGame) CreatePickups();
-        }
-
-        private void CreatePickups()
-        {
+            // Load pickup sprites
             var weaponSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/raygunBig.png");
             var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
 
             if (weaponSprite == null || armorSprite == null)
                 throw new Exception("Texture not found");
 
-            for (int i = 0; i < (hardcore ? 2 : 4); ++i)
+            // Initialize map
+            Random r = new Random();
+            for(uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
             {
-                Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(i - 5, 0)));
-            }
+                TileMapLayer2D layer = tileMap.GetLayer(layerID);
+                for (int x = 0; x < layer.Width; ++x)
+                {
+                    for (int y = 0; y < layer.Height; ++y)
+                    {
+                        Node n = layer.GetTileNode(x, y);
+                        if (n == null) continue;
 
-            for (int i = 0; i < (hardcore ? 2 : 4); ++i)
-            {
-                Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(i - 5, -2)));
+                        Vector2 pos = tileMap.TileIndexToPosition(x, y);
+                        pos /= 0.7f;
+                        pos += new Vector2(0.5f, 0.5f);
+
+                        // Weapon Pickup
+                        if (layer.GetProperty("Spawn") == "Weapon")
+                        {
+                            if (r.NextDouble() < weaponSpawnRate)
+                            {
+                                Pickup p = new PickupWeaponUpgrade(scene, weaponSprite, pos);
+                                Pickups.Add(p);
+                            }
+                            n.Remove();
+                            continue;
+                        }
+
+                        // Weapon Pickup
+                        if (layer.GetProperty("Spawn") == "Armor")
+                        {
+                            if (r.NextDouble() < armorSpawnRate)
+                            {
+                                Pickup p = new PickupArmor(scene, armorSprite, pos);
+                                Pickups.Add(p);
+                            }
+                            n.Remove();
+                            continue;
+                        }
+
+                        // Solid Block
+                        if (layer.GetProperty("Solid") == "True")
+                        {
+                            MapTile tile = new MapTile(pos);
+                            Tiles.Add(tile);
+                            collisionObjects.Add(tile);
+                            continue;
+                        }
+                    }
+                }
             }
         }
 
