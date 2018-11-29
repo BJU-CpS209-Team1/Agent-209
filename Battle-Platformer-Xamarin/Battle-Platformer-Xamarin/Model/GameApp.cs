@@ -36,6 +36,9 @@ namespace Royale_Platformer.Model
         public Timer CooldownTimer { get; set; }
 
         private static readonly float bulletSpeed = 10f;
+        private static readonly List<CharacterClass> enemyClasses = new List<CharacterClass> {
+            CharacterClass.Gunner, CharacterClass.Support, CharacterClass.Tank
+        };
 
         private Scene scene;
         private Node cameraNode;
@@ -49,6 +52,10 @@ namespace Royale_Platformer.Model
 
         private float weaponSpawnRate = 0.1f;
         private float armorSpawnRate = 0.1f;
+        private int enemyCount = 4;
+
+        private List<Vector2> playerSpawns;
+        private List<Vector2> enemySpawns;
 
         private int cooldown = 0;
         private bool gameover = false;
@@ -107,8 +114,15 @@ namespace Royale_Platformer.Model
             scene.CreateComponent<Octree>();
             //scene.CreateComponent<PhysicsWorld2D>();
 
+            playerSpawns = new List<Vector2>();
+            enemySpawns  = new List<Vector2>();
+
+            CreateMap();
+
+            Vector2 playerSpawn = playerSpawns.GetRandomElement();
+
             cameraNode = scene.CreateChild("Camera");
-            cameraNode.Position = new Vector3(25, 20, -1);
+            cameraNode.Position = new Vector3(playerSpawn.X, playerSpawn.Y, -1);
 
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
@@ -131,10 +145,9 @@ namespace Royale_Platformer.Model
 
             time = 6000;
 
-            if (!continueGame && !schaubMode) CreatePlayer(25, 20);
+            if (!continueGame && !schaubMode) CreatePlayer(playerSpawn.X, playerSpawn.Y);
             if (schaubMode) LoadSchaub();
             if (!continueGame) CreateEnemies();
-            CreateMap();
 
             if (schaubMode)
                 PlaySound("sounds/schaubGame.ogg", true, new Scene().CreateChild("Music"));
@@ -253,19 +266,18 @@ namespace Royale_Platformer.Model
 
         private void CreateEnemies()
         {
-            CharacterEnemy enemy = new CharacterEnemy(CharacterClass.Support, 5);
-            //AnimationSet2D sprite = ResourceCache.GetAnimationSet2D(enemy.GetSprite());
-            Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
-            if (sprite == null) throw new Exception("Enemy sprite not found");
-            enemy.CreateNode(scene, sprite, new Vector2(4, -2));
-            AddCharacter(enemy);
+            for(int i = 0; i < enemyCount; ++i)
+            {
+                CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
+                Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
+                if (sprite == null) throw new Exception("Enemy sprite not found");
 
-            CharacterEnemy enemy2 = new CharacterEnemy(CharacterClass.Tank, 5);
-            //AnimationSet2D sprite2 = ResourceCache.GetAnimationSet2D(enemy2.GetSprite());
-            Sprite2D sprite2 = ResourceCache.GetSprite2D(enemy2.GetSprite());
-            if (sprite2 == null) throw new Exception("Enemy sprite not found");
-            enemy2.CreateNode(scene, sprite2, new Vector2(-8, -2));
-            AddCharacter(enemy2);
+                Vector2 spawn = enemySpawns.GetRandomElement();
+                enemySpawns.Remove(spawn);
+
+                enemy.CreateNode(scene, sprite, spawn);
+                AddCharacter(enemy);
+            }
         }
 
         private void CreateMap()
@@ -305,30 +317,6 @@ namespace Royale_Platformer.Model
                         pos /= 0.7f;
                         pos += new Vector2(0.5f, 0.5f);
 
-                        // Weapon Pickup
-                        if (layer.GetProperty("Spawn") == "Weapon")
-                        {
-                            if (r.NextDouble() < weaponSpawnRate)
-                            {
-                                Pickup p = new PickupWeaponUpgrade(scene, weaponSprite, pos);
-                                Pickups.Add(p);
-                            }
-                            n.Remove();
-                            continue;
-                        }
-
-                        // Weapon Pickup
-                        if (layer.GetProperty("Spawn") == "Armor")
-                        {
-                            if (r.NextDouble() < armorSpawnRate)
-                            {
-                                Pickup p = new PickupArmor(scene, armorSprite, pos);
-                                Pickups.Add(p);
-                            }
-                            n.Remove();
-                            continue;
-                        }
-
                         // Solid Block
                         if (layer.GetProperty("Solid") == "True")
                         {
@@ -337,6 +325,34 @@ namespace Royale_Platformer.Model
                             collisionObjects.Add(tile);
                             continue;
                         }
+
+                        // Spawner
+                        switch (layer.GetProperty("Spawn"))
+                        {
+                            case "Player":
+                                playerSpawns.Add(pos);
+                                break;
+
+                            case "Enemy":
+                                enemySpawns.Add(pos);
+                                break;
+
+                            case "Weapon":
+                                if (r.NextDouble() < weaponSpawnRate)
+                                    Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, pos));
+                                break;
+
+                            case "Armor":
+                                if (r.NextDouble() < armorSpawnRate)
+                                    Pickups.Add(new PickupArmor(scene, armorSprite, pos));
+                                break;
+
+                            default:
+                                continue;
+                        }
+
+                        // Skipped if not a spawner
+                        n.Remove();
                     }
                 }
             }
