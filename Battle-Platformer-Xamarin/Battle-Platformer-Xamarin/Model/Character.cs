@@ -22,16 +22,6 @@ namespace Royale_Platformer.Model
         public Vector3 Position { get; set; }
 
         public StaticSprite2D PlayerStaticSprite { get; set; }
-        //private static readonly string[] animationNames =
-        //    {
-        //        "Idle",
-        //        "Hurt",
-        //        "Jump",
-        //        "Run",
-        //        "Attack",
-        //        "Attack1",
-        //        "Attack2",
-        //    };
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -78,10 +68,6 @@ namespace Royale_Platformer.Model
 
             WorldHitbox = new Hitbox();
             WorldHitbox.Size = new Vector2(0.5f, 1f);
-
-            //AnimatedSprite2D playerSprite = WorldNode.CreateComponent<AnimatedSprite2D>();
-            //playerSprite.AnimationSet = animationSet;
-            //playerSprite.SetAnimation(animationNames[0], LoopMode2D.Default);
         }
 
         public virtual void Hit(Bullet bullet)
@@ -100,6 +86,8 @@ namespace Royale_Platformer.Model
             if (!HeldWeapon.Upgradeable) return false;
 
             HeldWeapon = HeldWeapon.Upgrade(Class);
+            GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
+
             return true;
         }
 

@@ -35,12 +35,12 @@ namespace Royale_Platformer.Model
             if (Input.A)
             {
                 Velocity.X -= MoveSpeed;
-                PlayerStaticSprite.FlipX = true;
+                if (!GameApp.Instance.schaubMode) PlayerStaticSprite.FlipX = true;
             }
             if (Input.D)
             {
                 Velocity.X += MoveSpeed;
-                PlayerStaticSprite.FlipX = false;
+                if (!GameApp.Instance.schaubMode) PlayerStaticSprite.FlipX = false;
             }
 
             if (onLeft && Velocity.X < 0) Velocity.X = 0;
@@ -49,11 +49,11 @@ namespace Royale_Platformer.Model
             if (onBottom)
             {
                 Velocity.Y = 0;
-                PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteAttack1;
+                PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteAttack;
                 if (Input.Space)
                 {
                     Velocity.Y += 10f;
-                    PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteJump;
+                    if (!GameApp.Instance.schaubMode) PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteJump;
                 }
             }
             else
