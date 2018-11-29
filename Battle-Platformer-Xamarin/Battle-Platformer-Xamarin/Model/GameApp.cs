@@ -175,7 +175,7 @@ namespace Royale_Platformer.Model
 
             // Update Player
             PlayerCharacter.MaxHealth = 100;
-            PlayerCharacter.Position = new Vector3(0, 0, 0);
+            PlayerCharacter.Position = new Vector3(0, 0, -1);
             PlayerCharacter.Health = 100;
             PlayerCharacter.HeldWeapon = new WeaponSchaub();
             PlayerCharacter.Armor = true;
