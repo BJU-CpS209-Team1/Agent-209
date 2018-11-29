@@ -274,7 +274,9 @@ namespace Royale_Platformer.Model
                         Node n = layer.GetTileNode(x, y);
                         if (n == null) continue;
 
-                        MapTile tile = new MapTile(n);
+                        Vector2 pos = tileMap.TileIndexToPosition(x, y);
+                        pos /= 0.7f;
+                        MapTile tile = new MapTile(pos + new Vector2(0.5f, 0.5f));
                         Tiles.Add(tile);
                         collisionObjects.Add(tile);
                     }

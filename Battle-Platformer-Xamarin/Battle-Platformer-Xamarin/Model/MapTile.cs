@@ -8,9 +8,11 @@ namespace Battle_Platformer_Xamarin.Model
 {
     public class MapTile : WorldObject
     {
-        public MapTile(Node node)
+        public MapTile(Vector2 pos)
         {
-            WorldNode = node;
+            WorldNode = new Node();
+            WorldNode.SetPosition2D(pos);
+
             WorldHitbox = new Hitbox();
         }
 
