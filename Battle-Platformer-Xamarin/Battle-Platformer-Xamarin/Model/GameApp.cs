@@ -226,7 +226,7 @@ namespace Royale_Platformer.Model
                         break;
                     case CharacterClass.Tank:
                         PlayerImage1 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack1/3_Special_forces_Attack1_003.png");
-                        PlayerImage2 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_000_center.png");
+                        PlayerImage2 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_002_center.png");
                         PlayerSpriteAttack = PlayerImage1;
                         PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png3/jump/3_Special_forces_Jump_003.png");
                         break;
