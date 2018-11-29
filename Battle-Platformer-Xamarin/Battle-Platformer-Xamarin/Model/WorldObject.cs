@@ -32,7 +32,7 @@ namespace Battle_Platformer_Xamarin.Model
 
         public Hitbox.CollisionSide CollidesSide(WorldObject obj)
         {
-            return WorldHitbox.IntersectsSide(obj.WorldHitbox, WorldNode.WorldPosition2D, obj.WorldNode.WorldPosition2D);
+            return WorldHitbox.IntersectsSide(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
         }
     }
 }
