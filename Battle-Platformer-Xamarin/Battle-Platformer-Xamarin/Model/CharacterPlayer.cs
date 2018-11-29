@@ -49,7 +49,7 @@ namespace Royale_Platformer.Model
             if (onBottom)
             {
                 Velocity.Y = 0;
-                PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteAttack;
+                PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteAttack1;
                 if (Input.Space)
                 {
                     Velocity.Y += 10f;
@@ -64,8 +64,6 @@ namespace Royale_Platformer.Model
             if (onTop && Velocity.Y > 0) Velocity.Y = 0;
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
-
-            //Animate.UpdateAnimation(body);
 
             if (Input.LeftClick)
             {

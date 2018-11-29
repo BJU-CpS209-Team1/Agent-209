@@ -52,7 +52,8 @@ namespace Royale_Platformer.Model
         private bool schaubMode = false;
 
         public Sprite2D PlayerSpriteJump { get; set; }
-        public Sprite2D PlayerSpriteAttack { get; set; }
+        public Sprite2D PlayerSpriteAttack1 { get; set; }
+        public Sprite2D PlayerSpriteAttack2 { get; set; }
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -197,17 +198,20 @@ namespace Royale_Platformer.Model
                 {
                     case CharacterClass.Gunner:
                         //animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_2/Special_forces_2.scml");
-                        PlayerSpriteAttack = ResourceCache.GetSprite2D("characters/special_forces/png2/attack/2_Special_forces_attack_Attack_000_center.png");
+                        PlayerSpriteAttack1 = ResourceCache.GetSprite2D("characters/special_forces/png2/attack1/2_Special_forces_attack_Attack1_005.png");
+                        PlayerSpriteAttack2 = ResourceCache.GetSprite2D("characters/special_forces/png2/attack/2_Special_forces_attack_Attack_000_center.png");
                         PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png2/jump/2_Special_forces_Jump_003.png");
                         break;
                     case CharacterClass.Support:
                         //animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_1/Special_forces_1.scml");
-                        PlayerSpriteAttack = ResourceCache.GetSprite2D("characters/special_forces/png1/attack/1_Special_forces_attack_Attack_000_center.png");
+                        PlayerSpriteAttack1 = ResourceCache.GetSprite2D("characters/special_forces/png1/attack1/1_Special_forces_attack_Attack1_005.png");
+                        PlayerSpriteAttack2 = ResourceCache.GetSprite2D("characters/special_forces/png1/attack/1_Special_forces_attack_Attack_000_center.png");
                         PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png1/jump/1_Special_forces_Jump_003.png");
                         break;
                     case CharacterClass.Tank:
                         //animationSet = ResourceCache.GetAnimationSet2D("characters/special_forces/scml/Special_forces_3/Special_forces_3.scml");
-                        PlayerSpriteAttack = ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_000_center.png");
+                        PlayerSpriteAttack1 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack1/3_Special_forces_Attack1_005.png");
+                        PlayerSpriteAttack2 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_000_center.png");
                         PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png3/jump/3_Special_forces_Jump_003.png");
                         break;
                 }
@@ -216,9 +220,7 @@ namespace Royale_Platformer.Model
                 //    throw new Exception("Player sprite not found");
                 //player.CreateNode(scene, animationSet, new Vector2(x, y));
 
-                if (PlayerSpriteAttack == null)
-                    throw new Exception("Player sprite not found");
-                player.CreateNode(scene, PlayerSpriteAttack, new Vector2(x, y));
+                player.CreateNode(scene, PlayerSpriteAttack1, new Vector2(x, y));
 
                 /*
                 Input.MouseButtonDown += (args) =>
