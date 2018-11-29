@@ -20,16 +20,18 @@ namespace Royale_Platformer.Model
         public Vector2 Velocity;
 
         public Vector3 Position { get; set; }
-        private static readonly string[] animationNames =
-            {
-                "Idle",
-                "Hurt",
-                "Jump",
-                "Run",
-                "Attack",
-                "Attack1",
-                "Attack2",
-            };
+
+        public StaticSprite2D PlayerStaticSprite { get; set; }
+        //private static readonly string[] animationNames =
+        //    {
+        //        "Idle",
+        //        "Hurt",
+        //        "Jump",
+        //        "Run",
+        //        "Attack",
+        //        "Attack1",
+        //        "Attack2",
+        //    };
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -70,9 +72,9 @@ namespace Royale_Platformer.Model
             Position = WorldNode.Position;
             WorldNode.SetScale(1f / 12.14f);
 
-            StaticSprite2D playerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
-            playerStaticSprite.BlendMode = BlendMode.Alpha;
-            playerStaticSprite.Sprite = sprite;
+            PlayerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
+            PlayerStaticSprite.BlendMode = BlendMode.Alpha;
+            PlayerStaticSprite.Sprite = sprite;
 
             //AnimatedSprite2D playerSprite = WorldNode.CreateComponent<AnimatedSprite2D>();
             //playerSprite.AnimationSet = animationSet;
