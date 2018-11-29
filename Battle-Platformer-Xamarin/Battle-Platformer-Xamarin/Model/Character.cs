@@ -76,6 +76,9 @@ namespace Royale_Platformer.Model
             PlayerStaticSprite.BlendMode = BlendMode.Alpha;
             PlayerStaticSprite.Sprite = sprite;
 
+            WorldHitbox = new Hitbox();
+            WorldHitbox.Size = new Vector2(0.5f, 1f);
+
             //AnimatedSprite2D playerSprite = WorldNode.CreateComponent<AnimatedSprite2D>();
             //playerSprite.AnimationSet = animationSet;
             //playerSprite.SetAnimation(animationNames[0], LoopMode2D.Default);
