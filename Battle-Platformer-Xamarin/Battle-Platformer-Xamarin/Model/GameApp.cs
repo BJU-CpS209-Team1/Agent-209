@@ -105,16 +105,30 @@ namespace Royale_Platformer.Model
             //scene.CreateComponent<PhysicsWorld2D>();
 
             cameraNode = scene.CreateChild("Camera");
-            cameraNode.Position = new Vector3(5, 10, -1);
+            cameraNode.Position = new Vector3(25, 20, -1);
 
             Camera camera = cameraNode.CreateComponent<Camera>();
             camera.Orthographic = true;
             camera.OrthoSize = 2 * halfHeight;
             camera.Zoom = Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
 
+            // Create BG
+            {
+                Sprite2D bgSprite = ResourceCache.GetSprite2D("test/bg.png");
+                if (bgSprite == null)
+                    throw new Exception("Bacgkround not found");
+
+                Node bgNode = scene.CreateChild();
+                bgNode.Position = new Vector3(25f, 12.5f, 100f);
+                bgNode.SetScale(5000f / 1024f);
+
+                StaticSprite2D bgStaticSprite = bgNode.CreateComponent<StaticSprite2D>();
+                bgStaticSprite.Sprite = bgSprite;
+            }
+
             time = 6000;
 
-            if (!continueGame && !schaubMode) CreatePlayer(5, 10);
+            if (!continueGame && !schaubMode) CreatePlayer(25, 20);
             if (schaubMode) LoadSchaub();
             if (!continueGame) CreateEnemies();
             CreateMap();
@@ -154,7 +168,7 @@ namespace Royale_Platformer.Model
             schaubMode = true;
             charClass = CharacterClass.Schaub;
             // Create default player with correct class
-            CreatePlayer(5, 10);
+            CreatePlayer(25, 20);
 
             // Update Player
             PlayerCharacter.MaxHealth = 100;
@@ -253,12 +267,14 @@ namespace Royale_Platformer.Model
 
         private void CreateMap()
         {
+
             //TmxFile2D mapFile = ResourceCache.GetTmxFile2D("map/levels/test_1.tmx");
-            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("test/test_1.tmx");
+            TmxFile2D mapFile = ResourceCache.GetTmxFile2D("test/map_1.tmx");
             if (mapFile == null)
                 throw new Exception("Map not found");
 
             Node mapNode = scene.CreateChild("TileMap");
+            mapNode.Position = new Vector3(0f, 0f, 10f);
             mapNode.SetScale(1f / 0.7f);
 
             TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
