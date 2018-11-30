@@ -32,7 +32,11 @@ namespace Royale_Platformer.Model
 
             if (deltatime > 0.05f) deltatime = 0f;
 
-            if (onLeft) direction = 1f;
+            if (onLeft)
+            {
+                direction = 1f;
+
+            }
             if (onRight) direction = -1f;
             Velocity.X = MoveSpeed * direction;
 

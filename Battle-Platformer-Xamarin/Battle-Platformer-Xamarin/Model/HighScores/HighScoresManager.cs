@@ -18,7 +18,7 @@ namespace Royale_Platformer.Model.HighScores
         // Returns true if score is a highscore (2500 or higher) and false if not a highscore
         public static bool CheckScore(int score)
         {
-            if (score >= 2500)
+            if (score >= 50)
             {
                 return true;
             }

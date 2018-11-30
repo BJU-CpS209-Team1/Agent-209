@@ -86,8 +86,8 @@ namespace Royale_Platformer.Model
             if (!HeldWeapon.Upgradeable) return false;
 
             HeldWeapon = HeldWeapon.Upgrade(Class);
-            GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
-
+            if (!GameApp.Instance.schaubMode) GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
+            
             return true;
         }
 

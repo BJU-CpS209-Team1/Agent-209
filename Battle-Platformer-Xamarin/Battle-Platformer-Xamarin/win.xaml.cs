@@ -12,13 +12,16 @@ namespace Battle_Platformer_Xamarin
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Win : ContentPage
 	{
-		public Win ()
+		public Win (int score, bool isHighScore)
 		{
 			InitializeComponent ();
 
             Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
             {
-                App.Current.MainPage = new MainPage();
+                if (isHighScore)
+                    App.Current.MainPage = new AddHighscorePage(score);
+                else
+                    App.Current.MainPage = new MainPage();
                 return false;
             });            
         }
