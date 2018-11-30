@@ -44,14 +44,19 @@ namespace Royale_Platformer.Model
 
             if (onTop && Velocity.Y > 0) Velocity.Y = 0;
 
-            /*
             if ((random.NextDouble() < fireChance) && !shieldUp) // Can't shoot if shield is up
             {
-                Vector2 dir = Input.MousePosition;
-                dir.Normalize();
-                GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this, HeldWeapon.Cooldown);
+                // run timer to count down
+                if (Cooldown <= 0)
+                {
+                    Cooldown = HeldWeapon.Cooldown;
+                    CooldownTimer.Enabled = true;
+
+                    Vector2 dir = GameApp.Instance.PlayerCharacter.WorldNode.Position2D - WorldNode.Position2D;
+                    dir.Normalize();
+                    GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this);
+                }
             }
-            */
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
         }
