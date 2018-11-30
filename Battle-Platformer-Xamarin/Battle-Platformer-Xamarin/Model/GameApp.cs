@@ -49,8 +49,8 @@ namespace Royale_Platformer.Model
         private CharacterClass charClass;
         Timer timer;
 
-        private float weaponSpawnRate = 0.1f;
-        private float armorSpawnRate = 0.1f;
+        private float weaponSpawnRate = 0.2f;
+        private float armorSpawnRate = 0.2f;
         private int enemyCount = 4;
 
         private List<Vector2> playerSpawns;
@@ -73,6 +73,9 @@ namespace Royale_Platformer.Model
             hardcore = flags[0] == "True" ? true : false;
             continueGame = flags[1] == "True" ? true : false;
             schaubMode = flags[3] == "True" ? true : false;
+
+            weaponSpawnRate = hardcore ? 0.1f : 0.2f;
+            armorSpawnRate = hardcore ? 0.1f : 0.2f;
 
             switch (flags[2])
             {
