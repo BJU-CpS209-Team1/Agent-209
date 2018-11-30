@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <StackLayout Padding="30">
             <Image Source="RulesTitle.png" HorizontalOptions="Center"/>
-            <Button x:Name="btnBack" Text="Back" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
+            <Button x:Name="btnBack" Text="Main Page" FontSize="30" TextColor="WhiteSmoke" HorizontalOptions="Start" BackgroundColor="DarkGray"
                     Clicked="btnBack_Clicked"/>
             <StackLayout Padding="40" HorizontalOptions="Start">
                 <StackLayout Padding="20">

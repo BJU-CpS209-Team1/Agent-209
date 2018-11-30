@@ -20,6 +20,7 @@ namespace Battle_Platformer_Xamarin
             InitializeComponent();
             lbl.Text = $"You achieved a high score of {score.ToString()}. Please enter your name for the leaderboard:";
             entName.Placeholder = "Your Name";
+            entName.Focus();
             this.score = score;
         }
 

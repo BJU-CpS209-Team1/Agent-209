@@ -45,7 +45,7 @@ namespace Royale_Platformer.Model
         private Sprite2D bulletSprite;
         private UIElement hud;
         private int time;
-        private bool hardcore;
+        public bool hardcore;
         private bool continueGame;
         private CharacterClass charClass;
         Timer timer;
@@ -390,10 +390,7 @@ namespace Royale_Platformer.Model
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
 
-                            if (hardcore)
-                                PlayerCharacter.Score += 20;
-                            else
-                                PlayerCharacter.Score += 10;
+
                         }
                     }
                 }
@@ -471,9 +468,9 @@ namespace Royale_Platformer.Model
                         Characters.Remove(c);
 
                         if (hardcore)
-                            PlayerCharacter.Score += 20;
+                            PlayerCharacter.Score += 200;
                         else
-                            PlayerCharacter.Score += 10;
+                            PlayerCharacter.Score += 100;
 
                         if (Characters.Count == 1)
                         {

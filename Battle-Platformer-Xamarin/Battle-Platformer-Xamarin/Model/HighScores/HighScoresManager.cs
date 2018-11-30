@@ -15,17 +15,24 @@ namespace Royale_Platformer.Model.HighScores
         }
 
         // Checks to see if score is a high score <score>
-        // Returns true if score is a highscore (2500 or higher) and false if not a highscore
+        // Returns true if score is a highscore and false if not a highscore
         public static bool CheckScore(int score)
         {
-            if (score >= 50)
-            {
+            highScores = ReadScores();
+
+            if (highScores.Count == 0)
                 return true;
-            }
+            else if (highScores.Count > 0 && highScores.Count < 10)
+                return true;
             else
             {
-                return false;
+                foreach (HighScore item in highScores)
+                {
+                    if (score > item.GetScore())
+                        return true;
+                }
             }
+            return false;
         }
 
         // Adds a player's name <name> and score <score> to the highScores list from greatest to least 
@@ -40,6 +47,7 @@ namespace Royale_Platformer.Model.HighScores
             {
                 highScores.RemoveRange(10, highScores.Count - 10);
             }
+            WriteScores();
         }
 
         // Writes the highScores List to a file
