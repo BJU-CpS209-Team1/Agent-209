@@ -11,7 +11,8 @@ namespace Royale_Platformer.Model
         {
             public bool W, A, S, D;
             public bool Space;
-            public bool LeftClick;
+            public bool LeftClick; // Attack (currently E key)
+            public bool F; // Shield
             public Vector2 MousePosition;
         }
 
@@ -29,6 +30,8 @@ namespace Royale_Platformer.Model
             bool onTop = Collision.TopLeft || Collision.TopMiddle || Collision.TopRight;
             bool onLeft = Collision.LeftMiddle || Collision.TopLeft;
             bool onRight = Collision.RightMiddle || Collision.TopRight;
+
+            shieldUp = (Class == CharacterClass.Tank) && Input.F;
 
             Velocity.X = 0;
             if (deltatime > 0.05f) deltatime = 0f;
@@ -66,7 +69,7 @@ namespace Royale_Platformer.Model
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
 
-            if (Input.LeftClick)
+            if (Input.LeftClick && !shieldUp) // Can't shoot if shield is up
             {
                 Vector2 dir = Input.MousePosition;
                 dir.Normalize();

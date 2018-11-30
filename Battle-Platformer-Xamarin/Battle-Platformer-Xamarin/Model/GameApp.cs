@@ -445,6 +445,7 @@ namespace Royale_Platformer.Model
                 PlayerCharacter.Input.A = Input.GetKeyDown(Key.A);
                 PlayerCharacter.Input.S = Input.GetKeyDown(Key.S);
                 PlayerCharacter.Input.D = Input.GetKeyDown(Key.D);
+                PlayerCharacter.Input.F = Input.GetKeyDown(Key.F);
                 PlayerCharacter.Input.Space = Input.GetKeyPress(Key.Space);
                 PlayerCharacter.Input.LeftClick = Input.GetKeyDown(Key.E);
 
