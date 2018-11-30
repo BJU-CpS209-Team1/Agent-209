@@ -26,12 +26,15 @@ namespace Battle_Platformer_Xamarin.Model
 
         public bool Collides(WorldObject obj)
         {
-            if (obj == null) return true;
-            else return WorldHitbox.Intersects(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
+            if (obj == null || obj.WorldNode == null || obj.WorldHitbox == null || WorldNode == null || WorldHitbox == null || obj.WorldNode.IsDeleted || WorldNode.IsDeleted) return false;
+
+            return WorldHitbox.Intersects(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
         }
 
         public Hitbox.CollisionSide CollidesSide(WorldObject obj)
         {
+            if (obj == null || obj.WorldNode == null || obj.WorldHitbox == null || WorldNode == null || WorldHitbox == null || obj.WorldNode.IsDeleted || WorldNode.IsDeleted) return null;
+
             return WorldHitbox.IntersectsSide(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
         }
     }

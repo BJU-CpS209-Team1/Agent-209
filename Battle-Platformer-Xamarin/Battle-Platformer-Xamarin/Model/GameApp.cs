@@ -33,7 +33,6 @@ namespace Royale_Platformer.Model
         public Func<object> Restart { get; internal set; }
         public Func<object> HandleWin { get; internal set; }
         public Func<object> HandleLose { get; internal set; }
-        public Timer CooldownTimer { get; set; }
 
         private static readonly float bulletSpeed = 10f;
         private static readonly List<CharacterClass> enemyClasses = new List<CharacterClass> {
@@ -50,14 +49,13 @@ namespace Royale_Platformer.Model
         private CharacterClass charClass;
         Timer timer;
 
-        private float weaponSpawnRate = 0.1f;
-        private float armorSpawnRate = 0.1f;
+        private float weaponSpawnRate = 0.2f;
+        private float armorSpawnRate = 0.2f;
         private int enemyCount = 4;
 
         private List<Vector2> playerSpawns;
         private List<Vector2> enemySpawns;
 
-        private int cooldown = 0;
         private bool gameover = false;
         public bool schaubMode = false;
 
@@ -75,6 +73,9 @@ namespace Royale_Platformer.Model
             hardcore = flags[0] == "True" ? true : false;
             continueGame = flags[1] == "True" ? true : false;
             schaubMode = flags[3] == "True" ? true : false;
+
+            weaponSpawnRate = hardcore ? 0.1f : 0.2f;
+            armorSpawnRate = hardcore ? 0.1f : 0.2f;
 
             switch (flags[2])
             {
@@ -98,11 +99,6 @@ namespace Royale_Platformer.Model
             Tiles = new List<MapTile>();
             collisionObjects = new List<WorldObject>();
             LoadGame = false;
-
-            CooldownTimer = new Timer();
-            CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
-            CooldownTimer.Interval = 100;
-            CooldownTimer.Enabled = false;
         }
 
         protected override void Start()
@@ -608,22 +604,9 @@ namespace Royale_Platformer.Model
             });
         }
 
-        private void RunCooldown(object sender, ElapsedEventArgs e)
+
+        public async void CreateBullets(List<Bullet> bullets, Character character)
         {
-            --cooldown;
-
-            if (cooldown < 1)
-                CooldownTimer.Enabled = false;
-        }
-
-        public async void CreateBullets(List<Bullet> bullets, Character character, int cooldownDelay)
-        {
-            // run timer to count down
-            if (cooldown > 0) return;
-
-            cooldown = cooldownDelay;
-            CooldownTimer.Enabled = true;
-
             // handle knife
             if (bullets == null)
             {

@@ -71,9 +71,16 @@ namespace Royale_Platformer.Model
 
             if (Input.LeftClick && !shieldUp) // Can't shoot if shield is up
             {
-                Vector2 dir = Input.MousePosition;
-                dir.Normalize();
-                GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this, HeldWeapon.Cooldown);
+                // run timer to count down
+                if (Cooldown <= 0)
+                {
+                    Cooldown = HeldWeapon.Cooldown;
+                    CooldownTimer.Enabled = true;
+
+                    Vector2 dir = Input.MousePosition;
+                    dir.Normalize();
+                    GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this);
+                }
             }
         }
 
