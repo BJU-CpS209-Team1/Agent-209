@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Urho;
 using Urho.Forms;
+using Royale_Platformer.Model.HighScores;
 
 namespace Battle_Platformer_Xamarin
 {
@@ -61,10 +62,14 @@ namespace Battle_Platformer_Xamarin
 
             game.HandleWin = () =>
             {
+                int score = game.PlayerCharacter.Score;
+                bool isHighscore = HighScoresManager.CheckScore(score);
+
+                // Exit game
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await game.Exit();
-                    App.Current.MainPage = new Win();
+                    App.Current.MainPage = new Win(score, isHighscore);
                     App.Utilities.SetFullscreen();
                 });
                 return false;

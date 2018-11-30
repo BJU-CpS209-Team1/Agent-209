@@ -63,6 +63,7 @@ namespace Royale_Platformer.Model
         public Sprite2D PlayerImage2 { get; set; }
         public Sprite2D PlayerSpriteJump { get; set; }
         public Sprite2D PlayerSpriteAttack { get; set; }
+        public List<Sprite2D> EnemySprites = new List<Sprite2D>();
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -139,7 +140,10 @@ namespace Royale_Platformer.Model
                 bgStaticSprite.Sprite = bgSprite;
             }
 
-            time = 6000;
+            if (!hardcore)
+                time = 3000;
+            else
+                time = 1500;
 
             if (!continueGame && !schaubMode) CreatePlayer(playerSpawn.X, playerSpawn.Y);
             if (schaubMode) LoadSchaub();
@@ -206,6 +210,17 @@ namespace Royale_Platformer.Model
             musicSource.Play(music);
         }
 
+        private async void PlayParticleAsync(string name, Node source)
+        {
+            Sprite2D image = ResourceCache.GetSprite2D(name);
+            StaticSprite2D pixel = source.CreateComponent<StaticSprite2D>();
+            pixel.BlendMode = BlendMode.Alpha;
+            pixel.Sprite = image;
+
+            await Task.Delay(100);
+            pixel.Remove();
+        }
+
         private void CreatePlayer(float x, float y)
         {
             CharacterPlayer player = new CharacterPlayer(charClass, 10);
@@ -261,6 +276,7 @@ namespace Royale_Platformer.Model
             {
                 CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
                 Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
+                EnemySprites.Add(sprite);
                 if (sprite == null) throw new Exception("Enemy sprite not found");
 
                 Vector2 spawn = enemySpawns.GetRandomElement();
@@ -363,8 +379,14 @@ namespace Royale_Platformer.Model
                         if (p.PickUp(c))
                         {
                             PlaySound("sounds/effects/pop.ogg", false, c.WorldNode);
+                            PlayParticleAsync("particles/star_fixed.png", c.WorldNode);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
+
+                            if (hardcore)
+                                PlayerCharacter.Score += 20;
+                            else
+                                PlayerCharacter.Score += 10;
                         }
                     }
                 }
@@ -441,9 +463,14 @@ namespace Royale_Platformer.Model
                         c.WorldNode.Remove();
                         Characters.Remove(c);
 
+                        if (hardcore)
+                            PlayerCharacter.Score += 20;
+                        else
+                            PlayerCharacter.Score += 10;
+
                         if (Characters.Count == 1)
                         {
-                            gameover = true;
+                            gameover = true;                           
                             HandleWin();
                         }
 
@@ -552,24 +579,28 @@ namespace Royale_Platformer.Model
                 var armor = new Text() { Value = PlayerCharacter.Armor ? "Armor: Protected" : "Armor: Missing" };
                 var health = new Text() { Value = $"Health: {PlayerCharacter.Health.ToString()}" };
                 var clock = new Text() { Value = $"Time: {TimeSpan.FromSeconds(time / 10).ToString(@"mm\:ss")}" };
+                var score = new Text() { Value = $"Score: {PlayerCharacter.Score.ToString()}" };
 
-                difficulty.SetColor(Color.Yellow);
-                weapon.SetColor(Color.Yellow);
-                armor.SetColor(Color.Yellow);
-                health.SetColor(Color.Yellow);
-                clock.SetColor(Color.Yellow);
+                difficulty.SetColor(Color.Red);
+                weapon.SetColor(Color.Red);
+                armor.SetColor(Color.Red);
+                health.SetColor(Color.Red);
+                clock.SetColor(Color.Red);
+                score.SetColor(Color.Red);
 
                 difficulty.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
                 weapon.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
                 armor.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
                 health.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
                 clock.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
+                score.SetFont(font: ResourceCache.GetFont("fonts/FiraSans-Regular.otf"), size: 15);
 
                 hud.AddChild(difficulty);
                 hud.AddChild(weapon);
                 hud.AddChild(armor);
                 hud.AddChild(health);
                 hud.AddChild(clock);
+                hud.AddChild(score);
             });
         }
 
