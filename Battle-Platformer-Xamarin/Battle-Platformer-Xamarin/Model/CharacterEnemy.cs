@@ -8,7 +8,10 @@ namespace Royale_Platformer.Model
 {
     public class CharacterEnemy : Character
     {
+        private static Random random = new Random();
+
         private float direction = 1f;
+        private float jumpChance = 0.001f;
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
@@ -34,7 +37,7 @@ namespace Royale_Platformer.Model
             Velocity.X = MoveSpeed * direction;
 
             if (onBottom)
-                Velocity.Y = 0;
+                Velocity.Y = (random.NextDouble() < jumpChance) ? 10f : 0f;
             else
                 Velocity.Y -= 10f * deltatime; // Gravity
 
