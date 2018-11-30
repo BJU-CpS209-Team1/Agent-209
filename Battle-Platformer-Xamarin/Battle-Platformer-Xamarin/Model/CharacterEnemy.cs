@@ -12,6 +12,7 @@ namespace Royale_Platformer.Model
 
         private float direction = 1f;
         private float jumpChance = 0.001f;
+        private float fireChance = 0.01f;
 
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
@@ -42,6 +43,15 @@ namespace Royale_Platformer.Model
                 Velocity.Y -= 10f * deltatime; // Gravity
 
             if (onTop && Velocity.Y > 0) Velocity.Y = 0;
+
+            /*
+            if ((random.NextDouble() < fireChance) && !shieldUp) // Can't shoot if shield is up
+            {
+                Vector2 dir = Input.MousePosition;
+                dir.Normalize();
+                GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this, HeldWeapon.Cooldown);
+            }
+            */
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
         }

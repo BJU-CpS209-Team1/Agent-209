@@ -1,6 +1,7 @@
 ﻿using Battle_Platformer_Xamarin.Model;
 using System;
 using System.Text.RegularExpressions;
+using System.Timers;
 using Urho;
 using Urho.Urho2D;
 
@@ -14,6 +15,8 @@ namespace Royale_Platformer.Model
         public int MaxHealth { get; set; }
         public int Health { get; set; }
         public int Score { get; set; }
+
+        public Timer CooldownTimer { get; set; }
         public int Cooldown { get; set; }
 
         public float MoveSpeed { get; set; }
@@ -37,6 +40,12 @@ namespace Royale_Platformer.Model
             Health = maxHealth;
             Score = 0;
 
+            Cooldown = 0;
+            CooldownTimer = new Timer();
+            CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
+            CooldownTimer.Interval = 100;
+            CooldownTimer.Enabled = false;
+
             Velocity = new Vector2();
         }
 
@@ -52,8 +61,13 @@ namespace Royale_Platformer.Model
             Health = maxHealth;
             Score = 0;
 
-            Velocity = new Vector2();
+            Cooldown = 0;
+            CooldownTimer = new Timer();
+            CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
+            CooldownTimer.Interval = 100;
+            CooldownTimer.Enabled = false;
             
+            Velocity = new Vector2();
             Position = position;
         }
 
@@ -96,6 +110,14 @@ namespace Royale_Platformer.Model
         }
 
         public abstract void Update(float deltatime);
+
+        private void RunCooldown(object sender, ElapsedEventArgs e)
+        {
+            --Cooldown;
+
+            if (Cooldown < 1)
+                CooldownTimer.Enabled = false;
+        }
 
         //public abstract ISerializer Deserialize(string serialized);
 
