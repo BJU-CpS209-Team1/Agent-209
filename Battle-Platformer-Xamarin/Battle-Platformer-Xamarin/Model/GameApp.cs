@@ -122,6 +122,7 @@ namespace Royale_Platformer.Model
             CreateMap();
 
             Vector2 playerSpawn = playerSpawns.GetRandomElement();
+            playerSpawn += new Vector2(0f, 0.2f);
 
             cameraNode = scene.CreateChild("Camera");
             cameraNode.Position = new Vector3(playerSpawn.X, playerSpawn.Y, -1);
