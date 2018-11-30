@@ -23,6 +23,8 @@ namespace Royale_Platformer.Model
 
         public StaticSprite2D PlayerStaticSprite { get; set; }
 
+        protected bool shieldUp = false;
+
         public Character(CharacterClass characterClass, int maxHealth)
         {
             if (maxHealth < 0)
@@ -72,6 +74,8 @@ namespace Royale_Platformer.Model
 
         public virtual void Hit(Bullet bullet)
         {
+            if (shieldUp) return;
+
             if (Armor)
             {
                 Armor = false;
