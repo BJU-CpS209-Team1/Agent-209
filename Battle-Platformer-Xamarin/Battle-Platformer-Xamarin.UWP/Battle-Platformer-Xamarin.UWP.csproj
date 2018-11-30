@@ -221,6 +221,7 @@
     <Content Include="GameData\characters\special_forces\png1\attack\1_Special_forces_attack_Attack_000_center.png" />
     <Content Include="GameData\characters\special_forces\png2\attack\2_Special_forces_attack_Attack_000_center.png" />
     <Content Include="GameData\characters\special_forces\png3\attack\3_Special_forces_Attack_000_center.png" />
+    <Content Include="GameData\characters\special_forces\png3\attack\3_Special_forces_Attack_002_center.png" />
     <Content Include="GameData\cheatShot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -12,13 +12,27 @@ namespace Battle_Platformer_Xamarin
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IntroCheat : ContentPage
     {
+        bool skipped;
+
         public IntroCheat()
         {
             InitializeComponent();
+            skipped = false;
+
+            var gestureRecognizer = new TapGestureRecognizer();
+            gestureRecognizer.NumberOfTapsRequired = 2;
+            gestureRecognizer.Tapped += (s, e) =>
+            {
+                ExitVideo();
+                skipped = true;
+            };
+
+            video.GestureRecognizers.Add(gestureRecognizer);
+            video.Focus();
 
             Device.StartTimer(TimeSpan.FromMilliseconds(90000), () =>
             {
-                ExitVideo();
+                if (!skipped) ExitVideo();
                 return false;
             });
         }

@@ -35,12 +35,12 @@ namespace Royale_Platformer.Model
             if (Input.A)
             {
                 Velocity.X -= MoveSpeed;
-                PlayerStaticSprite.FlipX = true;
+                if (!GameApp.Instance.schaubMode) PlayerStaticSprite.FlipX = true;
             }
             if (Input.D)
             {
                 Velocity.X += MoveSpeed;
-                PlayerStaticSprite.FlipX = false;
+                if (!GameApp.Instance.schaubMode) PlayerStaticSprite.FlipX = false;
             }
 
             if (onLeft && Velocity.X < 0) Velocity.X = 0;
@@ -53,7 +53,7 @@ namespace Royale_Platformer.Model
                 if (Input.Space)
                 {
                     Velocity.Y += 10f;
-                    PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteJump;
+                    if (!GameApp.Instance.schaubMode) PlayerStaticSprite.Sprite = GameApp.Instance.PlayerSpriteJump;
                 }
             }
             else
@@ -64,8 +64,6 @@ namespace Royale_Platformer.Model
             if (onTop && Velocity.Y > 0) Velocity.Y = 0;
 
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
-
-            //Animate.UpdateAnimation(body);
 
             if (Input.LeftClick)
             {
