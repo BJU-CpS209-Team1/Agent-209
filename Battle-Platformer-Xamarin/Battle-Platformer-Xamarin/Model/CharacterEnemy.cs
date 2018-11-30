@@ -22,15 +22,25 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
+            bool onBottom = Collision.BottomLeft || Collision.BottomMiddle || Collision.BottomRight;
+            bool onTop = Collision.TopLeft || Collision.TopMiddle || Collision.TopRight;
             bool onLeft = Collision.LeftMiddle || Collision.TopLeft;
             bool onRight = Collision.RightMiddle || Collision.TopRight;
 
+            if (deltatime > 0.05f) deltatime = 0f;
+
             if (onLeft) direction = 1f;
             if (onRight) direction = -1f;
+            Velocity.X = MoveSpeed * direction;
 
-            if (deltatime > 0.05f) deltatime = 0f;
-            float speed = MoveSpeed * direction * deltatime;
-            WorldNode.SetPosition2D(WorldNode.Position2D + new Vector2(speed, 0));
+            if (onBottom)
+                Velocity.Y = 0;
+            else
+                Velocity.Y -= 10f * deltatime; // Gravity
+
+            if (onTop && Velocity.Y > 0) Velocity.Y = 0;
+
+            WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
         }
 
         public Vector3 Deserialize(string serialized)

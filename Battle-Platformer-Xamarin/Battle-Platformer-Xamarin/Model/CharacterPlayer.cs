@@ -31,6 +31,7 @@ namespace Royale_Platformer.Model
             bool onRight = Collision.RightMiddle || Collision.TopRight;
 
             Velocity.X = 0;
+            if (deltatime > 0.05f) deltatime = 0f;
 
             if (Input.A)
             {
