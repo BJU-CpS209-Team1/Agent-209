@@ -17,7 +17,6 @@ namespace Royale_Platformer.Model
         }
 
         public PlayerInput Input;
-        public bool ShieldUp;
 
         public CharacterPlayer(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {

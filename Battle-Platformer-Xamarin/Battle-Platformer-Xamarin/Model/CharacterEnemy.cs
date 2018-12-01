@@ -40,7 +40,7 @@ namespace Royale_Platformer.Model
                 shieldCooldown -= deltatime;
                 if (shieldCooldown <= 0f)
                 {
-                    shieldUp = !shieldUp;
+                    ShieldUp = !ShieldUp;
                     shieldCooldown = (float) random.NextDouble() * 10;
                 }
             }
@@ -56,7 +56,7 @@ namespace Royale_Platformer.Model
 
             if (onTop && Velocity.Y > 0) Velocity.Y = 0;
 
-            if ((random.NextDouble() < fireChance) && !shieldUp) // Can't shoot if shield is up
+            if ((random.NextDouble() < fireChance) && !ShieldUp) // Can't shoot if shield is up
             {
                 // run timer to count down
                 if (Cooldown <= 0)

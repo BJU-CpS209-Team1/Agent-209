@@ -219,12 +219,13 @@ namespace Royale_Platformer.Model
 
         private void CreatePlayer(float x, float y)
         {
+            Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
             CharacterPlayer player = new CharacterPlayer(charClass, 10);
 
             if (schaubMode)
             {
                 PlayerSpriteAttack = ResourceCache.GetSprite2D("characters/cheat.png");
-                player.CreateNode(scene, PlayerSpriteAttack, new Vector2(x, y));
+                player.CreateNode(scene, PlayerSpriteAttack, shieldSprite, new Vector2(x, y));
             }
             else
             {
@@ -250,7 +251,7 @@ namespace Royale_Platformer.Model
                         break;
                 }
 
-                player.CreateNode(scene, PlayerImage1, new Vector2(x, y));
+                player.CreateNode(scene, PlayerImage1, shieldSprite, new Vector2(x, y));
 
                 /*
                 Input.MouseButtonDown += (args) =>
@@ -268,6 +269,7 @@ namespace Royale_Platformer.Model
 
         private void CreateEnemies()
         {
+            Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
             for (int i = 0; i < enemyCount; ++i)
             {
                 CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
@@ -278,7 +280,7 @@ namespace Royale_Platformer.Model
                 Vector2 spawn = enemySpawns.GetRandomElement();
                 enemySpawns.Remove(spawn);
 
-                enemy.CreateNode(scene, sprite, spawn);
+                enemy.CreateNode(scene, sprite, shieldSprite, spawn);
                 AddCharacter(enemy);
             }
         }
@@ -366,25 +368,8 @@ namespace Royale_Platformer.Model
             base.OnUpdate(timeStep);
 
             // Shield
-            if (PlayerCharacter.ShieldUp)
-            {
-                if (shield == null)
-                {
-                    shield = scene.CreateChild();
-                    shield.Position = new Vector3(PlayerCharacter.Position);
-
-                    StaticSprite2D staticSprite = shield.CreateComponent<StaticSprite2D>();
-                    staticSprite.BlendMode = BlendMode.Alpha;
-                    staticSprite.Sprite = ResourceCache.GetSprite2D("shield.png");
-                } 
-                else
-                    shield.Position = new Vector3(PlayerCharacter.WorldNode.Position);
-            }
-            else
-            {
-                if (shield != null)
-                    shield.Position = new Vector3(1000, 10000, -1000);
-            }
+            foreach(Character c in Characters)
+                c.ShieldNode.Position = c.ShieldUp ? c.WorldNode.Position : new Vector3(1000, 10000, -1000);
 
             // Pickups
             foreach (Character c in Characters)
@@ -934,11 +919,13 @@ namespace Royale_Platformer.Model
                     enemyPlayer.Armor = enemyArmor == "True" ? true : false;
                     enemyPlayer.Score = Convert.ToInt32(enemyScore);
 
+                    Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
+
                     // Load Enemy
                     //AnimationSet2D sprite = ResourceCache.GetAnimationSet2D(enemyPlayer.GetSprite());
                     Sprite2D sprite = ResourceCache.GetSprite2D(enemyPlayer.GetSprite());
                     if (sprite == null) throw new Exception("Enemy sprite not found");
-                    enemyPlayer.CreateNode(scene, sprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
+                    enemyPlayer.CreateNode(scene, sprite, shieldSprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
                     AddCharacter(enemyPlayer);
                 }
             });

@@ -3,6 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Timers;
 using Urho;
+using Urho.Resources;
 using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
@@ -26,7 +27,8 @@ namespace Royale_Platformer.Model
 
         public StaticSprite2D PlayerStaticSprite { get; set; }
 
-        protected bool shieldUp = false;
+        public bool ShieldUp { get; set; }
+        public Node ShieldNode { get; set; }
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -71,7 +73,7 @@ namespace Royale_Platformer.Model
             Position = position;
         }
 
-        public virtual void CreateNode(Scene scene, Sprite2D sprite, Vector2 pos)
+        public virtual void CreateNode(Scene scene, Sprite2D sprite, Sprite2D shieldSprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
             WorldNode.Position = new Vector3(pos);
@@ -82,13 +84,20 @@ namespace Royale_Platformer.Model
             PlayerStaticSprite.BlendMode = BlendMode.Alpha;
             PlayerStaticSprite.Sprite = sprite;
 
+            ShieldNode = scene.CreateChild();
+            ShieldNode.Position = new Vector3(WorldNode.Position);
+
+            StaticSprite2D staticSprite = ShieldNode.CreateComponent<StaticSprite2D>();
+            staticSprite.BlendMode = BlendMode.Alpha;
+            staticSprite.Sprite = shieldSprite;
+
             WorldHitbox = new Hitbox();
             WorldHitbox.Size = new Vector2(0.5f, 1f);
         }
 
         public virtual void Hit(Bullet bullet)
         {
-            if (shieldUp) return;
+            if (ShieldUp) return;
 
             if (Armor)
             {
