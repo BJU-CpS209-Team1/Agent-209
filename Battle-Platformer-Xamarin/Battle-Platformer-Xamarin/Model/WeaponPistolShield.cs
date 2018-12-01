@@ -18,7 +18,7 @@ namespace Royale_Platformer.Model
             for (int i = 0; i < 2; ++i)
             {
 
-                Bullet b = new Bullet(3);
+                Bullet b = new Bullet(4);
 
                 Random gen = new Random();
                 float randX = (float)(gen.NextDouble() * (0.1 - -0.1) + -0.1);

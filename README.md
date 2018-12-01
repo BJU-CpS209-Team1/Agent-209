@@ -32,10 +32,17 @@
 * Audio Editing
 * Video Editing
 * Advanced UI
+* Advanced AI
+* Map loading
+* Random pickup spawns
+* Random player spawn
+* Random enemy spawns
+* Background image
+* Shielding
 
 # Expenses
 | Member | Time Invested | Time Left |
 |:------:|:-------------:|:---------:|
-| [Elias Watson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Elias-Time-Sheet)     | 27h, 20m | 32h, 40m |
+| [Elias Watson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Elias-Time-Sheet)     | 42h | 18h |
 | [Isaac Abrahamson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Isaac-Time-Sheet) | 41h 30m  | 18h 30m      |
 | [David Polar](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/David-Time-Sheet)      | 25h, 20m | 34h, 40m |
