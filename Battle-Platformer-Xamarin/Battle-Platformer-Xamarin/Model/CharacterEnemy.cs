@@ -11,6 +11,8 @@ namespace Royale_Platformer.Model
         private static Random random = new Random();
 
         private float direction = 1f;
+        private float shieldCooldown = 0;
+
         private float jumpChance = 0.001f;
         private float fireChance = 0.01f;
 
@@ -33,11 +35,17 @@ namespace Royale_Platformer.Model
 
             if (deltatime > 0.05f) deltatime = 0f;
 
-            if (onLeft)
+            if (Class == CharacterClass.Tank)
             {
-                direction = 1f;
-
+                shieldCooldown -= deltatime;
+                if (shieldCooldown <= 0f)
+                {
+                    shieldUp = !shieldUp;
+                    shieldCooldown = (float) random.NextDouble() * 10;
+                }
             }
+
+            if (onLeft) direction = 1f;
             if (onRight) direction = -1f;
             Velocity.X = MoveSpeed * direction;
 
