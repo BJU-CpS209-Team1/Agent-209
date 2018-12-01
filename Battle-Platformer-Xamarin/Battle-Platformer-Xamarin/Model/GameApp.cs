@@ -41,7 +41,6 @@ namespace Royale_Platformer.Model
 
         private Scene scene;
         private Node cameraNode;
-        private Sprite2D bulletSprite;
         private UIElement hud;
         private int time;
         public bool hardcore;
@@ -114,7 +113,7 @@ namespace Royale_Platformer.Model
             //scene.CreateComponent<PhysicsWorld2D>();
 
             playerSpawns = new List<Vector2>();
-            enemySpawns  = new List<Vector2>();
+            enemySpawns = new List<Vector2>();
 
             CreateMap();
 
@@ -159,21 +158,6 @@ namespace Royale_Platformer.Model
             CreateHUD();
             CreateClock();
 
-            switch (PlayerCharacter.Class)
-            {
-                case CharacterClass.Support:
-                    bulletSprite = ResourceCache.GetSprite2D("shell.png");
-                    break;
-                case CharacterClass.Schaub:
-                    bulletSprite = ResourceCache.GetSprite2D("cheatShot.png");
-                    break;
-                default:
-                    bulletSprite = ResourceCache.GetSprite2D("shot.png");
-                    break;
-            }
-            if (bulletSprite == null)
-                throw new Exception("Bullet sprite not found!");
-
             /*
             Bullets.Add(new Bullet(1, scene, bulletSprite, new Vector2(4, -2)));
             */
@@ -213,15 +197,18 @@ namespace Royale_Platformer.Model
             musicSource.Play(music);
         }
 
-        private async void PlayParticleAsync(string name, Node source)
+        private void PlayParticleAsync(string name, Node source)
         {
-            Sprite2D image = ResourceCache.GetSprite2D(name);
-            StaticSprite2D pixel = source.CreateComponent<StaticSprite2D>();
-            pixel.BlendMode = BlendMode.Alpha;
-            pixel.Sprite = image;
+            InvokeOnMain(async () =>
+            {
+                Sprite2D image = ResourceCache.GetSprite2D(name);
+                StaticSprite2D pixel = source.CreateComponent<StaticSprite2D>();
+                pixel.BlendMode = BlendMode.Alpha;
+                pixel.Sprite = image;
 
-            await Task.Delay(100);
-            pixel.Remove();
+                await Task.Delay(100);
+                pixel.Remove();
+            });
         }
 
         private void CreatePlayer(float x, float y)
@@ -275,7 +262,7 @@ namespace Royale_Platformer.Model
 
         private void CreateEnemies()
         {
-            for(int i = 0; i < enemyCount; ++i)
+            for (int i = 0; i < enemyCount; ++i)
             {
                 CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
                 Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
@@ -313,7 +300,7 @@ namespace Royale_Platformer.Model
 
             // Initialize map
             Random r = new Random();
-            for(uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
+            for (uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
             {
                 TileMapLayer2D layer = tileMap.GetLayer(layerID);
                 for (int x = 0; x < layer.Width; ++x)
@@ -472,7 +459,7 @@ namespace Royale_Platformer.Model
 
                         if (Characters.Count == 1)
                         {
-                            gameover = true;                           
+                            gameover = true;
                             HandleWin();
                         }
 
@@ -635,11 +622,26 @@ namespace Royale_Platformer.Model
             foreach (Bullet b in bullets)
             {
                 b.Owner = character;
+                Sprite2D bulletSprite;
+
+                switch (b.Owner.Class)
+                {
+                    case CharacterClass.Support:
+                        bulletSprite = ResourceCache.GetSprite2D("shell.png");
+                        break;
+                    case CharacterClass.Schaub:
+                        bulletSprite = ResourceCache.GetSprite2D("cheatShot.png");
+                        break;
+                    default:
+                        bulletSprite = ResourceCache.GetSprite2D("shot.png");
+                        break;
+                }
+
                 b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
 
                 Bullets.Add(b);
 
-                if (schaubMode)
+                if (schaubMode && b.Owner is CharacterPlayer)
                 {
                     PlaySound("sounds/effects/schaubShot.ogg", false, PlayerCharacter.WorldNode);
                     playedSound = true;

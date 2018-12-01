@@ -56,6 +56,9 @@ namespace Royale_Platformer.Model
                     Cooldown = HeldWeapon.Cooldown;
                     CooldownTimer.Enabled = true;
 
+                    if (GameApp.Instance.PlayerCharacter.WorldNode.IsDeleted)
+                        return;
+
                     Vector2 dir = GameApp.Instance.PlayerCharacter.WorldNode.Position2D - WorldNode.Position2D;
                     dir.Normalize();
                     GameApp.Instance.CreateBullets(HeldWeapon.Fire(dir), this);

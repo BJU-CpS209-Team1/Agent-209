@@ -368,7 +368,13 @@
     <Content Include="cursorSword_bronze.png" />
     <Content Include="cursorSword_gold.png" />
     <Content Include="cursorSword_silver.png" />
-    <Content Include="GameData\*">
+    <Content Include="GameData\cheatShot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameData\shell.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameData\shot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GameData\characters\cheat.png">
@@ -1770,9 +1776,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GameData\fonts\SplendidN.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GameData\knife.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GameData\map\levels\assets\back.png">
