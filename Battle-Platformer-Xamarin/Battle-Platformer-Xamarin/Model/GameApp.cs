@@ -64,6 +64,8 @@ namespace Royale_Platformer.Model
         public Sprite2D PlayerSpriteAttack { get; set; }
         public List<Sprite2D> EnemySprites = new List<Sprite2D>();
 
+        private Node shield;
+
         public GameApp(ApplicationOptions options) : base(options)
         {
             Instance = this;
@@ -362,6 +364,27 @@ namespace Royale_Platformer.Model
         protected async override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
+
+            // Shield
+            if (PlayerCharacter.ShieldUp)
+            {
+                if (shield == null)
+                {
+                    shield = scene.CreateChild();
+                    shield.Position = new Vector3(PlayerCharacter.Position);
+
+                    StaticSprite2D staticSprite = shield.CreateComponent<StaticSprite2D>();
+                    staticSprite.BlendMode = BlendMode.Alpha;
+                    staticSprite.Sprite = ResourceCache.GetSprite2D("shield.png");
+                } 
+                else
+                    shield.Position = new Vector3(PlayerCharacter.WorldNode.Position);
+            }
+            else
+            {
+                if (shield != null)
+                    shield.Position = new Vector3(1000, 10000, -1000);
+            }
 
             // Pickups
             foreach (Character c in Characters)
