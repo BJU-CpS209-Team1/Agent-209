@@ -39,6 +39,11 @@
 * Random enemy spawns
 * Background image
 * Shielding
+* Sound Effects
+* Schaub Mode (cheat mode)
+* Win/Lose logic
+* Player Classes
+* Advanced Weapon Mechanics
 
 # Expenses
 | Member | Time Invested | Time Left |
