@@ -395,6 +395,8 @@ namespace Royale_Platformer.Model
             // Bullets
             foreach (Bullet b in Bullets.ToList())
             {
+                if (b.WorldNode.IsDeleted) continue;
+
                 if (b.WorldNode.Position2D.Length > 50f)
                 {
                     b.WorldNode.Remove();
