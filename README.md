@@ -32,6 +32,13 @@
 * Audio Editing
 * Video Editing
 * Advanced UI
+* Advanced AI
+* Map loading
+* Random pickup spawns
+* Random player spawn
+* Random enemy spawns
+* Background image
+* Shielding
 
 # Expenses
 | Member | Time Invested | Time Left |
