@@ -24,7 +24,7 @@ namespace Battle_Platformer_Xamarin
             this.score = score;
         }
 
-        private void BtnScore_Clicked(object sender, EventArgs e)
+        private void EntName_Completed(object sender, EventArgs e)
         {
             HighScoresManager.AddHighScore(entName.Text, score);
             App.Current.MainPage = new HighScoresPage();

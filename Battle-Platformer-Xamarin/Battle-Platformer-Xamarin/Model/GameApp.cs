@@ -385,8 +385,6 @@ namespace Royale_Platformer.Model
                             PlayParticleAsync("particles/star_fixed.png", c.WorldNode);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
-
-
                         }
                     }
                 }

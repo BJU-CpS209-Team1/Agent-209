@@ -5,8 +5,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="lbl"/>
-            <Entry x:Name="entName"/>
-            <Button x:Name="btnScore" Text="Finish" Clicked="BtnScore_Clicked"/>
+            <Entry x:Name="entName" Completed="EntName_Completed"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
