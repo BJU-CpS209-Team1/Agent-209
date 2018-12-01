@@ -40,10 +40,15 @@
 * Background image
 * Shielding
 * Animations
+* Sound Effects
+* Schaub Mode (cheat mode)
+* Win/Lose logic
+* Player Classes
+* Advanced Weapon Mechanics
 
 # Expenses
 | Member | Time Invested | Time Left |
 |:------:|:-------------:|:---------:|
-| [Elias Watson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Elias-Time-Sheet)     | 42h | 18h |
-| [Isaac Abrahamson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Isaac-Time-Sheet) | 41h 30m  | 18h 30m      |
-| [David Polar](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/David-Time-Sheet)      | 45h, 45m | 14h, 15m |
+| [Elias Watson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Elias-Time-Sheet)     | 42h | 18h            |
+| [Isaac Abrahamson](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/Isaac-Time-Sheet) | 41h 30m   | 18h 30m  |
+| [David Polar](https://github.com/BJU-CpS209-Team1/Royale-Platformer/wiki/David-Time-Sheet)      | 45h, 45m  | 14h, 15m |
