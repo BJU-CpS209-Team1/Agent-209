@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using Urho;
 using Urho.Forms;
 using Royale_Platformer.Model.HighScores;
+using FormsVideoLibrary;
 
 namespace Battle_Platformer_Xamarin
 {
@@ -27,6 +28,14 @@ namespace Battle_Platformer_Xamarin
             this.continueGame = continueGame;
             this.hardcore = hardcore;
             this.charClass = charClass;
+
+            VideoPlayer music = new VideoPlayer()
+            {
+                Source = VideoSource.FromResource("GameData/sounds/gameLoop.mp4"),
+                AreTransportControlsEnabled = false,
+                IsVisible = false
+            };
+            layout.Children.Add(music);
         }
 
         // Cheat mode
@@ -37,6 +46,14 @@ namespace Battle_Platformer_Xamarin
             hardcore = true;
             charClass = CharacterClass.Schaub;
             cheat = true;
+
+            VideoPlayer music = new VideoPlayer()
+            {
+                Source = VideoSource.FromResource("GameData/sounds/schaubGame.mp4"),
+                AreTransportControlsEnabled = false,
+                IsVisible = false
+            };
+            layout.Children.Add(music);
         }
 
         protected override async void OnAppearing()
