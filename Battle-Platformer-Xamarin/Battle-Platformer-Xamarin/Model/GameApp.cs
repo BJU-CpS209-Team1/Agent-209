@@ -203,20 +203,6 @@ namespace Royale_Platformer.Model
             musicSource.Play(music);
         }
 
-        private void PlayParticleAsync(string name, Node source)
-        {
-            InvokeOnMain(async () =>
-            {
-                Sprite2D image = ResourceCache.GetSprite2D(name);
-                StaticSprite2D pixel = source.CreateComponent<StaticSprite2D>();
-                pixel.BlendMode = BlendMode.Alpha;
-                pixel.Sprite = image;
-
-                await Task.Delay(100);
-                pixel.Remove();
-            });
-        }
-
         private void CreatePlayer(float x, float y)
         {
             Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
@@ -380,8 +366,8 @@ namespace Royale_Platformer.Model
                     {
                         if (p.PickUp(c))
                         {
-                            PlaySound("sounds/effects/pop.ogg", false, c.WorldNode);
-                            PlayParticleAsync("particles/star_fixed.png", c.WorldNode);
+                            if (c is CharacterPlayer)
+                                PlaySound("sounds/effects/pop.ogg", false, c.WorldNode);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
                         }
@@ -463,9 +449,11 @@ namespace Royale_Platformer.Model
                         Characters.Remove(c);
 
                         if (hardcore)
-                            PlayerCharacter.Score += 200;
+                            if (c is CharacterPlayer)
+                                PlayerCharacter.Score += 150;
                         else
-                            PlayerCharacter.Score += 100;
+                            if (c is CharacterPlayer)
+                                PlayerCharacter.Score += 100;
 
                         if (Characters.Count == 1)
                         {
@@ -615,7 +603,8 @@ namespace Royale_Platformer.Model
 
                 var node = new Scene().CreateChild();
                 node.Position = b.WorldNode.Position;
-                PlaySound("sounds/effects/jump.ogg", false, node);
+                if (character is CharacterPlayer)
+                    PlaySound("sounds/effects/jump.ogg", false, node);
 
                 await Task.Delay(200);
                 Bullets.Remove(b);

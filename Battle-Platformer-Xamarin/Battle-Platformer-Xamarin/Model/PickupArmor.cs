@@ -31,7 +31,7 @@ namespace Royale_Platformer.Model
 
             character.Armor = true;
             if (GameApp.Instance.hardcore)
-                GameApp.Instance.PlayerCharacter.Score += 20;
+                GameApp.Instance.PlayerCharacter.Score += 15;
             else
                 GameApp.Instance.PlayerCharacter.Score += 10;
             return true;

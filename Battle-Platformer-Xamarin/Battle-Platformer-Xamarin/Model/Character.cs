@@ -115,7 +115,7 @@ namespace Royale_Platformer.Model
             HeldWeapon = HeldWeapon.Upgrade(Class);
             if (!GameApp.Instance.schaubMode) GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
             if (GameApp.Instance.hardcore)
-                GameApp.Instance.PlayerCharacter.Score += 40;
+                    GameApp.Instance.PlayerCharacter.Score += 30;
             else
                 GameApp.Instance.PlayerCharacter.Score += 20;
 
