@@ -462,16 +462,13 @@ namespace Royale_Platformer.Model
                         {
                             gameover = true;
                             timer.Enabled = false;
-                            scene.RemoveAllChildren();
                             HandleWin();
-                            Exit();
-                        } else if (Characters.Count == 1)
+                        }
+                        else if (c == PlayerCharacter)
                         {
                             gameover = true;
                             timer.Enabled = false;
-                            scene.RemoveAllChildren();
                             HandleLose();
-                            Exit();
                         }
 
                         continue;
