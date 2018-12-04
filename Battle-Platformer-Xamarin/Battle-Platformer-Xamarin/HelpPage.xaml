@@ -10,7 +10,7 @@
                     Clicked="btnBack_Clicked"/>
             <StackLayout Padding="40" HorizontalOptions="Start">
                 <StackLayout Padding="20">
-                    <Label Text="Goal:  Eliminate all other players or score as many points before time runs out." 
+                    <Label Text="Goal:  Eliminate all other players before time runs out." 
                         FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
                 <StackLayout Padding="20">
@@ -18,7 +18,11 @@
                         FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
                 <StackLayout Padding="20">
-                    <Label Text="Movement:  Press 'F1' to save game, and 'F2' to restart game."
+                    <Label Text="Gameplay:  Press 'E' to shoot, and 'F' to shield (Tank class only)."
+                        FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>
+                <StackLayout Padding="20">
+                    <Label Text="Other:  Press 'F1' to save game, and 'F2' to restart game."
                         FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
                 <StackLayout Padding="20">
@@ -26,7 +30,7 @@
                        FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
                 <StackLayout Padding="20">
-                    <Label Text="End of the Game:  The game ends when either all other players have been eliminated or time has run out."
+                    <Label Text="Game ending:  The game ends when all enemy players have been eliminated or time has run out."
                        FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
             </StackLayout>

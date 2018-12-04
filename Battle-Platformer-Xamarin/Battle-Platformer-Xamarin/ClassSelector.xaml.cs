@@ -25,17 +25,32 @@ namespace Battle_Platformer_Xamarin
 
         private void BtnGunner_Clicked(object sender, EventArgs e)
         {
-            App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Gunner);
+            btnGunner.Source = "gunnerAlt.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+            {
+                App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Gunner);
+                return false;
+            });
         }
 
         private void BtnSupport_Clicked(object sender, EventArgs e)
         {
-            App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Support);
+            btnSupport.Source = "supportAlt.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+            {
+                App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Support);
+                return false;
+            });
         }
 
         private void BtnTank_Clicked(object sender, EventArgs e)
         {
-            App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Tank);
+            btnTank.Source = "tankAlt.png";
+            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+            {
+                App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Tank);
+                return false;
+            });
         }
     }
 }
