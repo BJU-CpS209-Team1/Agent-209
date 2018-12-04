@@ -620,7 +620,7 @@ namespace Royale_Platformer.Model
                     PlaySound("sounds/effects/jump.ogg", false);
 
                 await Task.Delay(200);
-                if (!b.WorldNode.IsDeleted)
+                if (!b.WorldNode.IsDeleted && Bullets.Contains(b))
                     Bullets.Remove(b);
 
                 // if bullet collides with a player, it will be already removed from the world,
