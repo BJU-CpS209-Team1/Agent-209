@@ -26,7 +26,7 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
-            bool onBottom = Collision.BottomLeft || Collision.BottomMiddle || Collision.BottomRight;
+            bool onBottom = (Collision.BottomLeft && !Collision.WallLeft) || Collision.BottomMiddle || (Collision.BottomRight && !Collision.WallRight);
             bool onTop = Collision.TopLeft || Collision.TopMiddle || Collision.TopRight;
             bool onLeft = Collision.LeftMiddle || Collision.TopLeft;
             bool onRight = Collision.RightMiddle || Collision.TopRight;

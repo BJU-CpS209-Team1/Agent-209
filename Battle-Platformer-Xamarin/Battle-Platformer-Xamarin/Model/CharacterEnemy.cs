@@ -41,7 +41,7 @@ namespace Royale_Platformer.Model
                 if (shieldCooldown <= 0f)
                 {
                     ShieldUp = !ShieldUp;
-                    shieldCooldown = (float) random.NextDouble() * 10;
+                    shieldCooldown = (float) random.NextDouble() * 5;
                 }
             }
 
