@@ -64,7 +64,7 @@ namespace Battle_Platformer_Xamarin
             {
                 int score = game.PlayerCharacter.Score;
                 bool isHighscore = HighScoresManager.CheckScore(score);
-
+         
                 // Exit game
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -74,7 +74,7 @@ namespace Battle_Platformer_Xamarin
                 });
                 return false;
             };
-
+            
             game.HandleLose = () =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
