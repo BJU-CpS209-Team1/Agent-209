@@ -21,6 +21,9 @@ namespace Battle_Platformer_Xamarin.Model
             public bool LeftMiddle { get; set; }
             public bool RightMiddle { get; set; }
 
+            public bool WallLeft { get; set; }
+            public bool WallRight { get; set; }
+
             public bool Any
             {
                 get
@@ -28,7 +31,8 @@ namespace Battle_Platformer_Xamarin.Model
                     return TopLeft    || TopRight
                         || BottomLeft || BottomRight
                         || TopMiddle  || BottomMiddle
-                        || LeftMiddle || RightMiddle;
+                        || LeftMiddle || RightMiddle
+                        || WallLeft   || WallRight;
                 }
             }
 
@@ -42,6 +46,8 @@ namespace Battle_Platformer_Xamarin.Model
                 BottomMiddle |= c.BottomMiddle;
                 LeftMiddle   |= c.LeftMiddle;
                 RightMiddle  |= c.RightMiddle;
+                WallLeft     |= c.WallLeft;
+                WallRight    |= c.WallRight;
             }
         }
 
@@ -69,6 +75,9 @@ namespace Battle_Platformer_Xamarin.Model
             Vector2 middleLeft   = (topLeft    + bottomLeft)  / 2;
             Vector2 middleRight  = (topRight   + bottomRight) / 2;
 
+            Vector2 wallLeft  = (bottomLeft)  + new Vector2(0f, 0.1f);
+            Vector2 wallRight = (bottomRight) + new Vector2(0f, 0.1f);
+
             CollisionSide collisionSide = new CollisionSide();
 
             collisionSide.TopLeft     = Inside(h, hPos, topLeft);
@@ -80,6 +89,9 @@ namespace Battle_Platformer_Xamarin.Model
             collisionSide.BottomMiddle = Inside(h, hPos, middleBottom);
             collisionSide.LeftMiddle   = Inside(h, hPos, middleLeft);
             collisionSide.RightMiddle  = Inside(h, hPos, middleRight);
+
+            collisionSide.WallLeft  = Inside(h, hPos, wallLeft);
+            collisionSide.WallRight = Inside(h, hPos, wallRight);
 
             return collisionSide;
         }
