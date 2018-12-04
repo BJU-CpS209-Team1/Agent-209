@@ -121,6 +121,9 @@ namespace Royale_Platformer.Model
             else
                 GameApp.Instance.PlayerCharacter.Score += 20;
 
+            Cooldown = -1;
+            CooldownTimer.Enabled = false;
+
             return true;
         }
 

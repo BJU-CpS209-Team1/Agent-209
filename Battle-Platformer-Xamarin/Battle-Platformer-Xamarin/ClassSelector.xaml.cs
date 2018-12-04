@@ -26,7 +26,7 @@ namespace Battle_Platformer_Xamarin
         private void BtnGunner_Clicked(object sender, EventArgs e)
         {
             btnGunner.Source = "gunnerAlt.png";
-            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+            Device.StartTimer(TimeSpan.FromMilliseconds(1250), () =>
             {
                 App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Gunner);
                 return false;
@@ -36,7 +36,7 @@ namespace Battle_Platformer_Xamarin
         private void BtnSupport_Clicked(object sender, EventArgs e)
         {
             btnSupport.Source = "supportAlt.png";
-            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+            Device.StartTimer(TimeSpan.FromMilliseconds(1250), () =>
             {
                 App.Current.MainPage = new Intro(continueGame, hardcore, CharacterClass.Support);
                 return false;

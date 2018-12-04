@@ -64,7 +64,7 @@ namespace Royale_Platformer.Model
         public Sprite2D PlayerSpriteAttack { get; set; }
         public List<Sprite2D> EnemySprites = new List<Sprite2D>();
 
-        private Node shield;
+        private TileMap2D tileMap;
 
         public GameApp(ApplicationOptions options) : base(options)
         {
@@ -285,7 +285,7 @@ namespace Royale_Platformer.Model
             mapNode.Position = new Vector3(0f, 0f, 10f);
             mapNode.SetScale(1f / 0.7f);
 
-            TileMap2D tileMap = mapNode.CreateComponent<TileMap2D>();
+            tileMap = mapNode.CreateComponent<TileMap2D>();
             tileMap.TmxFile = mapFile;
 
             // Load pickup sprites
@@ -620,7 +620,7 @@ namespace Royale_Platformer.Model
                     PlaySound("sounds/effects/jump.ogg", false);
 
                 await Task.Delay(200);
-                if (!b.WorldNode.IsDeleted)
+                if (!b.WorldNode.IsDeleted && Bullets.Contains(b))
                     Bullets.Remove(b);
 
                 // if bullet collides with a player, it will be already removed from the world,
@@ -784,21 +784,27 @@ namespace Royale_Platformer.Model
                         break;
                     case "Royale_Platformer.Model.WeaponPistol":
                         heldWeapon = new WeaponPistol();
+                        PlayerSpriteAttack = PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponPistolShield":
                         heldWeapon = new WeaponPistolShield();
+                        PlayerSpriteAttack = PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponShotgun":
                         heldWeapon = new WeaponShotgun();
+                        PlayerSpriteAttack = PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponAdvancedShotgun":
                         heldWeapon = new WeaponAdvancedShotgun();
+                        PlayerSpriteAttack = PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponAR":
                         heldWeapon = new WeaponAR();
+                        PlayerSpriteAttack = PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponAdvancedAR":
                         heldWeapon = new WeaponAdvancedAR();
+                        PlayerSpriteAttack = PlayerImage2;
                         break;
                 }
 
@@ -825,6 +831,24 @@ namespace Royale_Platformer.Model
                 var armorSprite = ResourceCache.GetSprite2D("map/levels/platformer-art-complete-pack-0/Request pack/Tiles/shieldGold.png");
                 if (weaponSprite == null || armorSprite == null)
                     throw new Exception("Texture not found");
+
+                // Clear Tilemap of old pickups
+                for (uint layerID = 0; layerID < tileMap.NumLayers; ++layerID)
+                {
+                    TileMapLayer2D layer = tileMap.GetLayer(layerID);
+                    for (int x = 0; x < layer.Width; ++x)
+                    {
+                        for (int y = 0; y < layer.Height; ++y)
+                        {
+                            Node n = layer.GetTileNode(x, y);
+                            if (n == null) continue;
+                            if (layer.HasProperty("Spawn")) n.Remove();
+                        }
+                    }
+                }
+
+                // Remove added pickups from map.
+                Pickups.Clear();
 
                 // Load each pickup
                 string[] pickupsSplit = line.Split(';');
