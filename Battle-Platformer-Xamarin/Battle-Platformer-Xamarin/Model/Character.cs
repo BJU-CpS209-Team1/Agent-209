@@ -25,7 +25,7 @@ namespace Royale_Platformer.Model
 
         public Vector3 Position { get; set; }
 
-        public StaticSprite2D PlayerStaticSprite { get; set; }
+        public StaticSprite2D CharacterStaticSprite { get; set; }
 
         public bool ShieldUp { get; set; }
         public Node ShieldNode { get; set; }
@@ -80,9 +80,9 @@ namespace Royale_Platformer.Model
             Position = WorldNode.Position;
             WorldNode.SetScale(1f / 12.14f);
 
-            PlayerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
-            PlayerStaticSprite.BlendMode = BlendMode.Alpha;
-            PlayerStaticSprite.Sprite = sprite;
+            CharacterStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
+            CharacterStaticSprite.BlendMode = BlendMode.Alpha;
+            CharacterStaticSprite.Sprite = sprite;
 
             ShieldNode = scene.CreateChild();
             ShieldNode.Position = new Vector3(WorldNode.Position);
@@ -114,6 +114,8 @@ namespace Royale_Platformer.Model
 
             HeldWeapon = HeldWeapon.Upgrade(Class);
             if (!GameApp.Instance.schaubMode)
+                // Set Characters sprite here not players
+                // You can check enemy with if (character is CharacterEnemy)
                 GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
             
             if (GameApp.Instance.hardcore)

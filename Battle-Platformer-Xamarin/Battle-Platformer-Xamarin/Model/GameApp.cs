@@ -63,6 +63,7 @@ namespace Royale_Platformer.Model
         public Sprite2D PlayerSpriteJump { get; set; }
         public Sprite2D PlayerSpriteAttack { get; set; }
         public List<Sprite2D> EnemySprites = new List<Sprite2D>();
+        public List<Sprite2D> EnemySprites2 = new List<Sprite2D>();
 
         private TileMap2D tileMap;
 
@@ -264,6 +265,9 @@ namespace Royale_Platformer.Model
                 CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
                 Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
                 EnemySprites.Add(sprite);
+                Sprite2D sprite2 = ResourceCache.GetSprite2D(enemy.GetSprite2());
+                EnemySprites2.Add(sprite2);
+
                 if (sprite == null) throw new Exception("Enemy sprite not found");
 
                 Vector2 spawn = enemySpawns.GetRandomElement();

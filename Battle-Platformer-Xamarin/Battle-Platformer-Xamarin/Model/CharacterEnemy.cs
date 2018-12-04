@@ -92,6 +92,20 @@ namespace Royale_Platformer.Model
             switch (Class)
             {
                 case CharacterClass.Gunner:
+                    return "characters/special_forces/png2/attack1/2_Special_forces_attack_Attack1_005.png";
+                case CharacterClass.Support:
+                    return "characters/special_forces/png1/attack1/1_Special_forces_attack_Attack1_005.png";
+                case CharacterClass.Tank:
+                    return "characters/special_forces/png3/attack1/3_Special_forces_Attack1_003.png";
+            }
+            return "";
+        }
+
+        public string GetSprite2()
+        {
+            switch (Class)
+            {
+                case CharacterClass.Gunner:
                     return "characters/special_forces/png2/attack/2_Special_forces_attack_Attack_000_center.png";
                 case CharacterClass.Support:
                     return "characters/special_forces/png1/attack/1_Special_forces_attack_Attack_000_center.png";

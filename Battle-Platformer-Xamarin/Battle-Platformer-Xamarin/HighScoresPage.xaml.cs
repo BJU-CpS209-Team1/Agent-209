@@ -1,4 +1,10 @@
-﻿using Royale_Platformer.Model.HighScores;
+﻿//-----------------------------------------------------------
+// HighScoresPage.xaml.cs
+// David
+// HighScoresPage
+//----------------------------------------------------------- 
+
+using Royale_Platformer.Model.HighScores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +16,15 @@ using Xamarin.Forms.Xaml;
 
 namespace Battle_Platformer_Xamarin
 {
+    // HighScoresPage
+    // Displays the list of scores found in the scores.txt file
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HighScoresPage : ContentPage
     {
+
+        // list of highscores
         private List<HighScore> scores;
+
         public HighScoresPage()
         {
             InitializeComponent();
@@ -48,6 +59,8 @@ namespace Battle_Platformer_Xamarin
             }
         }
 
+        // Event handler for when btnBack is clicked
+        // Takes the game to MainPage
         private void btnBack_Clicked(object sender, EventArgs e)
         {
             var btn = sender as Button;
