@@ -121,55 +121,54 @@ namespace Royale_Platformer.Model
             playerSpawns = new List<Vector2>();
             enemySpawns = new List<Vector2>();
 
-            CreateMap();
-
-            Vector2 playerSpawn = playerSpawns.GetRandomElement();
-            playerSpawn += new Vector2(0f, 0.2f);
-
-            cameraNode = scene.CreateChild("Camera");
-            cameraNode.Position = new Vector3(playerSpawn.X, playerSpawn.Y, -1);
-
-            Camera camera = cameraNode.CreateComponent<Camera>();
-            camera.Orthographic = true;
-            camera.OrthoSize = 2 * halfHeight;
-            camera.Zoom = Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
-
-            // Create BG
+            InvokeOnMain(() =>
             {
-                Sprite2D bgSprite = ResourceCache.GetSprite2D("test/bg.png");
-                if (bgSprite == null)
-                    throw new Exception("Bacgkround not found");
+                CreateMap();
 
-                Node bgNode = scene.CreateChild();
-                bgNode.Position = new Vector3(25f, 12.5f, 100f);
-                bgNode.SetScale(5000f / 1024f);
+                Vector2 playerSpawn = playerSpawns.GetRandomElement();
+                playerSpawn += new Vector2(0f, 0.2f);
 
-                StaticSprite2D bgStaticSprite = bgNode.CreateComponent<StaticSprite2D>();
-                bgStaticSprite.Sprite = bgSprite;
-            }
+                cameraNode = scene.CreateChild("Camera");
+                cameraNode.Position = new Vector3(playerSpawn.X, playerSpawn.Y, -1);
 
-            if (!hardcore)
-                time = 3000;
-            else
-                time = 1500;
+                Camera camera = cameraNode.CreateComponent<Camera>();
+                camera.Orthographic = true;
+                camera.OrthoSize = 2 * halfHeight;
+                camera.Zoom = Math.Min(Graphics.Width / 1920.0f, Graphics.Height / 1080.0f);
 
-            if (!continueGame && !schaubMode) CreatePlayer(playerSpawn.X, playerSpawn.Y);
-            if (schaubMode) LoadSchaub();
-            if (!continueGame) CreateEnemies();
+                // Create BG
+                {
+                    Sprite2D bgSprite = ResourceCache.GetSprite2D("test/bg.png");
+                    if (bgSprite == null)
+                        throw new Exception("Bacgkround not found");
 
-            if (schaubMode)
-                PlaySound("sounds/schaubGame.ogg", true, new Scene().CreateChild("Music"));
-            else PlaySound("sounds/loop1.ogg", true, new Scene().CreateChild("Music"));
+                    Node bgNode = scene.CreateChild();
+                    bgNode.Position = new Vector3(25f, 12.5f, 100f);
+                    bgNode.SetScale(5000f / 1024f);
 
-            CreateHUD();
-            CreateClock();
+                    StaticSprite2D bgStaticSprite = bgNode.CreateComponent<StaticSprite2D>();
+                    bgStaticSprite.Sprite = bgSprite;
+                }
 
-            /*
-            Bullets.Add(new Bullet(1, scene, bulletSprite, new Vector2(4, -2)));
-            */
+                if (!hardcore)
+                    time = 3000;
+                else
+                    time = 1500;
 
-            // Setup Viewport
-            Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+                if (!continueGame && !schaubMode) CreatePlayer(playerSpawn.X, playerSpawn.Y);
+                if (schaubMode) LoadSchaub();
+                if (!continueGame) CreateEnemies();
+
+                CreateHUD();
+                CreateClock();
+
+                /*
+                Bullets.Add(new Bullet(1, scene, bulletSprite, new Vector2(4, -2)));
+                */
+
+                // Setup Viewport
+                Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+            });
         }
 
         public void LoadSchaub()
@@ -194,13 +193,17 @@ namespace Royale_Platformer.Model
         }
 
         #region Gameplay Methods
-        private void PlaySound(string name, bool looped, Node source)
+        private void PlaySound(string name, bool looped)
         {
-            var music = ResourceCache.GetSound(name);
-            music.Looped = looped;
-            SoundSource musicSource = source.CreateComponent<SoundSource>();
-            musicSource.SetSoundType(SoundType.Music.ToString());
-            musicSource.Play(music);
+            Sound sound = new Sound();
+            //sound.Looped = looped;
+            sound.LoadOggVorbis(ResourceCache.GetFile(name));
+
+            Node soundNode = scene.CreateChild("Sound");
+            SoundSource soundSource = soundNode.CreateComponent<SoundSource>();
+            soundSource.AutoRemoveMode = AutoRemoveMode.Node;
+            soundSource.Play(sound);
+            //source.AutoRemoveMode = AutoRemoveMode.Component;
         }
 
         private void CreatePlayer(float x, float y)
@@ -354,7 +357,7 @@ namespace Royale_Platformer.Model
             base.OnUpdate(timeStep);
 
             // Shield
-            foreach(Character c in Characters)
+            foreach (Character c in Characters)
                 c.ShieldNode.Position = c.ShieldUp ? c.WorldNode.Position : new Vector3(1000, 10000, -1000);
 
             // Pickups
@@ -367,7 +370,7 @@ namespace Royale_Platformer.Model
                         if (p.PickUp(c))
                         {
                             if (c is CharacterPlayer)
-                                PlaySound("sounds/effects/pop.ogg", false, c.WorldNode);
+                                PlaySound("sounds/effects/pop.ogg", false);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
                         }
@@ -407,6 +410,9 @@ namespace Royale_Platformer.Model
 
                 foreach (WorldObject o in collisionObjects)
                 {
+                    if (b.WorldNode.IsDeleted || o.WorldNode.IsDeleted)
+                        continue;
+
                     if (o.Collides(b))
                     {
                         b.WorldNode.Remove();
@@ -443,7 +449,7 @@ namespace Royale_Platformer.Model
                         // create new node to play sound from, as character will be removed
                         var node = new Scene().CreateChild();
                         node.Position = c.Position;
-                        PlaySound("sounds/effects/death.ogg", false, node);
+                        PlaySound("sounds/effects/death.ogg", false);
 
                         c.WorldNode.Remove();
                         Characters.Remove(c);
@@ -451,14 +457,21 @@ namespace Royale_Platformer.Model
                         if (hardcore)
                             if (c is CharacterPlayer)
                                 PlayerCharacter.Score += 150;
-                        else
+                            else
                             if (c is CharacterPlayer)
                                 PlayerCharacter.Score += 100;
 
-                        if (Characters.Count == 1)
+                        if (Characters.Count == 1 && Characters.First() == PlayerCharacter)
                         {
                             gameover = true;
+                            timer.Enabled = false;
                             HandleWin();
+                        }
+                        else if (c == PlayerCharacter)
+                        {
+                            gameover = true;
+                            timer.Enabled = false;
+                            HandleLose();
                         }
 
                         continue;
@@ -470,7 +483,7 @@ namespace Royale_Platformer.Model
 
                 PlayerCharacter.Input.LeftClick = false;
 
-                if (Input.GetKeyDown(Key.F1))
+                if (Input.GetKeyDown(Key.F1) && !schaubMode)
                 {
                     Save("latest.txt");
                     var saved = new Text() { Value = "Game Saved" };
@@ -604,10 +617,11 @@ namespace Royale_Platformer.Model
                 var node = new Scene().CreateChild();
                 node.Position = b.WorldNode.Position;
                 if (character is CharacterPlayer)
-                    PlaySound("sounds/effects/jump.ogg", false, node);
+                    PlaySound("sounds/effects/jump.ogg", false);
 
                 await Task.Delay(200);
-                Bullets.Remove(b);
+                if (!b.WorldNode.IsDeleted)
+                    Bullets.Remove(b);
 
                 // if bullet collides with a player, it will be already removed from the world,
                 // so ignore error if thrown.
@@ -642,7 +656,7 @@ namespace Royale_Platformer.Model
 
                 if (schaubMode && b.Owner is CharacterPlayer)
                 {
-                    PlaySound("sounds/effects/schaubShot.ogg", false, PlayerCharacter.WorldNode);
+                    PlaySound("sounds/effects/schaubShot.ogg", false);
                     playedSound = true;
                     continue;
                 }
@@ -651,9 +665,9 @@ namespace Royale_Platformer.Model
                 if (bullets.Count >= 4 && playedSound) continue;
 
                 if (bullets.Count >= 4)
-                    PlaySound("sounds/effects/shotgun.ogg", false, PlayerCharacter.WorldNode);
+                    PlaySound("sounds/effects/shotgun.ogg", false);
                 else
-                    PlaySound("sounds/effects/gunshot.ogg", false, PlayerCharacter.WorldNode);
+                    PlaySound("sounds/effects/gunshot.ogg", false);
 
                 playedSound = true;
             }
@@ -782,6 +796,9 @@ namespace Royale_Platformer.Model
                         break;
                     case "Royale_Platformer.Model.WeaponAR":
                         heldWeapon = new WeaponAR();
+                        break;
+                    case "Royale_Platformer.Model.WeaponAdvancedAR":
+                        heldWeapon = new WeaponAdvancedAR();
                         break;
                 }
 
@@ -940,6 +957,8 @@ namespace Royale_Platformer.Model
 
         public void Save(string fileName)
         {
+            if (schaubMode) return;
+
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
 
             string serialized = Serialize();

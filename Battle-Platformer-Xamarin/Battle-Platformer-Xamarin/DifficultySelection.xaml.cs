@@ -46,12 +46,7 @@ namespace Battle_Platformer_Xamarin
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
             {
-                string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "latest.txt");
-                if (File.Exists(PATH))
-                    App.Current.MainPage = new ClassSelector(continueGame, true);
-                else
-                    DisplayAlert("No Saved Game", "You do not have a saved game.", "Ok.");
-
+                App.Current.MainPage = new ClassSelector(continueGame, true);
                 return false;
             });
         }

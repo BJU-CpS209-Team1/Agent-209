@@ -28,7 +28,15 @@ namespace Battle_Platformer_Xamarin.Model
         {
             if (obj == null || obj.WorldNode == null || obj.WorldHitbox == null || WorldNode == null || WorldHitbox == null || obj.WorldNode.IsDeleted || WorldNode.IsDeleted) return false;
 
-            return WorldHitbox.Intersects(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
+            try
+            {
+                return WorldHitbox.Intersects(obj.WorldHitbox, WorldNode.Position2D, obj.WorldNode.Position2D);
+            }
+            catch {
+                // most likely caused by knife already hitting player
+                // so ignore error
+                return false;
+            }
         }
 
         public Hitbox.CollisionSide CollidesSide(WorldObject obj)

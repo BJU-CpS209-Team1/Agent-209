@@ -11,16 +11,16 @@
             <StackLayout Padding="60">
                 <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="Isaac Abrahamson:" FontSize="30" TextColor="WhiteSmoke"/>
-                    <Label Text="Level Design; Game Serialization; Main Menu Screen" FontSize="30" TextColor="WhiteSmoke"/>
-                </StackLayout>
-                <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
-                    <Label Text="David Polar:" FontSize="30" TextColor="WhiteSmoke"/>
-                    <Label Text="Other Menu Screens; High Scores" FontSize="30" TextColor="WhiteSmoke"/>
+                    <Label Text="Save/Load, UI Design, Advanced Weapon Mechanics, Audio/Video Effects, Classes, Schaub Mode, HUD" FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
                 <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
                     <Label Text="Elias Watson:" FontSize="30" TextColor="WhiteSmoke"/>
-                    <Label Text="Game Logic" FontSize="30" TextColor="WhiteSmoke"/>
+                    <Label Text="Game Mechanics, Difficulties, Pickups, Combat, AI Players, Map Loading, Collision System" FontSize="30" TextColor="WhiteSmoke"/>
                 </StackLayout>
+                <StackLayout Padding="20" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="David Polar:" FontSize="30" TextColor="WhiteSmoke"/>
+                    <Label Text="Player Scoring, Highscores, Animations, Info Pages" FontSize="30" TextColor="WhiteSmoke"/>
+                </StackLayout>                
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

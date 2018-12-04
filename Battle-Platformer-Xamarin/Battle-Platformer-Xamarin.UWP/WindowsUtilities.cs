@@ -9,6 +9,11 @@ namespace Battle_Platformer_Xamarin.UWP
 {
     class WindowsUtilities : IUtilities
     {
-        public void SetFullscreen() { ApplicationView.GetForCurrentView().TryEnterFullScreenMode(); }
+        public void SetFullscreen()
+        {
+            ApplicationView.GetForCurrentView().ExitFullScreenMode();
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Maximized;
+            ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+        }
     }
 }

@@ -1,15 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Battle_Platformer_Xamarin.ClassSelector">
-    <ContentPage.Content>
-        <StackLayout 
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand">
-            <Label Text="Select Character Class" />
-            <Button x:Name="btnGunner" Text="Gunner" Clicked="BtnGunner_Clicked" />
-            <Button x:Name="btnSupport" Text="Support" Clicked="BtnSupport_Clicked" />
-            <Button x:Name="btnTank" Text="Tank" Clicked="BtnTank_Clicked" />
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="Battle_Platformer_Xamarin.ClassSelector"
+             BackgroundImage="bg_castle.png">
+
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Image x:Name="desc" Source="class.png" Margin="0,0,0,20" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="btnGunner" Source="gunner.png" Grid.Column="0">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BtnGunner_Clicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Image x:Name="btnSupport" Source="support.png" Grid.Column="1" Margin="10,0,10,0" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BtnSupport_Clicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Image x:Name="btnTank" Source="tank.png" Grid.Column="2">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BtnTank_Clicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>
+    </StackLayout>
 </ContentPage>

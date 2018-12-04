@@ -12,15 +12,33 @@ namespace Battle_Platformer_Xamarin
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Lose : ContentPage
     {
+        bool skipped;
         public Lose()
         {
             InitializeComponent();
+            skipped = false;
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+            var gestureRecognizer = new TapGestureRecognizer();
+            gestureRecognizer.NumberOfTapsRequired = 2;
+            gestureRecognizer.Tapped += (s, e) =>
             {
-                App.Current.MainPage = new MainPage();
+                ExitVideo();
+                skipped = true;
+            };
+
+            image.GestureRecognizers.Add(gestureRecognizer);
+            image.Focus();
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(8000), () =>
+            {
+                if (!skipped) ExitVideo();
                 return false;
             });
+        }
+
+        public void ExitVideo()
+        {
+            App.Current.MainPage = new MainPage();
         }
     }
 }
