@@ -410,6 +410,9 @@ namespace Royale_Platformer.Model
 
                 foreach (WorldObject o in collisionObjects)
                 {
+                    if (b.WorldNode.IsDeleted || o.WorldNode.IsDeleted)
+                        continue;
+
                     if (o.Collides(b))
                     {
                         b.WorldNode.Remove();
@@ -480,7 +483,7 @@ namespace Royale_Platformer.Model
 
                 PlayerCharacter.Input.LeftClick = false;
 
-                if (Input.GetKeyDown(Key.F1))
+                if (Input.GetKeyDown(Key.F1) && !schaubMode)
                 {
                     Save("latest.txt");
                     var saved = new Text() { Value = "Game Saved" };
@@ -794,6 +797,9 @@ namespace Royale_Platformer.Model
                     case "Royale_Platformer.Model.WeaponAR":
                         heldWeapon = new WeaponAR();
                         break;
+                    case "Royale_Platformer.Model.WeaponAdvancedAR":
+                        heldWeapon = new WeaponAdvancedAR();
+                        break;
                 }
 
                 // Update Player
@@ -951,6 +957,8 @@ namespace Royale_Platformer.Model
 
         public void Save(string fileName)
         {
+            if (schaubMode) return;
+
             string PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
 
             string serialized = Serialize();

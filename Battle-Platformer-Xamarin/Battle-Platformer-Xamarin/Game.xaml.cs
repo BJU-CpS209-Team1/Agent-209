@@ -80,7 +80,13 @@ namespace Battle_Platformer_Xamarin
             game.HandleWin = () =>
             {
                 int score = game.PlayerCharacter.Score;
-                bool isHighscore = HighScoresManager.CheckScore(score);
+
+                bool isHighscore;
+                if (game.schaubMode)
+                    // never a highscore if schaubMode
+                    isHighscore = false;
+                else
+                    isHighscore = HighScoresManager.CheckScore(score);
 
                 // Exit game
                 Device.BeginInvokeOnMainThread(async () =>
