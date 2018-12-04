@@ -1,7 +1,7 @@
 ﻿//-----------------------------------------------------------
-//File:   HighScore.cs
-//Desc:   Creates an object for storing highscore data
-//        consisting of name and score
+// HighScore.cs
+// David
+// HighScore
 //----------------------------------------------------------- 
 
 using System;
@@ -12,39 +12,45 @@ using System.Threading.Tasks;
 
 namespace Royale_Platformer.Model.HighScores
 {
-    // Object for storing a player's name and score
+    // HighScore
+    // Creates an object for storing a player's name and score
     public class HighScore
     {
-        private string name; // name of player that acheived a highscore
-        private int score; // score of player that acheived a highscore
+
+        // name of player that acheived a highscore
+        private string name;
+
+        // score of player that acheived a highscore
+        private int score;
+
         public HighScore(string name, int score)
         {
-            this.name = name; // stores name item from constructor parameter in instance variable
-            this.score = score; // stores score item from constructor parameter in instance variable
+            this.name = name;
+            this.score = score;
         }
 
         // Returns name of player
         public string GetName()
         {
-            return this.name;
+            return name;
         }
 
         // Sets name of player <n>
         public void SetName(string n)
         {
-            this.name = n;
+            name = n;
         }
 
         // Returns score of player
         public int GetScore()
         {
-            return this.score;
+            return score;
         }
 
         // Sets name of player <s>
         public void SetScore(int s)
         {
-            this.score = s;
+            score = s;
         }
     }
 }
