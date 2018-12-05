@@ -1,12 +1,21 @@
-﻿using Urho;
+﻿// --------------------
+// CharacterPlayer.cs
+// Elias Watson
+// CharacterPlayer class
+// --------------------
+
+using Urho;
 using Urho.Urho2D;
 using Battle_Platformer_Xamarin.Model;
 using System.Globalization;
 
 namespace Royale_Platformer.Model
 {
+    // CharacterPlayer class
+    // Holds the player character
     public class CharacterPlayer : Character
     {
+        // A state of input
         public struct PlayerInput
         {
             public bool W, A, S, D;
@@ -16,14 +25,20 @@ namespace Royale_Platformer.Model
             public Vector2 MousePosition;
         }
 
+        // The current state of input
         public PlayerInput Input;
 
+        // Create a player
+        // <characterClass> is the enemy's class
+        // <maxHealth> is the enemy's starting health
         public CharacterPlayer(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
             Input = new PlayerInput();
             MoveSpeed = 5;
         }
 
+        // Update the player (called every frame)
+        // <deltatime> is the time in seconds since the last frame
         public override void Update(float deltatime)
         {
             bool onBottom = (Collision.BottomLeft && !Collision.WallLeft) || Collision.BottomMiddle || (Collision.BottomRight && !Collision.WallRight);

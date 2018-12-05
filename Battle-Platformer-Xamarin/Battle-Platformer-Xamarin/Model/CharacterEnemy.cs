@@ -1,4 +1,10 @@
-﻿using Battle_Platformer_Xamarin.Model;
+﻿// --------------------
+// CharacterEnemy.cs
+// Elias Watson
+// CharacterEnemy class
+// --------------------
+
+using Battle_Platformer_Xamarin.Model;
 using System;
 using System.Globalization;
 using Urho;
@@ -6,26 +12,44 @@ using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
+    // CharacterEnemy class
+    // Holds an AI character
     public class CharacterEnemy : Character
     {
+        // Random number generator for AI
         private static Random random = new Random();
 
+        // The direction the enemy is walking (-1 is left, 1 is right)
         private float direction = 1f;
+
+        // The seconds of cooldown the enemy's shield has
         private float shieldCooldown = 0;
 
+        // The enemy's chance of jumping each frame
         private float jumpChance = 0.001f;
+
+        // The enemy's chance of attacking each frame
         private float fireChance = 0.01f;
 
+        // Create an enemy
+        // <characterClass> is the enemy's class
+        // <maxHealth> is the enemy's starting health
         public CharacterEnemy(CharacterClass characterClass, int maxHealth) : base(characterClass, maxHealth)
         {
             MoveSpeed = 2;
         }
 
+        // Create an enemy
+        // <characterClass> is the enemy's class
+        // <maxHealth> is the enemy's starting health
+        // <position> is the enemy's starting position
         public CharacterEnemy(CharacterClass characterClass, int maxHealth, Vector3 position) : base(characterClass, maxHealth, position)
         {
             MoveSpeed = 2;
         }
 
+        // Update the enemy (called every frame)
+        // <deltatime> is the time in seconds since the last frame
         public override void Update(float deltatime)
         {
             bool onBottom = (Collision.BottomLeft && !Collision.WallLeft) || Collision.BottomMiddle || (Collision.BottomRight && !Collision.WallRight);

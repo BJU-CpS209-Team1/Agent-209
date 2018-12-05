@@ -1,21 +1,33 @@
-﻿using Battle_Platformer_Xamarin.Model;
+﻿// --------------------
+// Pickup.cs
+// Elias Watson
+// Pickup abstract class
+// --------------------
+
+using Battle_Platformer_Xamarin.Model;
 using Urho;
 using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
+    // Pickup abstract class
+    // Provides a parent for all pickup classes
     public abstract class Pickup : WorldObject
     {
+        // The position of the pickup
         Vector3 position;
 
+        // Create a blank pickup
         public Pickup()
         {
-
         }
 
+        // Create a pickup
+        // <scene> is the Urho scene
+        // <sprite> is the pickup's sprite
+        // <pos> is the pickup position
         public Pickup(Scene scene, Sprite2D sprite, Vector2 pos)
         {
-
             WorldNode = scene.CreateChild();
             WorldNode.SetPosition2D(pos);
             position = WorldNode.Position;
@@ -31,8 +43,9 @@ namespace Royale_Platformer.Model
 
         public abstract Vector2 Deserialize(string serialized);
 
-        // Returns false if the item isn't picked up
-        // Ex: Pickup is armor and character already has armor
+        // Called when a character trys to pickup the pickup
+        // <character> is the character
+        // Returns false if the player cannot get the pickup
         public abstract bool PickUp(Character character);
 
         public string Serialize()

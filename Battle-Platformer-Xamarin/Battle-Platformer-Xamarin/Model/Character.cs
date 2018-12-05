@@ -1,4 +1,10 @@
-﻿using Battle_Platformer_Xamarin.Model;
+﻿// --------------------
+// Character.cs
+// Elias Watson
+// Character abstract class
+// --------------------
+
+using Battle_Platformer_Xamarin.Model;
 using System;
 using System.Text.RegularExpressions;
 using System.Timers;
@@ -8,34 +14,64 @@ using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
+    // Character abstract class
+    // Provides a parent for enemy and player character classes
     public abstract class Character : WorldObject
     {
+        // The character's class (gunner, support, tank)
         public CharacterClass Class { get; set; }
+
+        // The character's currently held weapon
         public Weapon HeldWeapon { get; set; }
+
+        // Does the character have armor
         public bool Armor { get; set; }
+
+        // The amount of health the character will start with
         public int MaxHealth { get; set; }
+
+        // The character's current health
         public int Health { get; set; }
+
+        // The character's score
         public int Score { get; set; }
 
+        // Timer for controling the weapon cooldown time
         public Timer CooldownTimer { get; set; }
+
+        // The number of 0.1 seconds left of the current weapon cooldown
         public int Cooldown { get; set; }
 
+        // The character's movement speed
         public float MoveSpeed { get; set; }
+
+        // The character's velocity
         public Vector2 Velocity;
 
+        // The character's position in the world
         public Vector3 Position { get; set; }
 
+        // The character's sprite
         public StaticSprite2D CharacterStaticSprite { get; set; }
 
+        // Is the character's shield up
         public bool ShieldUp { get; set; }
+
+        // The character's shield's Urho node
         public Node ShieldNode { get; set; }
 
+        // The character's attack sprite
         public Sprite2D PlayerSpriteAttack { get; set; }
 
         public Sprite2D PlayerImage1 { get; set; }
         public Sprite2D PlayerImage2 { get; set; }
+
+        // The character's jump sprite
         public Sprite2D PlayerSpriteJump { get; set; }
 
+        // Creates a new character
+        // <characterClass> is the character's class (gunner, support, tank)
+        // <maxHealth> is the character's starting health
         public Character(CharacterClass characterClass, int maxHealth)
         {
             if (maxHealth < 0)
@@ -77,6 +113,10 @@ namespace Royale_Platformer.Model
             PlayerSpriteAttack = PlayerImage1;
         }
 
+        // Creates a new character
+        // <characterClass> is the character's class (gunner, support, tank)
+        // <maxHealth> is the character's starting health
+        // <position> is the character's starting position
         public Character(CharacterClass characterClass, int maxHealth, Vector3 position)
         {
             if (maxHealth < 0)
@@ -119,6 +159,11 @@ namespace Royale_Platformer.Model
             PlayerSpriteAttack = PlayerImage1;
         }
 
+        // Creates the character's Urho node
+        // <scene> is the Urho scene
+        // <sprite> is the character's sprite
+        // <shieldSprite> is the character's shield's sprite
+        // <pos> is the starting position of the character
         public virtual void CreateNode(Scene scene, Sprite2D sprite, Sprite2D shieldSprite, Vector2 pos)
         {
             WorldNode = scene.CreateChild();
@@ -141,6 +186,8 @@ namespace Royale_Platformer.Model
             WorldHitbox.Size = new Vector2(0.5f, 1f);
         }
 
+        // Called when the character is hit by a bullet
+        // <bullet> is the bullet that struck the character
         public virtual void Hit(Bullet bullet)
         {
             if (ShieldUp) return;
@@ -154,6 +201,7 @@ namespace Royale_Platformer.Model
             Health -= bullet.Damage;
         }
 
+        // Upgrade the character's weapon
         public virtual bool UpgradeWeapon()
         {
             if (!HeldWeapon.Upgradeable) return false;
@@ -181,8 +229,11 @@ namespace Royale_Platformer.Model
             PlayerSpriteAttack = PlayerImage2;
         }
 
+        // Abstract method for updating the character every frame
+        // <deltatime> time in seconds since the last frame
         public abstract void Update(float deltatime);
 
+        // Timer method for weapon cooldown
         private void RunCooldown(object sender, ElapsedEventArgs e)
         {
             --Cooldown;
