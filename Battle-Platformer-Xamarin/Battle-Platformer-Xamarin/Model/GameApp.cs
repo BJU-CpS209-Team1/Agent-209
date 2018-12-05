@@ -25,7 +25,7 @@ namespace Royale_Platformer.Model
     // Control an UrhoSharp game
     public class GameApp : Application
     {
-        // ======= ELIAS =======
+        // Singleton instance of GameApp
         public static GameApp Instance { get; private set; }
 
         // Holds a reference to the PlayerCharacter class
@@ -37,13 +37,13 @@ namespace Royale_Platformer.Model
         // List of all the pickups in the game
         public List<Pickup> Pickups { get; set; }
 
-        // ======= ELIAS =======
+        // List of bulllets currently in the world
         public List<Bullet> Bullets { get; set; }
 
-        // ======= ELIAS =======
+        // List of MapTiles
         public List<MapTile> Tiles { get; set; }
 
-        // ======= ELIAS =======
+        // List of collidable objects in the world
         private List<WorldObject> collisionObjects;
 
         // Used to call restart functionality on Xamarin Forms page
@@ -55,18 +55,18 @@ namespace Royale_Platformer.Model
         // Used to call lose functionality on Xamarin Forms page
         public Func<object> HandleLose { get; internal set; }
 
-        // ======= ELIAS =======
+        // Speed of bullets
         private static readonly float bulletSpeed = 10f;
 
-        // ======= ELIAS =======
+        // List of possible enemy classes
         private static readonly List<CharacterClass> enemyClasses = new List<CharacterClass> {
             CharacterClass.Gunner, CharacterClass.Support, CharacterClass.Tank
         };
 
-        // ======= ELIAS =======
+        // Urho scene
         private Scene scene;
 
-        // ======= ELIAS =======
+        // Urho camera node
         private Node cameraNode;
 
         // Holds the parent element for all the HUD items
@@ -87,19 +87,19 @@ namespace Royale_Platformer.Model
         // Used to count down the seconds remaining in game
         Timer timer;
 
-        // ======= ELIAS =======
+        // Percentage of possible weapon spawns to spawn
         private float weaponSpawnRate = 0.2f;
 
-        // ======= ELIAS =======
+        // Percentage of possible armor spawns to spawn
         private float armorSpawnRate = 0.2f;
 
-        // ======= ELIAS =======
+        // Number of enemies to spawn
         private int enemyCount = 5;
 
-        // ======= ELIAS =======
+        // List of possible player spawns
         private List<Vector2> playerSpawns;
 
-        // ======= ELIAS =======
+        // List of possible enemy spawns
         private List<Vector2> enemySpawns;
 
         // tracks if the game has been won/lost
@@ -108,18 +108,17 @@ namespace Royale_Platformer.Model
         // determins if the game is in Schaub Mode
         public bool schaubMode = false;
 
-        // ======= ELIAS =======
+        // List of enemy sprite references
         public List<Sprite2D> EnemySprites = new List<Sprite2D>();
 
-        // ======= ELIAS =======
+        // List of alternative enemy sprite references
         public List<Sprite2D> EnemySprites2 = new List<Sprite2D>();
 
-        // ======= ELIAS =======
+        // Urho2D tile map
         private TileMap2D tileMap;
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Create the game app
+        // <options> Urho options
         public GameApp(ApplicationOptions options) : base(options)
         {
             Instance = this;
@@ -159,9 +158,8 @@ namespace Royale_Platformer.Model
             collisionObjects = new List<WorldObject>();
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Start the game
+        // Called by Urho
         protected override void Start()
         {
             base.Start();
@@ -264,9 +262,9 @@ namespace Royale_Platformer.Model
             //source.AutoRemoveMode = AutoRemoveMode.Component;
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Create the player object
+        // <x> world x position
+        // <y> world y position
         private void CreatePlayer(float x, float y)
         {
             Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
@@ -289,9 +287,7 @@ namespace Royale_Platformer.Model
             AddPlayer(player);
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Spawn the enemies
         private void CreateEnemies()
         {
             Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
@@ -307,9 +303,7 @@ namespace Royale_Platformer.Model
             }
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Load the map
         private void CreateMap()
         {
             // Load map
@@ -388,9 +382,9 @@ namespace Royale_Platformer.Model
             }
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Update the game state
+        // Called every frame
+        // <timeStep> time in seconds since last frame
         protected async override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
@@ -554,9 +548,7 @@ namespace Royale_Platformer.Model
             }
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Add the player's character to the game
         public void AddPlayer(CharacterPlayer character)
         {
             PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage1;
@@ -644,9 +636,9 @@ namespace Royale_Platformer.Model
             });
         }
 
-        // ======= ELIAS =======
-        // ======= ELIAS =======
-        // ======= ELIAS =======
+        // Spawn bullets in the world
+        // <bullets> list of bullets to spawn
+        // <character> character that shot the bullets
         public async void CreateBullets(List<Bullet> bullets, Character character)
         {
             InvokeOnMain(async () =>
