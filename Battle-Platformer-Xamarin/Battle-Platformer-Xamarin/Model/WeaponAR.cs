@@ -28,11 +28,6 @@ namespace Royale_Platformer.Model
             return new WeaponAdvancedAR();
         }
 
-        public override ISerializer Deserialize(string serialized)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override string Serialize() { return "AR"; }
     }
 }

@@ -13,7 +13,7 @@ namespace Royale_Platformer.Model
 {
     // Bullet class
     // Holds a bullet world object
-    public class Bullet : WorldObject, ISerializer
+    public class Bullet : WorldObject
     {
         // The amount of damage the bullet does
         public int Damage { get; private set; }
@@ -54,11 +54,6 @@ namespace Royale_Platformer.Model
         public string Serialize()
         {
             return "";
-        }
-
-        public ISerializer Deserialize(string serialized)
-        {
-            return new Bullet(0);
         }
     }
 }
