@@ -815,6 +815,8 @@ namespace Royale_Platformer.Model
                 }
 
                 // Remove added pickups from map.
+                foreach(Pickup p in Pickups)
+                    p.WorldNode.Remove();
                 Pickups.Clear();
 
                 // Load each pickup
