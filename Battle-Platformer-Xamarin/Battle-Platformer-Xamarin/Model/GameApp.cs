@@ -458,11 +458,10 @@ namespace Royale_Platformer.Model
                         c.WorldNode.Remove();
                         Characters.Remove(c);
 
-                        if (hardcore)
-                            if (c is CharacterPlayer)
+                        if (c is CharacterPlayer)
+                            if (hardcore)
                                 PlayerCharacter.Score += 150;
                             else
-                            if (c is CharacterPlayer)
                                 PlayerCharacter.Score += 100;
 
                         if (Characters.Count == 1 && Characters.First() == PlayerCharacter)

@@ -68,7 +68,7 @@ namespace Royale_Platformer.Model
             CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
             CooldownTimer.Interval = 100;
             CooldownTimer.Enabled = false;
-            
+
             Velocity = new Vector2();
             Position = position;
         }
@@ -112,16 +112,18 @@ namespace Royale_Platformer.Model
         {
             if (!HeldWeapon.Upgradeable) return false;
 
+            // Upgrade weapon
             HeldWeapon = HeldWeapon.Upgrade(Class);
-            if (!GameApp.Instance.schaubMode)
-                // Set Characters sprite here not players
-                // You can check enemy with if (character is CharacterEnemy)
-                GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
-            
+
+            // Increase score  
             if (GameApp.Instance.hardcore)
-                    GameApp.Instance.PlayerCharacter.Score += 30;
+                Score += 30;
             else
-                GameApp.Instance.PlayerCharacter.Score += 20;
+                Score += 20;
+
+            // Update image
+            if (this is CharacterPlayer)
+                GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
 
             Cooldown = -1;
             CooldownTimer.Enabled = false;
