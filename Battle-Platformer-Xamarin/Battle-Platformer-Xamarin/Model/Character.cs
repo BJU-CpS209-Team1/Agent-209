@@ -1,6 +1,6 @@
 ﻿// --------------------
 // Character.cs
-// Elias Watson
+// Elias Watson, Isaac Abrahamson
 // Character abstract class
 // --------------------
 

@@ -1,4 +1,10 @@
-﻿using System;
+﻿// --------------------
+// GameApp.cs
+// Elias Watson, Isaac Abrahamson, David Polar
+// Main Model Class
+// --------------------
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,54 +21,105 @@ using Battle_Platformer_Xamarin;
 
 namespace Royale_Platformer.Model
 {
+    // GameApp
+    // Control an UrhoSharp game
     public class GameApp : Application
     {
+        // ======= ELIAS =======
         public static GameApp Instance { get; private set; }
 
+        // Holds a reference to the PlayerCharacter class
         public CharacterPlayer PlayerCharacter { get; private set; }
+
+        // List of all the characters in the game
         public List<Character> Characters { get; private set; }
 
+        // List of all the pickups in the game
         public List<Pickup> Pickups { get; set; }
+
+        // ======= ELIAS =======
         public List<Bullet> Bullets { get; set; }
 
+        // ======= ELIAS =======
         public List<MapTile> Tiles { get; set; }
 
+        // ======= ELIAS =======
         private List<WorldObject> collisionObjects;
 
-        public bool LoadGame { get; set; }
+        // Used to call restart functionality on Xamarin Forms page
         public Func<object> Restart { get; internal set; }
+
+        // Used to call win functionality on Xamarin Forms page
         public Func<object> HandleWin { get; internal set; }
+
+        // Used to call lose functionality on Xamarin Forms page
         public Func<object> HandleLose { get; internal set; }
 
+        // ======= ELIAS =======
         private static readonly float bulletSpeed = 10f;
+
+        // ======= ELIAS =======
         private static readonly List<CharacterClass> enemyClasses = new List<CharacterClass> {
             CharacterClass.Gunner, CharacterClass.Support, CharacterClass.Tank
         };
 
+        // ======= ELIAS =======
         private Scene scene;
+
+        // ======= ELIAS =======
         private Node cameraNode;
+
+        // Holds the parent element for all the HUD items
         private UIElement hud;
+
+        // Holds the time remaining in the game
         private int time;
+
+        // Stores the difficulty of the game
         public bool hardcore;
+
+        // Determines if the game has been loaded from a saved game
         private bool continueGame;
+
+        // Stores CharacterClass of PlayerCharacter
         private CharacterClass charClass;
+
+        // Used to count down the seconds remaining in game
         Timer timer;
 
+        // ======= ELIAS =======
         private float weaponSpawnRate = 0.2f;
+
+        // ======= ELIAS =======
         private float armorSpawnRate = 0.2f;
+
+        // ======= ELIAS =======
         private int enemyCount = 5;
 
+        // ======= ELIAS =======
         private List<Vector2> playerSpawns;
+
+        // ======= ELIAS =======
         private List<Vector2> enemySpawns;
 
+        // tracks if the game has been won/lost
         private bool gameover = false;
+
+        // determins if the game is in Schaub Mode
         public bool schaubMode = false;
 
+        // ======= ELIAS =======
         public List<Sprite2D> EnemySprites = new List<Sprite2D>();
+
+        // ======= ELIAS =======
         public List<Sprite2D> EnemySprites2 = new List<Sprite2D>();
 
+        // ======= ELIAS =======
         private TileMap2D tileMap;
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         public GameApp(ApplicationOptions options) : base(options)
         {
             Instance = this;
@@ -100,9 +157,11 @@ namespace Royale_Platformer.Model
             Bullets = new List<Bullet>();
             Tiles = new List<MapTile>();
             collisionObjects = new List<WorldObject>();
-            LoadGame = false;
         }
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         protected override void Start()
         {
             base.Start();
@@ -166,6 +225,7 @@ namespace Royale_Platformer.Model
             });
         }
 
+        // This method starts the game for Schaub Mode
         public void LoadSchaub()
         {
             schaubMode = true;
@@ -188,6 +248,9 @@ namespace Royale_Platformer.Model
         }
 
         #region Gameplay Methods
+
+        // This method plays a sound effect
+        // Takes a filename and condition whether or not to loop
         private void PlaySound(string name, bool looped)
         {
             Sound sound = new Sound();
@@ -201,6 +264,9 @@ namespace Royale_Platformer.Model
             //source.AutoRemoveMode = AutoRemoveMode.Component;
         }
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         private void CreatePlayer(float x, float y)
         {
             Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
@@ -223,6 +289,9 @@ namespace Royale_Platformer.Model
             AddPlayer(player);
         }
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         private void CreateEnemies()
         {
             Sprite2D shieldSprite = ResourceCache.GetSprite2D("shield.png");
@@ -238,6 +307,9 @@ namespace Royale_Platformer.Model
             }
         }
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         private void CreateMap()
         {
             // Load map
@@ -316,6 +388,9 @@ namespace Royale_Platformer.Model
             }
         }
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         protected async override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
@@ -479,6 +554,9 @@ namespace Royale_Platformer.Model
             }
         }
 
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         public void AddPlayer(CharacterPlayer character)
         {
             PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage1;
@@ -487,6 +565,7 @@ namespace Royale_Platformer.Model
             cameraNode.Parent = character.WorldNode;
         }
 
+        // This method creates the Heads Up Display
         private void CreateHUD()
         {
             hud = new UIElement()
@@ -501,6 +580,7 @@ namespace Royale_Platformer.Model
             UI.Root.AddChild(hud);
         }
 
+        // This method creates a new timer for the game
         private void CreateClock()
         {
             timer = new Timer(100);
@@ -509,7 +589,7 @@ namespace Royale_Platformer.Model
             timer.Enabled = true;
         }
 
-        // Run every 1/10 second
+        // This method is the timer event handler and decrements the time every 1/10 second
         private void GameTick(Object source, ElapsedEventArgs e)
         {
             --time;
@@ -524,7 +604,8 @@ namespace Royale_Platformer.Model
 
             UpdateHUD();
         }
-
+        
+        // This method is called every tick and updates the HUD values
         private void UpdateHUD()
         {
             if (gameover) return;
@@ -563,7 +644,9 @@ namespace Royale_Platformer.Model
             });
         }
 
-
+        // ======= ELIAS =======
+        // ======= ELIAS =======
+        // ======= ELIAS =======
         public async void CreateBullets(List<Bullet> bullets, Character character)
         {
             InvokeOnMain(async () =>
@@ -640,6 +723,8 @@ namespace Royale_Platformer.Model
         #endregion
 
         #region Save/Load Methods
+
+        // This method converts game data into a string
         public string Serialize()
         {
             string output = "";
@@ -666,6 +751,8 @@ namespace Royale_Platformer.Model
             return output;
         }
 
+        // This method calls specific load functionality for each line of the saved game data
+        // Takes a string of data in correct format
         public void Deserialize(string serialized)
         {
             using (StringReader reader = new StringReader(serialized))
@@ -703,6 +790,8 @@ namespace Royale_Platformer.Model
             }
         }
 
+        // This method loads the player character
+        // Recieves a line of serialized player data
         private void LoadPlayer(string line)
         {
             InvokeOnMain(() =>
@@ -787,6 +876,8 @@ namespace Royale_Platformer.Model
             });
         }
 
+        // This method loads the pickups
+        // Recieves a line of serialized pickup data
         private void LoadPickups(string line)
         {
             InvokeOnMain(() =>
@@ -842,6 +933,8 @@ namespace Royale_Platformer.Model
             });
         }
 
+        // This method loads the enemy characters
+        // Recieves a line of serialized character data
         private void LoadEnemies(string line)
         {
             InvokeOnMain(() =>
@@ -928,6 +1021,8 @@ namespace Royale_Platformer.Model
             });
         }
 
+        // This method loads the serialized data from file
+        // Takes a filename to load
         public void Load(string fileName)
         {
             if (schaubMode) return;
@@ -946,6 +1041,8 @@ namespace Royale_Platformer.Model
             }
         }
 
+        // This method writes the serialized data to file
+        // Takes a filename to write to
         public void Save(string fileName)
         {
             if (schaubMode) return;

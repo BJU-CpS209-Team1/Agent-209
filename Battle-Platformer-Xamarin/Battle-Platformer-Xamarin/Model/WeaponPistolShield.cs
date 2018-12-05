@@ -1,4 +1,10 @@
-﻿using System;
+﻿// --------------------
+// WeaponPistolShield.cs
+// Isaac Abrahamson, Elias Watson
+// Advanced Pistol Weapon Class
+// --------------------
+
+using System;
 using System.Collections.Generic;
 using Urho;
 

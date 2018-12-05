@@ -1,6 +1,6 @@
 ﻿// --------------------
 // PickupWeaponUpgrade.cs
-// Elias Watson
+// Elias Watson, Isaac Abrahamson
 // PickupWeaponUpgrade class
 // --------------------
 

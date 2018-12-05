@@ -1,4 +1,10 @@
-﻿using System;
+﻿// --------------------
+// WeaponShotgun.cs
+// Isaac Abrahamson, Elias Watson
+// Shotgun Weapon Class
+// --------------------
+
+using System;
 using System.Collections.Generic;
 using Urho;
 

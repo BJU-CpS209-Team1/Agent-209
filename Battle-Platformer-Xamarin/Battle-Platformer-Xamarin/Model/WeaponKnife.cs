@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// --------------------
+// WeaponShotgun.cs
+// Isaac Abrahamson, Elias Watson
+// Shotgun Weapon Class
+// --------------------
+
+using System.Collections.Generic;
 using Urho;
 
 namespace Royale_Platformer.Model

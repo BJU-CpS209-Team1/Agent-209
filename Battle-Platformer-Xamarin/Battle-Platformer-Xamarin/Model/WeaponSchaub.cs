@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// --------------------
+// WeaponSchaub.cs
+// Isaac Abrahamson
+// Schaub Mode Weapon Class
+// --------------------
+
+using System.Collections.Generic;
 using Urho;
 
 namespace Royale_Platformer.Model

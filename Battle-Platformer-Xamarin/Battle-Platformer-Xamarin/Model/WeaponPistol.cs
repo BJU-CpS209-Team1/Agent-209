@@ -1,4 +1,10 @@
-﻿using System;
+﻿// --------------------
+// WeaponPistol.cs
+// Isaac Abrahamson, Elias Watson
+// Pistol Weapon Class
+// --------------------
+
+using System;
 using System.Collections.Generic;
 using Urho;
 

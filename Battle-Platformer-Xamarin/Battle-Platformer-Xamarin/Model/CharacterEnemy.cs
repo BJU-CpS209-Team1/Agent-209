@@ -1,6 +1,6 @@
 ﻿// --------------------
 // CharacterEnemy.cs
-// Elias Watson
+// Elias Watson, Isaac Abrahamson
 // CharacterEnemy class
 // --------------------
 

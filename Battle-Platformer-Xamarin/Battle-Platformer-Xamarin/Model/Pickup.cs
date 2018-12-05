@@ -1,6 +1,6 @@
 ﻿// --------------------
 // Pickup.cs
-// Elias Watson
+// Elias Watson, Isaac Abrahamson
 // Pickup abstract class
 // --------------------
 

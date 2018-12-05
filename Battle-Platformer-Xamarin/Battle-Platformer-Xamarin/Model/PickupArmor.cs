@@ -1,6 +1,6 @@
 ﻿// --------------------
 // PickupArmor.cs
-// Elias Watson
+// Elias Watson, Isaac Abrahamson
 // PickupArmor class
 // --------------------
 
