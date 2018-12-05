@@ -147,10 +147,8 @@ namespace Royale_Platformer.Model
                     bgStaticSprite.Sprite = bgSprite;
                 }
 
-                if (!hardcore)
-                    time = 3000;
-                else
-                    time = 1500;
+                if (!continueGame)
+                    time = hardcore ? 1500 : 3000;
 
                 if (!continueGame && !schaubMode) CreatePlayer(playerSpawn.X, playerSpawn.Y);
                 if (schaubMode) LoadSchaub();
@@ -597,45 +595,45 @@ namespace Royale_Platformer.Model
                     return;
                 }
 
-            bool playedSound = false;
-            foreach (Bullet b in bullets)
-            {
-                b.Owner = character;
-                Sprite2D bulletSprite;
-
-                switch (b.Owner.Class)
+                bool playedSound = false;
+                foreach (Bullet b in bullets)
                 {
-                    case CharacterClass.Support:
-                        bulletSprite = ResourceCache.GetSprite2D("shell.png");
-                        break;
-                    case CharacterClass.Schaub:
-                        bulletSprite = ResourceCache.GetSprite2D("cheatShot.png");
-                        break;
-                    default:
-                        bulletSprite = ResourceCache.GetSprite2D("shot.png");
-                        break;
-                }
+                    b.Owner = character;
+                    Sprite2D bulletSprite;
 
-                b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
+                    switch (b.Owner.Class)
+                    {
+                        case CharacterClass.Support:
+                            bulletSprite = ResourceCache.GetSprite2D("shell.png");
+                            break;
+                        case CharacterClass.Schaub:
+                            bulletSprite = ResourceCache.GetSprite2D("cheatShot.png");
+                            break;
+                        default:
+                            bulletSprite = ResourceCache.GetSprite2D("shot.png");
+                            break;
+                    }
 
-                Bullets.Add(b);
+                    b.CreateNode(scene, bulletSprite, character.WorldNode.Position2D);
 
-                if (schaubMode && b.Owner is CharacterPlayer)
-                {
-                    PlaySound("sounds/effects/schaubShot.ogg", false);
+                    Bullets.Add(b);
+
+                    if (schaubMode && b.Owner is CharacterPlayer)
+                    {
+                        PlaySound("sounds/effects/schaubShot.ogg", false);
+                        playedSound = true;
+                        continue;
+                    }
+
+                    // Don't repeat sound for shotguns
+                    if (bullets.Count >= 4 && playedSound) continue;
+
+                    if (bullets.Count >= 4)
+                        PlaySound("sounds/effects/shotgun.ogg", false);
+                    else
+                        PlaySound("sounds/effects/gunshot.ogg", false);
+
                     playedSound = true;
-                    continue;
-                }
-
-                // Don't repeat sound for shotguns
-                if (bullets.Count >= 4 && playedSound) continue;
-
-                if (bullets.Count >= 4)
-                    PlaySound("sounds/effects/shotgun.ogg", false);
-                else
-                    PlaySound("sounds/effects/gunshot.ogg", false);
-
-                playedSound = true;
                 }
             });
         }
@@ -815,7 +813,7 @@ namespace Royale_Platformer.Model
                 }
 
                 // Remove added pickups from map.
-                foreach(Pickup p in Pickups)
+                foreach (Pickup p in Pickups)
                     p.WorldNode.Remove();
                 Pickups.Clear();
 
