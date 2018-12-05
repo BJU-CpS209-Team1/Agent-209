@@ -1,16 +1,28 @@
-﻿using System.Globalization;
+﻿// --------------------
+// PickupArmor.cs
+// Elias Watson
+// PickupArmor class
+// --------------------
+
+using System.Globalization;
 using Urho;
 using Urho.Urho2D;
 
 namespace Royale_Platformer.Model
 {
+    // PickupArmor class
+    // Holds an armor pickup
     public class PickupArmor : Pickup
     {
+        // Create an empty armor pickup
         public PickupArmor() : base()
         {
-
         }
 
+        // Create an armor pickup
+        // <scene> is the Urho scene
+        // <sprite> is the pickup's sprite
+        // <pos> is the pickup position
         public PickupArmor(Scene scene, Sprite2D sprite, Vector2 pos) : base(scene, sprite, pos)
         {
         }
@@ -25,6 +37,9 @@ namespace Royale_Platformer.Model
             return new Vector2(x, y);
         }
 
+        // Called when a character tries to pickup the armor pickup
+        // <character> is the character
+        // Returns false if the character already has armor
         public override bool PickUp(Character character)
         {
             if (character.Armor) return false;
