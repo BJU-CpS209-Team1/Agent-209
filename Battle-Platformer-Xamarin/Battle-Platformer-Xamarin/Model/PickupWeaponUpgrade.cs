@@ -27,6 +27,7 @@ namespace Royale_Platformer.Model
         {
         }
 
+        // Take text data and return a vector of pickup's position
         public override Vector2 Deserialize(string serialized)
         {
             string[] data = serialized.Split(',');

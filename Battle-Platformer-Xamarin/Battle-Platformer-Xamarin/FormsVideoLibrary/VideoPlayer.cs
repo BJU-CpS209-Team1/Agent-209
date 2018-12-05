@@ -1,4 +1,11 @@
-﻿using System;
+﻿// --------------------
+// VideoPlayer.cs
+// Xamarin
+// This is a library from the Xamarin Forms sample
+// https://github.com/xamarin/xamarin-forms-samples/tree/master/CustomRenderers/VideoPlayerDemos
+// --------------------
+
+using System;
 using Xamarin.Forms;
 
 namespace FormsVideoLibrary

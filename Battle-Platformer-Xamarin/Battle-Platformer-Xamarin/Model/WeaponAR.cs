@@ -42,6 +42,7 @@ namespace Royale_Platformer.Model
             return new WeaponAdvancedAR();
         }
 
+        // Returns weapon name as a string
         public override string Serialize() { return "AR"; }
     }
 }

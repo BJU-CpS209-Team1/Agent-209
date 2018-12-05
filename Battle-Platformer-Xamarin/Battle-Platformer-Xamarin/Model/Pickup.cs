@@ -41,6 +41,7 @@ namespace Royale_Platformer.Model
             WorldHitbox.Size = new Vector2(0.5f, 0.5f);
         }
 
+        // Called when loading a saved GameApp
         public abstract Vector2 Deserialize(string serialized);
 
         // Called when a character trys to pickup the pickup
@@ -48,6 +49,7 @@ namespace Royale_Platformer.Model
         // Returns false if the player cannot get the pickup
         public abstract bool PickUp(Character character);
 
+        // Return Pickup information as text
         public string Serialize()
         {
             return $"{this.GetType()},{position.X.ToString()},{position.Y.ToString()},{position.Z.ToString()}";

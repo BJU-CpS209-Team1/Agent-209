@@ -100,6 +100,7 @@ namespace Royale_Platformer.Model
             WorldNode.SetPosition2D(WorldNode.Position2D + Velocity * deltatime);
         }
 
+        // Takes text data and returns a vector of character's position
         public Vector3 Deserialize(string serialized)
         {
             string[] coords = serialized.Split(',');

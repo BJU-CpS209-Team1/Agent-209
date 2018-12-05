@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------
+// IUtilities.cs
+// IsaacAbrahamson
+// IUtilities interface
+// --------------------
 
 namespace Battle_Platformer_Xamarin
 {

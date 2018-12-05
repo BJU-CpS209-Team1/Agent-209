@@ -99,6 +99,7 @@ namespace Royale_Platformer.Model
             }
         }
 
+        // Takes text data and returns a vector of players position
         public Vector3 Deserialize(string serialized)
         {
             string[] charactersSplit = serialized.Split(',');

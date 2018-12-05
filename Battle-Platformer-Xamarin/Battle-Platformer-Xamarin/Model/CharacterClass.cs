@@ -1,6 +1,6 @@
 ﻿// --------------------
 // CharacterClass.cs
-// Elias Watson
+// Elias Watson, Isaac Abrahamson
 // CharacterClass enum
 // --------------------
 

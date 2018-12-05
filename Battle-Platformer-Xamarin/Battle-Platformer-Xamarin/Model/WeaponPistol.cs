@@ -51,6 +51,7 @@ namespace Royale_Platformer.Model
             return new WeaponPistolShield();
         }
 
+        // Returns weapon name as a string
         public override string Serialize() { return "Pistol"; }
     }
 }

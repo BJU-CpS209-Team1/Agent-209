@@ -41,6 +41,7 @@ namespace Royale_Platformer.Model
             throw new System.NotImplementedException();
         }
 
+        // Returns weapon name as a string
         public override string Serialize() { return "Schaub"; }
     }
 }

@@ -51,6 +51,7 @@ namespace Royale_Platformer.Model
             return new WeaponAdvancedShotgun();
         }
 
+        // Returns weapon name as a string
         public override string Serialize() { return "Shotgun"; }
     }
 }

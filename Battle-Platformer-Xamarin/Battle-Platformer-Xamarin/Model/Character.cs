@@ -224,6 +224,7 @@ namespace Royale_Platformer.Model
             return true;
         }
 
+        // Sets the character's sprite to the updated image
         public void UpdateImage()
         {
             PlayerSpriteAttack = PlayerImage2;
@@ -242,8 +243,7 @@ namespace Royale_Platformer.Model
                 CooldownTimer.Enabled = false;
         }
 
-        //public abstract ISerializer Deserialize(string serialized);
-
+        // Returns serialized data as string
         public string Serialize()
         {
             Position = WorldNode.Position;

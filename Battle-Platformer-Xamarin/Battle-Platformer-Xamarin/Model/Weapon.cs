@@ -36,8 +36,11 @@ namespace Royale_Platformer.Model
         // Returns the upgraded form of the weapon
         public abstract Weapon Upgrade(CharacterClass characterClass);
 
+        // Convert data into text data
         public abstract string Serialize();
 
+        // Method for retreiving the class of a weapon
+        // Takes a serialized name of a weapon as type
         public static Weapon GetWeaponType(string type)
         {
             switch (type)
