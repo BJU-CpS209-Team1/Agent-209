@@ -231,17 +231,11 @@ namespace Royale_Platformer.Model
             for (int i = 0; i < enemyCount; ++i)
             {
                 CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
-                Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
-                EnemySprites.Add(sprite);
-                Sprite2D sprite2 = ResourceCache.GetSprite2D(enemy.GetSprite2());
-                EnemySprites2.Add(sprite2);
-
-                if (sprite == null) throw new Exception("Enemy sprite not found");
 
                 Vector2 spawn = enemySpawns.GetRandomElement();
                 enemySpawns.Remove(spawn);
 
-                enemy.CreateNode(scene, sprite, shieldSprite, spawn);
+                enemy.CreateNode(scene, enemy.PlayerSpriteAttack, shieldSprite, spawn);
                 Characters.Add(enemy);
             }
         }
@@ -345,6 +339,8 @@ namespace Royale_Platformer.Model
                                 PlaySound("sounds/effects/pop.ogg", false);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
+
+                            c.WorldNode.GetComponent<StaticSprite2D>().Sprite = c.PlayerSpriteAttack;
                         }
                     }
                 }
