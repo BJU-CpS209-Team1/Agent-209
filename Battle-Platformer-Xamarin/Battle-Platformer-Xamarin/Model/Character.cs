@@ -36,6 +36,9 @@ namespace Royale_Platformer.Model
         // The character's score
         public int Score { get; set; }
 
+        // The last bullet that hit the character
+        public Bullet LastBullet { get; set; }
+
         // Timer for controling the weapon cooldown time
         public Timer CooldownTimer { get; set; }
 
@@ -191,6 +194,8 @@ namespace Royale_Platformer.Model
         public virtual void Hit(Bullet bullet)
         {
             if (ShieldUp) return;
+
+            LastBullet = bullet;
 
             if (Armor)
             {

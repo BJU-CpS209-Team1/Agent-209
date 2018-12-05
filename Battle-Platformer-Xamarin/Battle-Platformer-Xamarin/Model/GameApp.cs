@@ -495,7 +495,7 @@ namespace Royale_Platformer.Model
                         c.WorldNode.Remove();
                         Characters.Remove(c);
 
-                        if (c is CharacterPlayer)
+                        if (c.LastBullet.Owner is CharacterPlayer)
                             if (hardcore)
                                 PlayerCharacter.Score += 150;
                             else
