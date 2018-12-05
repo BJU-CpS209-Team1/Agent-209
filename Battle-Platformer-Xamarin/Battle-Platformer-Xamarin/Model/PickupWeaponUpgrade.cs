@@ -27,7 +27,7 @@ namespace Royale_Platformer.Model
 
         public override bool PickUp(Character character)
         {
-            return character.UpgradeWeapon();
+             return character.UpgradeWeapon();
         }
     }
 }

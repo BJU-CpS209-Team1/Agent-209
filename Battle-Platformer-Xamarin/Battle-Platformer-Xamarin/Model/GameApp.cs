@@ -58,11 +58,8 @@ namespace Royale_Platformer.Model
         private bool gameover = false;
         public bool schaubMode = false;
 
-        public Sprite2D PlayerImage1 { get; set; }
-        public Sprite2D PlayerImage2 { get; set; }
-        public Sprite2D PlayerSpriteJump { get; set; }
-        public Sprite2D PlayerSpriteAttack { get; set; }
         public List<Sprite2D> EnemySprites = new List<Sprite2D>();
+        public List<Sprite2D> EnemySprites2 = new List<Sprite2D>();
 
         private TileMap2D tileMap;
 
@@ -213,46 +210,18 @@ namespace Royale_Platformer.Model
 
             if (schaubMode)
             {
-                PlayerSpriteAttack = ResourceCache.GetSprite2D("characters/cheat.png");
-                player.CreateNode(scene, PlayerSpriteAttack, shieldSprite, new Vector2(x, y));
-            }
-            else
-            {
-                switch (charClass)
-                {
-                    case CharacterClass.Gunner:
-                        PlayerImage1 = ResourceCache.GetSprite2D("characters/special_forces/png2/attack1/2_Special_forces_attack_Attack1_005.png");
-                        PlayerImage2 = ResourceCache.GetSprite2D("characters/special_forces/png2/attack/2_Special_forces_attack_Attack_000_center.png");
-                        PlayerSpriteAttack = PlayerImage1;
-                        PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png2/jump/2_Special_forces_Jump_003.png");
-                        break;
-                    case CharacterClass.Support:
-                        PlayerImage1 = ResourceCache.GetSprite2D("characters/special_forces/png1/attack1/1_Special_forces_attack_Attack1_005.png");
-                        PlayerImage2 = ResourceCache.GetSprite2D("characters/special_forces/png1/attack/1_Special_forces_attack_Attack_000_center.png");
-                        PlayerSpriteAttack = PlayerImage1;
-                        PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png1/jump/1_Special_forces_Jump_003.png");
-                        break;
-                    case CharacterClass.Tank:
-                        PlayerImage1 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack1/3_Special_forces_Attack1_003.png");
-                        PlayerImage2 = ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_002_center.png");
-                        PlayerSpriteAttack = PlayerImage1;
-                        PlayerSpriteJump = ResourceCache.GetSprite2D("characters/special_forces/png3/jump/3_Special_forces_Jump_003.png");
-                        break;
-                }
+                player.PlayerImage1 = ResourceCache.GetSprite2D("characters/cheat.png");
+                player.PlayerSpriteAttack = player.PlayerImage1;
+                player.CreateNode(scene, player.PlayerSpriteAttack, shieldSprite, new Vector2(x, y));
+                Characters.Add(player);
 
-                player.CreateNode(scene, PlayerImage1, shieldSprite, new Vector2(x, y));
-
-                /*
-                Input.MouseButtonDown += (args) =>
-                {
-                    if(args.Button == 1)
-                    {
-                        PlayerCharacter.Input.LeftClick = true;
-                    }
-                };
-                */
+                cameraNode.Parent = player.WorldNode;
+                PlayerCharacter = player;
+                return;
             }
 
+            player.CreateNode(scene, player.PlayerSpriteAttack, shieldSprite, new Vector2(x, y));
+            PlayerCharacter = player;
             AddPlayer(player);
         }
 
@@ -262,15 +231,12 @@ namespace Royale_Platformer.Model
             for (int i = 0; i < enemyCount; ++i)
             {
                 CharacterEnemy enemy = new CharacterEnemy(enemyClasses.GetRandomElement(), 5);
-                Sprite2D sprite = ResourceCache.GetSprite2D(enemy.GetSprite());
-                EnemySprites.Add(sprite);
-                if (sprite == null) throw new Exception("Enemy sprite not found");
 
                 Vector2 spawn = enemySpawns.GetRandomElement();
                 enemySpawns.Remove(spawn);
 
-                enemy.CreateNode(scene, sprite, shieldSprite, spawn);
-                AddCharacter(enemy);
+                enemy.CreateNode(scene, enemy.PlayerSpriteAttack, shieldSprite, spawn);
+                Characters.Add(enemy);
             }
         }
 
@@ -373,6 +339,8 @@ namespace Royale_Platformer.Model
                                 PlaySound("sounds/effects/pop.ogg", false);
                             p.WorldNode.Remove();
                             Pickups.Remove(p);
+
+                            c.WorldNode.GetComponent<StaticSprite2D>().Sprite = c.PlayerSpriteAttack;
                         }
                     }
                 }
@@ -454,11 +422,10 @@ namespace Royale_Platformer.Model
                         c.WorldNode.Remove();
                         Characters.Remove(c);
 
-                        if (hardcore)
-                            if (c is CharacterPlayer)
+                        if (c is CharacterPlayer)
+                            if (hardcore)
                                 PlayerCharacter.Score += 150;
                             else
-                            if (c is CharacterPlayer)
                                 PlayerCharacter.Score += 100;
 
                         if (Characters.Count == 1 && Characters.First() == PlayerCharacter)
@@ -516,16 +483,10 @@ namespace Royale_Platformer.Model
 
         public void AddPlayer(CharacterPlayer character)
         {
-            PlayerCharacter = character;
-            AddCharacter(character);
+            PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage1;
+            Characters.Add(character);
 
             cameraNode.Parent = character.WorldNode;
-        }
-
-        public void AddCharacter(Character character)
-        {
-            // character.UpgradeWeapon(); Disabled for testing Save/Load
-            Characters.Add(character);
         }
 
         private void CreateHUD()
@@ -607,29 +568,34 @@ namespace Royale_Platformer.Model
 
         public async void CreateBullets(List<Bullet> bullets, Character character)
         {
-            // handle knife
-            if (bullets == null)
+            InvokeOnMain(async () =>
             {
-                Bullet b = new Bullet(20) { Owner = character };
-                b.CreateNode(scene, ResourceCache.GetSprite2D("knife.png"), character.WorldNode.Position2D);
-                Bullets.Add(b);
+                // handle knife
+                if (bullets == null)
+                {
+                    Bullet b = new Bullet(20) { Owner = character };
+                    b.CreateNode(scene, ResourceCache.GetSprite2D("knife.png"), character.WorldNode.Position2D);
+                    Bullets.Add(b);
 
-                var node = new Scene().CreateChild();
-                node.Position = b.WorldNode.Position;
-                if (character is CharacterPlayer)
-                    PlaySound("sounds/effects/jump.ogg", false);
+                    var node = new Scene().CreateChild();
+                    node.Position = b.WorldNode.Position;
+                    if (character is CharacterPlayer)
+                        PlaySound("sounds/effects/jump.ogg", false);
 
-                await Task.Delay(200);
-                if (!b.WorldNode.IsDeleted && Bullets.Contains(b))
-                    Bullets.Remove(b);
+                    await Task.Delay(200);
+                    if (!b.WorldNode.IsDeleted && Bullets.Contains(b))
+                    {
+                        try { Bullets.Remove(b); }
+                        catch { return; }
+                    }
 
-                // if bullet collides with a player, it will be already removed from the world,
-                // so ignore error if thrown.
-                try { b.WorldNode.Remove(); }
-                catch { return; }
+                    // if bullet collides with a player, it will be already removed from the world,
+                    // so ignore error if thrown.
+                    try { b.WorldNode.Remove(); }
+                    catch { return; }
 
-                return;
-            }
+                    return;
+                }
 
             bool playedSound = false;
             foreach (Bullet b in bullets)
@@ -670,7 +636,8 @@ namespace Royale_Platformer.Model
                     PlaySound("sounds/effects/gunshot.ogg", false);
 
                 playedSound = true;
-            }
+                }
+            });
         }
         #endregion
 
@@ -784,27 +751,27 @@ namespace Royale_Platformer.Model
                         break;
                     case "Royale_Platformer.Model.WeaponPistol":
                         heldWeapon = new WeaponPistol();
-                        PlayerSpriteAttack = PlayerImage2;
+                        PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponPistolShield":
                         heldWeapon = new WeaponPistolShield();
-                        PlayerSpriteAttack = PlayerImage2;
+                        PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponShotgun":
                         heldWeapon = new WeaponShotgun();
-                        PlayerSpriteAttack = PlayerImage2;
+                        PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponAdvancedShotgun":
                         heldWeapon = new WeaponAdvancedShotgun();
-                        PlayerSpriteAttack = PlayerImage2;
+                        PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponAR":
                         heldWeapon = new WeaponAR();
-                        PlayerSpriteAttack = PlayerImage2;
+                        PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage2;
                         break;
                     case "Royale_Platformer.Model.WeaponAdvancedAR":
                         heldWeapon = new WeaponAdvancedAR();
-                        PlayerSpriteAttack = PlayerImage2;
+                        PlayerCharacter.PlayerSpriteAttack = PlayerCharacter.PlayerImage2;
                         break;
                 }
 
@@ -848,6 +815,8 @@ namespace Royale_Platformer.Model
                 }
 
                 // Remove added pickups from map.
+                foreach(Pickup p in Pickups)
+                    p.WorldNode.Remove();
                 Pickups.Clear();
 
                 // Load each pickup
@@ -956,7 +925,7 @@ namespace Royale_Platformer.Model
                     Sprite2D sprite = ResourceCache.GetSprite2D(enemyPlayer.GetSprite());
                     if (sprite == null) throw new Exception("Enemy sprite not found");
                     enemyPlayer.CreateNode(scene, sprite, shieldSprite, new Vector2(enemyPlayer.Position.X, enemyPlayer.Position.Y));
-                    AddCharacter(enemyPlayer);
+                    Characters.Add(enemyPlayer);
                 }
             });
         }

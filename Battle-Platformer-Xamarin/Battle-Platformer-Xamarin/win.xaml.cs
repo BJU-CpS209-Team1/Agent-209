@@ -13,10 +13,13 @@ namespace Battle_Platformer_Xamarin
 	public partial class Win : ContentPage
 	{
         bool skipped;
+        bool isHighScore;
+        int score;
 		public Win (int score, bool isHighScore)
 		{
 			InitializeComponent ();
-
+            this.score = score;
+            this.isHighScore = isHighScore;
             skipped = false;
 
             var gestureRecognizer = new TapGestureRecognizer();
@@ -39,7 +42,10 @@ namespace Battle_Platformer_Xamarin
 
         public void ExitVideo()
         {
-            App.Current.MainPage = new MainPage();
+            if (isHighScore)
+                App.Current.MainPage = new AddHighscorePage(score);
+            else
+                App.Current.MainPage = new MainPage();
         }
     }
 }

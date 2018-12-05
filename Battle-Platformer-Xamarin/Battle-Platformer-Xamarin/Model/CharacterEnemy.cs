@@ -28,7 +28,7 @@ namespace Royale_Platformer.Model
 
         public override void Update(float deltatime)
         {
-            bool onBottom = Collision.BottomLeft || Collision.BottomMiddle || Collision.BottomRight;
+            bool onBottom = (Collision.BottomLeft && !Collision.WallLeft) || Collision.BottomMiddle || (Collision.BottomRight && !Collision.WallRight);
             bool onTop = Collision.TopLeft || Collision.TopMiddle || Collision.TopRight;
             bool onLeft = Collision.LeftMiddle || Collision.TopLeft;
             bool onRight = Collision.RightMiddle || Collision.TopRight;
@@ -41,7 +41,7 @@ namespace Royale_Platformer.Model
                 if (shieldCooldown <= 0f)
                 {
                     ShieldUp = !ShieldUp;
-                    shieldCooldown = (float) random.NextDouble() * 10;
+                    shieldCooldown = (float) random.NextDouble() * 5;
                 }
             }
 
@@ -88,6 +88,20 @@ namespace Royale_Platformer.Model
         }
 
         public string GetSprite()
+        {
+            switch (Class)
+            {
+                case CharacterClass.Gunner:
+                    return "characters/special_forces/png2/attack1/2_Special_forces_attack_Attack1_005.png";
+                case CharacterClass.Support:
+                    return "characters/special_forces/png1/attack1/1_Special_forces_attack_Attack1_005.png";
+                case CharacterClass.Tank:
+                    return "characters/special_forces/png3/attack1/3_Special_forces_Attack1_003.png";
+            }
+            return "";
+        }
+
+        public string GetSprite2()
         {
             switch (Class)
             {

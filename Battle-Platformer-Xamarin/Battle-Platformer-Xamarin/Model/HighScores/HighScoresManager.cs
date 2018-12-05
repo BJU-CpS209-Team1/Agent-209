@@ -19,7 +19,7 @@ namespace Royale_Platformer.Model.HighScores
 
         // stores a list HighScore objects
         private static List<HighScore> highScores = new List<HighScore>();
-
+        
         public HighScoresManager()
         {
         }

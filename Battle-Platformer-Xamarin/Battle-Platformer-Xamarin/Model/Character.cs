@@ -25,10 +25,16 @@ namespace Royale_Platformer.Model
 
         public Vector3 Position { get; set; }
 
-        public StaticSprite2D PlayerStaticSprite { get; set; }
+        public StaticSprite2D CharacterStaticSprite { get; set; }
 
         public bool ShieldUp { get; set; }
         public Node ShieldNode { get; set; }
+
+        public Sprite2D PlayerSpriteAttack { get; set; }
+
+        public Sprite2D PlayerImage1 { get; set; }
+        public Sprite2D PlayerImage2 { get; set; }
+        public Sprite2D PlayerSpriteJump { get; set; }
 
         public Character(CharacterClass characterClass, int maxHealth)
         {
@@ -49,6 +55,26 @@ namespace Royale_Platformer.Model
             CooldownTimer.Enabled = false;
 
             Velocity = new Vector2();
+
+            switch (Class)
+            {
+                case CharacterClass.Gunner:
+                    PlayerImage1 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png2/attack1/2_Special_forces_attack_Attack1_005.png");
+                    PlayerImage2 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png2/attack/2_Special_forces_attack_Attack_000_center.png");
+                    PlayerSpriteJump = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png2/jump/2_Special_forces_Jump_003.png");
+                    break;
+                case CharacterClass.Support:
+                    PlayerImage1 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png1/attack1/1_Special_forces_attack_Attack1_005.png");
+                    PlayerImage2 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png1/attack/1_Special_forces_attack_Attack_000_center.png");
+                    PlayerSpriteJump = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png1/jump/1_Special_forces_Jump_003.png");
+                    break;
+                case CharacterClass.Tank:
+                    PlayerImage1 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png3/attack1/3_Special_forces_Attack1_003.png");
+                    PlayerImage2 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_002_center.png");
+                    PlayerSpriteJump = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png3/jump/3_Special_forces_Jump_003.png");
+                    break;
+            }
+            PlayerSpriteAttack = PlayerImage1;
         }
 
         public Character(CharacterClass characterClass, int maxHealth, Vector3 position)
@@ -68,9 +94,29 @@ namespace Royale_Platformer.Model
             CooldownTimer.Elapsed += new ElapsedEventHandler(RunCooldown);
             CooldownTimer.Interval = 100;
             CooldownTimer.Enabled = false;
-            
+
             Velocity = new Vector2();
             Position = position;
+
+            switch (Class)
+            {
+                case CharacterClass.Gunner:
+                    PlayerImage1 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png2/attack1/2_Special_forces_attack_Attack1_005.png");
+                    PlayerImage2 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png2/attack/2_Special_forces_attack_Attack_000_center.png");
+                    PlayerSpriteJump = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png2/jump/2_Special_forces_Jump_003.png");
+                    break;
+                case CharacterClass.Support:
+                    PlayerImage1 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png1/attack1/1_Special_forces_attack_Attack1_005.png");
+                    PlayerImage2 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png1/attack/1_Special_forces_attack_Attack_000_center.png");
+                    PlayerSpriteJump = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png1/jump/1_Special_forces_Jump_003.png");
+                    break;
+                case CharacterClass.Tank:
+                    PlayerImage1 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png3/attack1/3_Special_forces_Attack1_003.png");
+                    PlayerImage2 = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png3/attack/3_Special_forces_Attack_002_center.png");
+                    PlayerSpriteJump = GameApp.Instance.ResourceCache.GetSprite2D("characters/special_forces/png3/jump/3_Special_forces_Jump_003.png");
+                    break;
+            }
+            PlayerSpriteAttack = PlayerImage1;
         }
 
         public virtual void CreateNode(Scene scene, Sprite2D sprite, Sprite2D shieldSprite, Vector2 pos)
@@ -80,9 +126,9 @@ namespace Royale_Platformer.Model
             Position = WorldNode.Position;
             WorldNode.SetScale(1f / 12.14f);
 
-            PlayerStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
-            PlayerStaticSprite.BlendMode = BlendMode.Alpha;
-            PlayerStaticSprite.Sprite = sprite;
+            CharacterStaticSprite = WorldNode.CreateComponent<StaticSprite2D>();
+            CharacterStaticSprite.BlendMode = BlendMode.Alpha;
+            CharacterStaticSprite.Sprite = sprite;
 
             ShieldNode = scene.CreateChild();
             ShieldNode.Position = new Vector3(WorldNode.Position);
@@ -112,17 +158,27 @@ namespace Royale_Platformer.Model
         {
             if (!HeldWeapon.Upgradeable) return false;
 
+            // Upgrade weapon
             HeldWeapon = HeldWeapon.Upgrade(Class);
-            if (!GameApp.Instance.schaubMode) GameApp.Instance.PlayerSpriteAttack = GameApp.Instance.PlayerImage2;
+
+            // Increase score  
             if (GameApp.Instance.hardcore)
-                    GameApp.Instance.PlayerCharacter.Score += 30;
+                Score += 30;
             else
-                GameApp.Instance.PlayerCharacter.Score += 20;
+                Score += 20;
+
+            // Update image
+            UpdateImage();
 
             Cooldown = -1;
             CooldownTimer.Enabled = false;
 
             return true;
+        }
+
+        public void UpdateImage()
+        {
+            PlayerSpriteAttack = PlayerImage2;
         }
 
         public abstract void Update(float deltatime);
