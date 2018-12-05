@@ -53,11 +53,11 @@ namespace Royale_Platformer.Model
             if (onBottom)
             {
                 Velocity.Y = 0;
-                CharacterStaticSprite.Sprite = GameApp.Instance.PlayerSpriteAttack;
+                CharacterStaticSprite.Sprite = PlayerSpriteAttack;
                 if (Input.Space)
                 {
                     Velocity.Y += 10f;
-                    if (!GameApp.Instance.schaubMode) CharacterStaticSprite.Sprite = GameApp.Instance.PlayerSpriteJump;
+                    if (!GameApp.Instance.schaubMode) CharacterStaticSprite.Sprite = PlayerSpriteJump;
                 }
             }
             else
