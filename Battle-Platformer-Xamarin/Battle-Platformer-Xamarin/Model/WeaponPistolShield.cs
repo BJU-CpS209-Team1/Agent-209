@@ -1,17 +1,28 @@
-﻿using System;
+﻿// --------------------
+// WeaponPistolShield.cs
+// Elias Watson
+// WeaponPistolShield class
+// --------------------
+
+using System;
 using System.Collections.Generic;
 using Urho;
 
 namespace Royale_Platformer.Model
 {
+    // WeaponPistolShield class
     public class WeaponPistolShield : Weapon
     {
+        // Create a pistol shield
         public WeaponPistolShield()
         {
             Cooldown = 5;
             Upgradeable = false;
         }
 
+        // Method stub for firing the weapon
+        // <dir> is the direction the character is firing
+        // Returns a list of bullets
         public override List<Bullet> Fire(Vector2 dir)
         {
             List<Bullet> bl = new List<Bullet>();
@@ -32,6 +43,9 @@ namespace Royale_Platformer.Model
             return bl;
         }
 
+        // Method stub for upgrading the weapon
+        // <characterClass> is the character's class
+        // Returns the upgraded form of the weapon
         public override Weapon Upgrade(CharacterClass characterClass)
         {
             return this;
