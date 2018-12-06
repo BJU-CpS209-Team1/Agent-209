@@ -7,8 +7,8 @@
 ### Intro Video:
 <a href="https://dl.dropboxusercontent.com/s/7y2aytmsrd6expd/intro.mp4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbnFBQ1gUQB0QDckKeSn8usHF1DHWXuFcH1xH6lLC8ZjOhGc4" alt="video"/></a>
 
-### Gameplay Video (Release Candidate):
-<a href="https://www.useloom.com/share/0a141e0bf46440eeb5e13376b5d9b891" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbnFBQ1gUQB0QDckKeSn8usHF1DHWXuFcH1xH6lLC8ZjOhGc4" alt="video"/></a>
+### Gameplay Video (Release):
+<a href="https://dl.dropbox.com/s/khaa2qcnokhfupy/209%20overview.mp4?dl=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbnFBQ1gUQB0QDckKeSn8usHF1DHWXuFcH1xH6lLC8ZjOhGc4" alt="video"/></a>
 
 # Instructions
 * Use 'A' to move left, 'D' to move right, and spacebar to jump. 
