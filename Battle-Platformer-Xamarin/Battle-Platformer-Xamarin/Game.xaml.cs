@@ -1,4 +1,10 @@
-﻿using Royale_Platformer.Model;
+﻿// --------------------
+// Game.xaml.cs
+// Isaac Abrahamson, Elias Watson
+// Game Xaml CS File
+// --------------------
+
+using Royale_Platformer.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +20,25 @@ using FormsVideoLibrary;
 
 namespace Battle_Platformer_Xamarin
 {
+    // Game
+    // This is the page the game will be on
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Game : ContentPage
     {
+        // Is this a new or saved game
         bool continueGame;
+
+        // The difficulty of the game
         bool hardcore;
+
+        // The Player class
         CharacterClass charClass;
+
+        // Is this game in schaub mode
         bool cheat = false;
 
+        // Constructor for normal and hardcore game
+        // recieves if it is a new game or saved game, the difficulty, and the player class
         public Game(bool continueGame, bool hardcore, CharacterClass charClass)
         {
             InitializeComponent();
@@ -29,6 +46,7 @@ namespace Battle_Platformer_Xamarin
             this.hardcore = hardcore;
             this.charClass = charClass;
 
+            // Play music in background video because Urho will not play sounds on the second game
             VideoPlayer music = new VideoPlayer()
             {
                 Source = VideoSource.FromResource("GameData/sounds/gameLoop.mp4"),
@@ -38,7 +56,8 @@ namespace Battle_Platformer_Xamarin
             layout.Children.Add(music);
         }
 
-        // Cheat mode
+        // Constructor for Schaub Mode
+        // This will be called by the schaub mode button and does not need any parameters
         public Game()
         {
             InitializeComponent();
@@ -47,6 +66,7 @@ namespace Battle_Platformer_Xamarin
             charClass = CharacterClass.Schaub;
             cheat = true;
 
+            // Play music in background video because Urho will not play sounds on the second game
             VideoPlayer music = new VideoPlayer()
             {
                 Source = VideoSource.FromResource("GameData/sounds/schaubGame.mp4"),
@@ -56,6 +76,7 @@ namespace Battle_Platformer_Xamarin
             layout.Children.Add(music);
         }
 
+        // This method is by Urho and controls the game being on the page
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -66,6 +87,7 @@ namespace Battle_Platformer_Xamarin
                 AdditionalFlags = $"{hardcore.ToString()},{continueGame.ToString()},{charClass.ToString()},{cheat.ToString()}"
             });
 
+            // This method is passed into the game and will be called on restart
             game.Restart = () =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -77,6 +99,7 @@ namespace Battle_Platformer_Xamarin
                 return false;
             };
 
+            // This method is passed into the game and will be called on win
             game.HandleWin = () =>
             {
                 int score = game.PlayerCharacter.Score;
@@ -93,6 +116,7 @@ namespace Battle_Platformer_Xamarin
                 return false;
             };
 
+            // This method is passed into the game and will be called on lose
             game.HandleLose = () =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -104,6 +128,7 @@ namespace Battle_Platformer_Xamarin
                 return false;
             };
 
+            // Load saved game
             if (continueGame) game.Load("latest.txt");
         }
     }

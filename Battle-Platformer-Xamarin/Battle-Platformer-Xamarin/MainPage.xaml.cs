@@ -1,4 +1,10 @@
-﻿using System;
+﻿// --------------------
+// MainPage.xaml.cs
+// Isaac Abrahamson
+// MainPage Xaml CS File
+// --------------------
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +14,8 @@ using Xamarin.Forms;
 
 namespace Battle_Platformer_Xamarin
 {
+    // MainPage
+    // This is the main menu page for the agem
     public partial class MainPage : ContentPage
     {
         public MainPage()
@@ -15,6 +23,7 @@ namespace Battle_Platformer_Xamarin
             InitializeComponent();
         }
 
+        // This method plays the play button click animation and moves to next page
         private void LoadPlay(object sender, EventArgs e)
         {
             btnPlay.Source = "buttonLong_blue_pressed.png";
@@ -30,6 +39,7 @@ namespace Battle_Platformer_Xamarin
             });
         }
 
+        // This method plays the continue button click animation and moves to next page
         private void LoadContinue(object sender, EventArgs e)
         {
             btnContinue.Source = "buttonLong_blue_pressed.png";
@@ -50,6 +60,7 @@ namespace Battle_Platformer_Xamarin
             });
         }
 
+        // This method plays the schaub mode button click animation and moves to next page
         private void LoadCheat(object sender, EventArgs e)
         {
             btnCheat.Source = "buttonLong_blue_pressed.png";
@@ -65,6 +76,7 @@ namespace Battle_Platformer_Xamarin
             });
         }
 
+        // This method plays the help button click animation and moves to next page
         private void LoadHelp(object sender, EventArgs e)
         {
             btnHelp.Source = "help_pressed.png";
@@ -80,6 +92,7 @@ namespace Battle_Platformer_Xamarin
             });
         }
 
+        // This method plays the about button click animation and moves to next page
         private void LoadAbout(object sender, EventArgs e)
         {
             btnAbout.Source = "about_pressed.png";
@@ -95,6 +108,7 @@ namespace Battle_Platformer_Xamarin
             });
         }
 
+        // This method plays the leaderboard button click animation and moves to next page
         private void LoadLeaderboard(object sender, EventArgs e)
         {
             btnLeaderboard.Source = "leaderboard_pressed.png";
@@ -108,11 +122,6 @@ namespace Battle_Platformer_Xamarin
                 App.Current.MainPage = new HighScoresPage();
                 return false;
             });
-        }
-
-        public void Restart()
-        {
-
         }
     }
 }

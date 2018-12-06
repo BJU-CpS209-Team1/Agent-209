@@ -1,12 +1,21 @@
-﻿using System;
+﻿// --------------------
+// App.xaml.cs
+// Isaac Abrahamson
+// App Xaml CS File
+// --------------------
+
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Battle_Platformer_Xamarin
 {
+    // App
+    // This is the base Xamarin forms file
     public partial class App : Application
     {
+        // Constructor
         public App()
         {
             InitializeComponent();
@@ -29,8 +38,10 @@ namespace Battle_Platformer_Xamarin
             // Handle when your app resumes
         }
 
+        // This holds a custom rendering utility
         public static IUtilities Utilities { get; private set; }
 
+        // This initializes the custom rendering utility
         public static void Init(IUtilities utilities)
         {
             App.Utilities = utilities;
