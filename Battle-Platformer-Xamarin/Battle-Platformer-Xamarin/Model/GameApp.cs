@@ -918,7 +918,7 @@ namespace Royale_Platformer.Model
 
                     // Load
                     if (pickupType == "Royale_Platformer.Model.PickupArmor")
-                        Pickups.Add(new PickupArmor(scene, weaponSprite, new Vector2(position.X, position.Y)));
+                        Pickups.Add(new PickupArmor(scene, armorSprite, new Vector2(position.X, position.Y)));
                     else
                         Pickups.Add(new PickupWeaponUpgrade(scene, weaponSprite, new Vector2(position.X, position.Y)));
                 }
